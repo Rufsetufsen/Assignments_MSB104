@@ -113,8 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (PxWebApiData)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="data-acquisition" class="level2">
+<h2 class="anchored" data-anchor-id="data-acquisition">Data Acquisition</h2>
+<p>ESTAT_NAMA_10R_GDP</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_xml</span>(<span class="st">'./data/ESTAT_NAMA_10R_3GDP_1.0.xml'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_document}
+&lt;Structure xmlns:m="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:s="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:c="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common"&gt;
+[1] &lt;m:Header&gt;\n  &lt;m:ID&gt;DF1744649679&lt;/m:ID&gt;\n  &lt;m:Test&gt;false&lt;/m:Test&gt;\n  &lt;m:P ...
+[2] &lt;m:Structures&gt;\n  &lt;s:Dataflows&gt;\n    &lt;s:Dataflow id="NAMA_10R_3GDP" urn=" ...</code></pre>
+</div>
+</div>
+<p>ESTAT_DEMO_R_PJANAGGR3</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_xml</span>(<span class="st">'./data/ESTAT_DEMO_R_PJANAGGR3_1.0.xml'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_document}
+&lt;Structure xmlns:m="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:s="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:c="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common"&gt;
+[1] &lt;m:Header&gt;\n  &lt;m:ID&gt;DF1760608688&lt;/m:ID&gt;\n  &lt;m:Test&gt;false&lt;/m:Test&gt;\n  &lt;m:P ...
+[2] &lt;m:Structures&gt;\n  &lt;s:Dataflows&gt;\n    &lt;s:Dataflow id="DEMO_R_PJANAGGR3" ur ...</code></pre>
+</div>
+</div>
+</section>
+<section id="gdp-per-capita" class="level2">
+<h2 class="anchored" data-anchor-id="gdp-per-capita">GDP Per capita:</h2>
+</section>
 
 </main>
 <!-- /main column -->

@@ -24,12 +24,10 @@ ESTAT_NAMA_10R_GDP
 read_xml('./data/ESTAT_NAMA_10R_3GDP_1.0.xml')
 ```
 
+ESTAT_DEMO_R_PJANAGGR3
+
 ```{r}
 read_xml('./data/ESTAT_DEMO_R_PJANAGGR3_1.0.xml')
 ```
 
-
-```{r}
-ApiData('https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow/ESTAT/nama_10r_3gdp/1.0?references=descendants&detail=referencepartial', returnApiQuery = true)
-```
-
+## GDP Per capita: 
