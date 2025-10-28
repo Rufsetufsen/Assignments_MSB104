@@ -3,8 +3,12 @@ title: "ass1msb104grp2"
 format: html
 editor: visual
 ---
+```{r}
+
+```
 
 ```{r}
 #| label: setup
+library (tidyverse)
+library (PxWebApiData)
 ```
-
