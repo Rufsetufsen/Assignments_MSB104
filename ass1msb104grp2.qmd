@@ -19,6 +19,27 @@ library(purrr)
 ESTAT_NAMA_10R_GDP
 
 ```{r}
+#Removing the metadata from the top.
+raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 6)
+#Dropping the first row to align time with years
+  raw_econ <- raw_econ[-1,]
+print(raw_econ)
+```
+
+```{r}
+class(raw_econ)
+```
+
+```{r}
+pivot_longer(data = raw_econ,
+             cols = -TIME,
+             names_to = "Year",
+             values_to = "GDP Million EUR")
+
+```
+
+
+```{r}
 readxl:: read_excel(
   path = './Data/Population_data.xlsx'
 )
