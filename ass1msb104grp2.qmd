@@ -23,15 +23,15 @@ library(purrr)
 raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 6)
 #Dropping the first row to align time with years
   raw_econ <- raw_econ[-1,]
-  names(raw_econ)[1] <- "Region"
+  names(raw_econ)[1] <- "Geo_Labels"
 print(raw_econ)
 ```
 
 ```{r}
 # Making raw_econ into long format.
 tidy_econ <- pivot_longer(data = raw_econ,
-             cols = -Region,
-             names_to = "Year",
+             cols = -Geo_Labels,
+             names_to = "Time",
              values_to = "GDP Million EUR")
 
 ```
@@ -51,8 +51,13 @@ print(raw_demo)
 # Making raw_demo into long format.
 tidy_demo <- pivot_longer(data = raw_demo,
              cols = c(-Geo_Codes, -Geo_Labels),
-             names_to = "Year",
+             names_to = "Time",
              values_to = "Population")
 
 ```
 ## GDP Per capita:
+
+```{r}
+tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), keep = FALSE)
+```
+
