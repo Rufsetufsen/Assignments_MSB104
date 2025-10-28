@@ -20,7 +20,7 @@ library(purrr)
 
 ```{r}
 #Removing the metadata from the top.
-raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 6)
+raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", range = "A8:Y464", col_types = "text")
 #Dropping the first row to align time with years
   raw_econ <- raw_econ[-1,]
   names(raw_econ)[1] <- "Geo_Labels"
@@ -40,7 +40,7 @@ tidy_econ <- pivot_longer(data = raw_econ,
 
 ```{r}
 #Removing the metadata from the top.
-raw_demo <- read_excel("./Data/demo_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 8)
+raw_demo <- read_excel("./Data/demo_noFlag.xlsx", sheet = "Sheet 1", range = "A10:Z487", col_types = "text")
 #Dropping the first row to align time with years
   raw_demo <- raw_demo[-1,]
   names(raw_demo)[1] <- "Geo_Codes"
@@ -68,6 +68,12 @@ tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), ke
     Population = as.numeric(Population),
     GDP_Capita = (`GDP Million EUR` * 1000000) / Population
   )
+ tidyjoined <- tidyjoined %>%
+   mutate(Country = substr(Geo_Codes, 1, 2), .before = 2)
 head(tidyjoined, 15)
+```
+
+```{r}
+sum(is.na(tidyjoined))
 ```
 

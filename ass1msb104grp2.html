@@ -157,6 +157,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">names_to =</span> <span class="st">"Time"</span>,</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">values_to =</span> <span class="st">"GDP Million EUR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="demographic-data" class="level3">
+<h3 class="anchored" data-anchor-id="demographic-data">Demographic Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Removing the metadata from the top.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>raw_demo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./Data/demo_noFlag.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>, <span class="at">col_types =</span> <span class="st">"text"</span>, <span class="at">skip =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -205,12 +208,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining the two datasets</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tidyjoined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tidy_demo, tidy_econ, <span class="at">by =</span> <span class="fu">join_by</span>(Geo_Labels, Time), <span class="at">keep =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mutating to add column for GDP per capita. Maybe consider multiplying by a million? Ask Arnstein.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mutating to add column for GDP per capita.</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> tidyjoined <span class="ot">&lt;-</span> tidyjoined <span class="sc">%&gt;%</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">GDP Million EUR</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">GDP Million EUR</span><span class="st">`</span>),</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Population =</span> <span class="fu">as.numeric</span>(Population),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">GDP_Capita =</span> (<span class="st">`</span><span class="at">GDP Million EUR</span><span class="st">`</span>) <span class="sc">/</span> Population</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">GDP_Capita =</span> (<span class="st">`</span><span class="at">GDP Million EUR</span><span class="st">`</span> <span class="sc">*</span> <span class="dv">1000000</span>) <span class="sc">/</span> Population</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There were 2 warnings in `mutate()`.
@@ -225,21 +228,21 @@ Caused by warning:
 <pre><code># A tibble: 15 × 6
    Geo_Codes Geo_Labels            Time  Population `GDP Million EUR` GDP_Capita
    &lt;chr&gt;     &lt;chr&gt;                 &lt;chr&gt;      &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
- 1 DE111     Stuttgart, Stadtkreis 2000      582443            35274.     0.0606
- 2 DE111     Stuttgart, Stadtkreis 2001      583874            38409.     0.0658
- 3 DE111     Stuttgart, Stadtkreis 2002      587152            39723.     0.0677
- 4 DE111     Stuttgart, Stadtkreis 2003      588477            41116.     0.0699
- 5 DE111     Stuttgart, Stadtkreis 2004      589161            40680.     0.0690
- 6 DE111     Stuttgart, Stadtkreis 2005      590657            39624.     0.0671
- 7 DE111     Stuttgart, Stadtkreis 2006      592569            42668.     0.0720
- 8 DE111     Stuttgart, Stadtkreis 2007      593923            44533.     0.0750
- 9 DE111     Stuttgart, Stadtkreis 2008      597176            42082.     0.0705
-10 DE111     Stuttgart, Stadtkreis 2009      600068            38337.     0.0639
-11 DE111     Stuttgart, Stadtkreis 2010      601646            42599.     0.0708
-12 DE111     Stuttgart, Stadtkreis 2011      583868            44957.     0.0770
-13 DE111     Stuttgart, Stadtkreis 2012      591015            46579.     0.0788
-14 DE111     Stuttgart, Stadtkreis 2013      597939            47017.     0.0786
-15 DE111     Stuttgart, Stadtkreis 2014      604297            48562.     0.0804</code></pre>
+ 1 DE111     Stuttgart, Stadtkreis 2000      582443            35274.     60562.
+ 2 DE111     Stuttgart, Stadtkreis 2001      583874            38409.     65782.
+ 3 DE111     Stuttgart, Stadtkreis 2002      587152            39723.     67654.
+ 4 DE111     Stuttgart, Stadtkreis 2003      588477            41116.     69868.
+ 5 DE111     Stuttgart, Stadtkreis 2004      589161            40680.     69048.
+ 6 DE111     Stuttgart, Stadtkreis 2005      590657            39624.     67085.
+ 7 DE111     Stuttgart, Stadtkreis 2006      592569            42668.     72006.
+ 8 DE111     Stuttgart, Stadtkreis 2007      593923            44533.     74981.
+ 9 DE111     Stuttgart, Stadtkreis 2008      597176            42082.     70469.
+10 DE111     Stuttgart, Stadtkreis 2009      600068            38337.     63887.
+11 DE111     Stuttgart, Stadtkreis 2010      601646            42599.     70805.
+12 DE111     Stuttgart, Stadtkreis 2011      583868            44957.     76999.
+13 DE111     Stuttgart, Stadtkreis 2012      591015            46579.     78811.
+14 DE111     Stuttgart, Stadtkreis 2013      597939            47017.     78631.
+15 DE111     Stuttgart, Stadtkreis 2014      604297            48562.     80361.</code></pre>
 </div>
 </div>
 </section>
