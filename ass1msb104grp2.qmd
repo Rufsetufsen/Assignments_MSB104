@@ -3,9 +3,6 @@ title: "ass1msb104grp2"
 format: html
 editor: visual
 ---
-```{r}
-
-```
 
 ```{r}
 #| label: setup
@@ -13,7 +10,8 @@ library (tidyverse)
 library (PxWebApiData)
 library(xml2)
 library(XML)
-
+library(readxl)
+library(purrr)
 ```
 
 ## Data Acquisition
@@ -21,13 +19,16 @@ library(XML)
 ESTAT_NAMA_10R_GDP
 
 ```{r}
-read_xml('./data/ESTAT_NAMA_10R_3GDP_1.0.xml')
+readxl:: read_excel(
+  path = './Data/Population_data.xlsx'
+)
 ```
+
 
 ESTAT_DEMO_R_PJANAGGR3
 
 ```{r}
-read_xml('./data/ESTAT_DEMO_R_PJANAGGR3_1.0.xml')
+read_xlsx(Population_data)
 ```
 
-## GDP Per capita: 
+## GDP Per capita:
