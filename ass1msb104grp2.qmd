@@ -16,23 +16,21 @@ library(purrr)
 
 ## Data Acquisition
 
-ESTAT_NAMA_10R_GDP
+### GDP per Region
 
 ```{r}
 #Removing the metadata from the top.
 raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 6)
 #Dropping the first row to align time with years
   raw_econ <- raw_econ[-1,]
+  names(raw_econ)[1] <- "Region"
 print(raw_econ)
 ```
 
 ```{r}
-class(raw_econ)
-```
-
-```{r}
-pivot_longer(data = raw_econ,
-             cols = -TIME,
+# Making raw_econ into long format.
+tidy_econ <- pivot_longer(data = raw_econ,
+             cols = -Region,
              names_to = "Year",
              values_to = "GDP Million EUR")
 
@@ -40,16 +38,21 @@ pivot_longer(data = raw_econ,
 
 
 ```{r}
-readxl:: read_excel(
-  path = './Data/Population_data.xlsx'
-)
+#Removing the metadata from the top.
+raw_demo <- read_excel("./Data/demo_noFlag.xlsx", sheet = "Sheet 1", col_types = "text", skip = 8)
+#Dropping the first row to align time with years
+  raw_demo <- raw_demo[-1,]
+  names(raw_demo)[1] <- "Geo_Codes"
+  names(raw_demo)[2] <- "Geo_Labels"
+print(raw_demo)
 ```
-
-
-ESTAT_DEMO_R_PJANAGGR3
 
 ```{r}
-read_xlsx(Population_data)
-```
+# Making raw_demo into long format.
+tidy_demo <- pivot_longer(data = raw_demo,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Year",
+             values_to = "Population")
 
+```
 ## GDP Per capita:
