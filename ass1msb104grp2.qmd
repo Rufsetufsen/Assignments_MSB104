@@ -24,6 +24,9 @@ ESTAT_NAMA_10R_GDP
 read_xml('./data/ESTAT_NAMA_10R_3GDP_1.0.xml')
 ```
 
+```{r}
+read_xml('./data/ESTAT_DEMO_R_PJANAGGR3_1.0.xml')
+```
 
 
 ```{r}
