@@ -75,6 +75,12 @@ head(tidyjoined, 15)
 ```
 
 ```{r}
+# Descriptive Analysis of Switzerland
+```
+
+
+
+```{r}
 sum(is.na(tidyjoined))
 ```
 ```{r}
@@ -96,17 +102,18 @@ head(ginigdp, 10)
 #Plot for Switzerland 
 ginigdp %>%
   filter(startsWith(NUTS2, "CH")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes()) +
-  geom_smooth(method = "lm", se = FALSE, formula = 'y ~ x')
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
+  geom_point(mapping = aes())  +
+  geom_line()
 ```
 
 ```{r}
 #Gini Ireland
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = 1, )) + 
-  geom_point() 
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) + 
+  geom_point(mapping = aes())  +
+  geom_line() 
 ```
 
 
@@ -114,21 +121,29 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = 1, )) +
 #Gini Germany
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>% 
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
   geom_point(mapping = aes()) + 
   scale_x_discrete(breaks = 5) 
 ```
 
 
 ```{r}
-#pulling out 10 different regions so the plot is more readable
-gini_de <- ginigdp %>%
-  filter(startsWith(NUTS2, "DE"))
-gini_de %>%
-  filter(NUTS2 %in% regions) %>%
-  ggplot(aes(x = Time, y = gini, colour = NUTS2)) +
-  geom_point(mapping = aes()) +
-  theme_minimal()
+set.seed(123)  # for reproduserbart tilfeldig utvalg DETTE ER FRA CHATGPT VED BRUK AV SAMPLE
+
+ginigdp %>%
+  filter(startsWith(NUTS2, "DE")) %>%
+  group_by(NUTS2) %>%
+  # først sørger vi for unike regioner, så sampler vi 10
+  summarise() %>%
+  sample_n(10) %>%
+  pull(NUTS2) -> sampled_regions
+
+ginigdp %>%
+  filter(NUTS2 %in% sampled_regions) %>%
+  ggplot(aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
+  geom_point() +
+  geom_line() +   # evt. legg til linje for tydeligere trend
+  scale_x_discrete(breaks = 5) 
 ```
 
 
@@ -137,5 +152,6 @@ gini_de %>%
 ginigdp %>%
   filter(startsWith(NUTS2, "HR")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes())
+  geom_point(mapping = aes()) + 
+  geom_smooth()
 ```
