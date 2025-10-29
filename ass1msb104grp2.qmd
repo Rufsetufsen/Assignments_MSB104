@@ -103,7 +103,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) +
 #Gini Ireland
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = 1, )) + 
   geom_point(mapping = aes())
 ```
 
@@ -112,7 +112,11 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) +
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes())
+  geom_point(mapping = aes()) + 
+  scale_x_discrete(breaks = 5)
+```
+```{r}
+
 ```
 
 ```{r}
