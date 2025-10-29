@@ -91,4 +91,34 @@ ginigdp <- tidyjoined %>%
             gini = gini.wtd(GDP_Capita, weights = Population))
 head(ginigdp, 10)
 ```
+```{r}
+#Gini Switzerland
+ginigdp %>%
+  filter(startsWith(NUTS2, "CH")) %>%
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+  geom_point(mapping = aes())
+```
 
+```{r}
+#Gini Ireland
+ginigdp %>%
+  filter(startsWith(NUTS2, "IE")) %>%
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+  geom_point(mapping = aes())
+```
+
+```{r}
+#Gini Germany
+ginigdp %>%
+  filter(startsWith(NUTS2, "DE")) %>%
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+  geom_point(mapping = aes())
+```
+
+```{r}
+#Gini Croatia
+ginigdp %>%
+  filter(startsWith(NUTS2, "HR")) %>%
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+  geom_point(mapping = aes())
+```

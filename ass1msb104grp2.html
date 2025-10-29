@@ -113,24 +113,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (PxWebApiData)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dineq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="data-acquisition" class="level2">
 <h2 class="anchored" data-anchor-id="data-acquisition">Data Acquisition</h2>
 <section id="gdp-per-region" class="level3">
 <h3 class="anchored" data-anchor-id="gdp-per-region">GDP per Region</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Removing the metadata from the top.</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>raw_econ <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./Data/GDP_noFlag.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>, <span class="at">col_types =</span> <span class="st">"text"</span>, <span class="at">skip =</span> <span class="dv">6</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Removing the metadata from the top and bottom by defining the range.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>raw_econ <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./Data/GDP_noFlag.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>, <span class="at">range =</span> <span class="st">"A8:Y464"</span>, <span class="at">col_types =</span> <span class="st">"text"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping the first row to align time with years</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  raw_econ <span class="ot">&lt;-</span> raw_econ[<span class="sc">-</span><span class="dv">1</span>,]</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(raw_econ)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"Geo_Labels"</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(raw_econ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 458 × 25
+<pre><code># A tibble: 455 × 25
    Geo_Labels     `2000` `2001` `2002` `2003` `2004` `2005` `2006` `2007` `2008`
    &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
  1 Stuttgart, St… 35273… 38408… 39723… 41115… 40680… 39624… 42668… 44532… 42082…
@@ -143,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 Heilbronn, La… 8453.… 8816.… 8749.… 9212.… 9436.… 9842.… 11048… 11650… 11985…
  9 Hohenlohekreis 3083.… 3182.… 3192.6 3208.… 3302.0 3402.4 3630.… 3894.… 3941.…
 10 Schwäbisch Ha… 4503.… 4525.… 4716.… 4634.3 4795.… 5080.… 5338.… 5694.… 5890.…
-# ℹ 448 more rows
+# ℹ 445 more rows
 # ℹ 15 more variables: `2009` &lt;chr&gt;, `2010` &lt;chr&gt;, `2011` &lt;chr&gt;, `2012` &lt;chr&gt;,
 #   `2013` &lt;chr&gt;, `2014` &lt;chr&gt;, `2015` &lt;chr&gt;, `2016` &lt;chr&gt;, `2017` &lt;chr&gt;,
 #   `2018` &lt;chr&gt;, `2019` &lt;chr&gt;, `2020` &lt;chr&gt;, `2021` &lt;chr&gt;, `2022` &lt;chr&gt;,
@@ -162,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="demographic-data">Demographic Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Removing the metadata from the top.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>raw_demo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./Data/demo_noFlag.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>, <span class="at">col_types =</span> <span class="st">"text"</span>, <span class="at">skip =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>raw_demo <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"./Data/demo_noFlag.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Sheet 1"</span>, <span class="at">range =</span> <span class="st">"A10:Z487"</span>, <span class="at">col_types =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 • `TIME` -&gt; `TIME...1`
@@ -174,24 +173,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(raw_demo)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"Geo_Labels"</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(raw_demo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 479 × 27
+<pre><code># A tibble: 476 × 26
    Geo_Codes Geo_Labels  `2000` `2001` `2002` `2003` `2004` `2005` `2006` `2007`
    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
- 1 DE111     Stuttgart,… 58244… 58387… 58715… 58847… 58916… 59065… 59256… 59392…
- 2 DE112     Böblingen   36204… 36498… 36783… 37033… 37167… 37211… 37215… 37222…
- 3 DE113     Esslingen   49782… 50066… 50534… 50949… 51156… 51310… 51424… 51410…
- 4 DE114     Göppingen   25613… 25679… 25765… 25848… 25870… 25849… 25778… 25696…
- 5 DE115     Ludwigsburg 49544… 49776… 50322… 50704… 50968… 51183… 51331… 51399…
- 6 DE116     Rems-Murr-… 40721… 40929… 41295… 41576… 41663… 41746… 41769… 41760…
- 7 DE117     Heilbronn,… 11952… 11930… 12016… 12068… 12070… 12132… 12161… 12138…
- 8 DE118     Heilbronn,… 31757… 32095… 32404… 32622… 32754… 32886… 32950… 32997…
- 9 DE119     Hohenlohek… 10693… 10775… 10892… 10951… 10975… 10975… 10971… 10971…
-10 DE11A     Schwäbisch… 18481… 18572… 18696… 18822… 18856… 18904… 18958… 18934…
-# ℹ 469 more rows
-# ℹ 17 more variables: `2008` &lt;chr&gt;, `2009` &lt;chr&gt;, `2010` &lt;chr&gt;, `2011` &lt;chr&gt;,
+ 1 DE111     Stuttgart,… 582443 583874 587152 588477 589161 590657 592569 593923
+ 2 DE112     Böblingen   362048 364987 367830 370337 371678 372113 372155 372228
+ 3 DE113     Esslingen   497826 500666 505340 509495 511564 513105 514245 514108
+ 4 DE114     Göppingen   256136 256792 257651 258488 258707 258492 257783 256967
+ 5 DE115     Ludwigsburg 495443 497764 503229 507043 509681 511830 513317 513998
+ 6 DE116     Rems-Murr-… 407213 409296 412959 415764 416635 417463 417697 417609
+ 7 DE117     Heilbronn,… 119526 119305 120163 120683 120705 121320 121613 121384
+ 8 DE118     Heilbronn,… 317578 320955 324043 326229 327540 328866 329503 329979
+ 9 DE119     Hohenlohek… 106930 107754 108920 109519 109755 109756 109718 109717
+10 DE11A     Schwäbisch… 184819 185728 186967 188229 188563 189041 189580 189346
+# ℹ 466 more rows
+# ℹ 16 more variables: `2008` &lt;chr&gt;, `2009` &lt;chr&gt;, `2010` &lt;chr&gt;, `2011` &lt;chr&gt;,
 #   `2012` &lt;chr&gt;, `2013` &lt;chr&gt;, `2014` &lt;chr&gt;, `2015` &lt;chr&gt;, `2016` &lt;chr&gt;,
 #   `2017` &lt;chr&gt;, `2018` &lt;chr&gt;, `2019` &lt;chr&gt;, `2020` &lt;chr&gt;, `2021` &lt;chr&gt;,
-#   `2022` &lt;chr&gt;, `2023` &lt;chr&gt;, `2024` &lt;chr&gt;</code></pre>
+#   `2022` &lt;chr&gt;, `2023` &lt;chr&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -223,26 +222,145 @@ Caused by warning:
 ! NAs introduced by coercion
 ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tidyjoined, <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a> tidyjoined <span class="ot">&lt;-</span> tidyjoined <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">Country =</span> <span class="fu">substr</span>(Geo_Codes, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">.before =</span> <span class="dv">2</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> tidyjoined <span class="ot">&lt;-</span> tidyjoined <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>( <span class="at">NUTS2 =</span> (<span class="fu">str_sub</span>(Geo_Codes, <span class="at">start=</span> <span class="dv">1</span>L, <span class="at">end =</span> <span class="dv">4</span>L)), <span class="at">.before =</span> <span class="dv">2</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tidyjoined, <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 15 × 6
-   Geo_Codes Geo_Labels            Time  Population `GDP Million EUR` GDP_Capita
-   &lt;chr&gt;     &lt;chr&gt;                 &lt;chr&gt;      &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
- 1 DE111     Stuttgart, Stadtkreis 2000      582443            35274.     60562.
- 2 DE111     Stuttgart, Stadtkreis 2001      583874            38409.     65782.
- 3 DE111     Stuttgart, Stadtkreis 2002      587152            39723.     67654.
- 4 DE111     Stuttgart, Stadtkreis 2003      588477            41116.     69868.
- 5 DE111     Stuttgart, Stadtkreis 2004      589161            40680.     69048.
- 6 DE111     Stuttgart, Stadtkreis 2005      590657            39624.     67085.
- 7 DE111     Stuttgart, Stadtkreis 2006      592569            42668.     72006.
- 8 DE111     Stuttgart, Stadtkreis 2007      593923            44533.     74981.
- 9 DE111     Stuttgart, Stadtkreis 2008      597176            42082.     70469.
-10 DE111     Stuttgart, Stadtkreis 2009      600068            38337.     63887.
-11 DE111     Stuttgart, Stadtkreis 2010      601646            42599.     70805.
-12 DE111     Stuttgart, Stadtkreis 2011      583868            44957.     76999.
-13 DE111     Stuttgart, Stadtkreis 2012      591015            46579.     78811.
-14 DE111     Stuttgart, Stadtkreis 2013      597939            47017.     78631.
-15 DE111     Stuttgart, Stadtkreis 2014      604297            48562.     80361.</code></pre>
+<pre><code># A tibble: 15 × 8
+   Geo_Codes NUTS2 Country Geo_Labels         Time  Population `GDP Million EUR`
+   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;chr&gt;      &lt;dbl&gt;             &lt;dbl&gt;
+ 1 DE111     DE11  DE      Stuttgart, Stadtk… 2000      582443            35274.
+ 2 DE111     DE11  DE      Stuttgart, Stadtk… 2001      583874            38409.
+ 3 DE111     DE11  DE      Stuttgart, Stadtk… 2002      587152            39723.
+ 4 DE111     DE11  DE      Stuttgart, Stadtk… 2003      588477            41116.
+ 5 DE111     DE11  DE      Stuttgart, Stadtk… 2004      589161            40680.
+ 6 DE111     DE11  DE      Stuttgart, Stadtk… 2005      590657            39624.
+ 7 DE111     DE11  DE      Stuttgart, Stadtk… 2006      592569            42668.
+ 8 DE111     DE11  DE      Stuttgart, Stadtk… 2007      593923            44533.
+ 9 DE111     DE11  DE      Stuttgart, Stadtk… 2008      597176            42082.
+10 DE111     DE11  DE      Stuttgart, Stadtk… 2009      600068            38337.
+11 DE111     DE11  DE      Stuttgart, Stadtk… 2010      601646            42599.
+12 DE111     DE11  DE      Stuttgart, Stadtk… 2011      583868            44957.
+13 DE111     DE11  DE      Stuttgart, Stadtk… 2012      591015            46579.
+14 DE111     DE11  DE      Stuttgart, Stadtk… 2013      597939            47017.
+15 DE111     DE11  DE      Stuttgart, Stadtk… 2014      604297            48562.
+# ℹ 1 more variable: GDP_Capita &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(tidyjoined))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3838</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tidyjoined)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Geo_Codes            NUTS2             Country           Geo_Labels       
+ Length:11424       Length:11424       Length:11424       Length:11424      
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+     Time             Population      GDP Million EUR      GDP_Capita    
+ Length:11424       Min.   :  14946   Min.   :   237.3   Min.   :  4141  
+ Class :character   1st Qu.: 105932   1st Qu.:  2544.7   1st Qu.: 22243  
+ Mode  :character   Median : 150867   Median :  4220.9   Median : 28681  
+                    Mean   : 212629   Mean   :  7715.8   Mean   : 33027  
+                    3rd Qu.: 247409   3rd Qu.:  7596.0   3rd Qu.: 38111  
+                    Max.   :3677472   Max.   :248326.3   Max.   :199296  
+                    NA's   :778       NA's   :1169       NA's   :1891    </code></pre>
+</div>
+</div>
+</section>
+<section id="regional-gdp-inequality---calculating-the-gini-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="regional-gdp-inequality---calculating-the-gini-coefficient">Regional GDP inequality - Calculating the Gini coefficient</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="ot">&lt;-</span> tidyjoined <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  na.omit <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NUTS2, Time)<span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>( <span class="at">Count =</span> <span class="fu">n</span>(),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">gini =</span> <span class="fu">gini.wtd</span>(GDP_Capita, <span class="at">weights =</span> Population))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'NUTS2'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ginigdp, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+# Groups:   NUTS2 [1]
+   NUTS2 Time  Count  gini
+   &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+ 1 CH01  2008      3 0.139
+ 2 CH01  2009      3 0.130
+ 3 CH01  2010      3 0.131
+ 4 CH01  2011      3 0.130
+ 5 CH01  2012      3 0.128
+ 6 CH01  2013      3 0.134
+ 7 CH01  2014      3 0.132
+ 8 CH01  2015      3 0.127
+ 9 CH01  2016      3 0.121
+10 CH01  2017      3 0.128</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gini Switzerland</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">startsWith</span>(NUTS2, <span class="st">"CH"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> gini, <span class="at">colour =</span> NUTS2)) <span class="sc">+</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ass1msb104grp2_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gini Ireland</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">startsWith</span>(NUTS2, <span class="st">"IE"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> gini, <span class="at">colour =</span> NUTS2)) <span class="sc">+</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ass1msb104grp2_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gini Germany</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">startsWith</span>(NUTS2, <span class="st">"DE"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> gini, <span class="at">colour =</span> NUTS2)) <span class="sc">+</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ass1msb104grp2_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gini Croatia</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">startsWith</span>(NUTS2, <span class="st">"HR"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> gini, <span class="at">colour =</span> NUTS2)) <span class="sc">+</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ass1msb104grp2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
