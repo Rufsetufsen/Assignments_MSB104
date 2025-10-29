@@ -8,10 +8,9 @@ editor: visual
 #| label: setup
 library (tidyverse)
 library (PxWebApiData)
-library(xml2)
-library(XML)
 library(readxl)
 library(purrr)
+library(dineq)
 ```
 
 ## Data Acquisition
@@ -19,7 +18,7 @@ library(purrr)
 ### GDP per Region
 
 ```{r}
-#Removing the metadata from the top.
+#Removing the metadata from the top and bottom by defining the range.
 raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", range = "A8:Y464", col_types = "text")
 #Dropping the first row to align time with years
   raw_econ <- raw_econ[-1,]
@@ -80,5 +79,16 @@ sum(is.na(tidyjoined))
 ```
 ```{r}
 summary(tidyjoined)
+```
+
+## Regional GDP inequality - Calculating the Gini coefficient
+
+```{r}
+ginigdp <- tidyjoined %>%
+  na.omit %>%
+  group_by(NUTS2, Time)%>%
+  summarise( Count = n(),
+            gini = gini.wtd(GDP_Capita, weights = Population))
+head(ginigdp, 10)
 ```
 
