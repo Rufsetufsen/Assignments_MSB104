@@ -93,10 +93,12 @@ head(ginigdp, 10)
 ```
 ```{r}
 #Gini Switzerland
+#Plot for Switzerland 
 ginigdp %>%
   filter(startsWith(NUTS2, "CH")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes())
+  geom_point(mapping = aes()) +
+  geom_smooth(method = "lm", se = FALSE, formula = 'y ~ x')
 ```
 
 ```{r}
@@ -104,20 +106,31 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) +
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = 1, )) + 
-  geom_point(mapping = aes())
+  geom_point() 
 ```
+
 
 ```{r}
 #Gini Germany
 ginigdp %>%
-  filter(startsWith(NUTS2, "DE")) %>%
+  filter(startsWith(NUTS2, "DE")) %>% 
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
   geom_point(mapping = aes()) + 
-  scale_x_discrete(breaks = 5)
+  scale_x_discrete(breaks = 5) 
 ```
-```{r}
 
+
+```{r}
+#pulling out 10 different regions so the plot is more readable
+gini_de <- ginigdp %>%
+  filter(startsWith(NUTS2, "DE"))
+gini_de %>%
+  filter(NUTS2 %in% regions) %>%
+  ggplot(aes(x = Time, y = gini, colour = NUTS2)) +
+  geom_point(mapping = aes()) +
+  theme_minimal()
 ```
+
 
 ```{r}
 #Gini Croatia
