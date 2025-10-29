@@ -76,6 +76,10 @@ tidyjoined_drop <- tidyjoined %>%
   drop_na()
 ```
 
+```{r}
+data <- read_xlsx(tidyjoined_drop)
+subset_data <- data[]
+```
 
 
 
