@@ -95,25 +95,29 @@ head(ginigdp, 10)
 #Gini Switzerland
 ginigdp %>%
   filter(startsWith(NUTS2, "CH")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes())
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
+  geom_point(mapping = aes()) +
+  geom_line()
 ```
 
 ```{r}
 #Gini Ireland
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = 1, )) + 
-  geom_point(mapping = aes())
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) + 
+  geom_point(mapping = aes()) + 
+  geom_line() +
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "Broken down by NUTS2-region")
 ```
 
 ```{r}
 #Gini Germany
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
   geom_point(mapping = aes()) + 
-  scale_x_discrete(breaks = 5)
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 45))
 ```
 ```{r}
 
@@ -123,6 +127,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) +
 #Gini Croatia
 ginigdp %>%
   filter(startsWith(NUTS2, "HR")) %>%
-ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2)) + 
-  geom_point(mapping = aes())
+ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
+  geom_point(mapping = aes()) + 
+  geom_line()
 ```
