@@ -70,10 +70,15 @@ tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), ke
   )
  tidyjoined <- tidyjoined %>%
    mutate(Country = substr(Geo_Codes, 1, 2), .before = 2)
+ tidyjoined <- tidyjoined %>%
+   mutate( NUTS2 = (str_sub(Geo_Codes, start= 1L, end = 4L)), .before = 2)
 head(tidyjoined, 15)
 ```
 
 ```{r}
 sum(is.na(tidyjoined))
+```
+```{r}
+summary(tidyjoined)
 ```
 
