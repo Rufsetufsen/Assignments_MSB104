@@ -11,6 +11,8 @@ library (PxWebApiData)
 library(readxl)
 library(purrr)
 library(dineq)
+library(descr)
+library(psych)
 ```
 
 ## Data Acquisition
@@ -76,6 +78,34 @@ head(tidyjoined, 15)
 
 ```{r}
 # Descriptive Analysis of Switzerland
+Switzerland <- tidyjoined %>% 
+  filter(startsWith(NUTS2, "CH"))
+
+summary(Switzerland)
+```
+
+```{r}
+# Descriptive Analysis of Ireland
+Ireland <- tidyjoined %>% 
+  filter(startsWith(NUTS2, "IE"))
+
+summary(Ireland)
+```
+
+```{r}
+# Descriptive Analysis of Germany
+Germany <- tidyjoined %>% 
+  filter(startsWith(NUTS2, "DE"))
+
+summary(Germany, +
+        sd(Germany, na.rm = TRUE)) 
+```
+
+```{r}
+describeBy(
+  tidyjoined,
+  tidyjoined$Country
+)
 ```
 
 
@@ -133,7 +163,7 @@ set.seed(123)  # for reproduserbart tilfeldig utvalg DETTE ER FRA CHATGPT VED BR
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>%
   group_by(NUTS2) %>%
-  # først sørger vi for unike regioner, så sampler vi 10
+  # Picking out 10 different regions
   summarise() %>%
   sample_n(10) %>%
   pull(NUTS2) -> sampled_regions
@@ -142,7 +172,7 @@ ginigdp %>%
   filter(NUTS2 %in% sampled_regions) %>%
   ggplot(aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_point() +
-  geom_line() +   # evt. legg til linje for tydeligere trend
+  geom_line() + 
   scale_x_discrete(breaks = 5) 
 ```
 
