@@ -11,9 +11,19 @@ library (PxWebApiData)
 library(readxl)
 library(purrr)
 library(dineq)
+library(psych)
 ```
 
 ## Data Acquisition
+In this assignment we will use four countries data from Eurostat to process it and analyse the sub-national GDP (gross domestic product) and population data from the years 2000-2023. Eurostat serves as the statistical office of the European Union, and their work is to collect and provide statistics on EU countries, through reliable, impartial and comparable data These countries are Germany, Switzerland, Croatia and Ireland. 
+In these datasets we encountered missing values which we decided to keep. These NA, or missing data came from different reason from each country. 
+
+- Germany which has the most observations, lacks data for GDP from the time 2023 in a lot of its regions. This can be because of late reporting of its data to Eurostat. There are also some missing data on population during 2000-2010 and a few other regions during 2000-2023 which may be the emergence of new regions or change in their districts that require their own data. 
+- Ireland lacks data from the early 2000 to 2011 in population due to changes in NUTS 3 level in their regions. When it comes to the GDP, Ireland only misses data from 2015-2017 in Mid-West and South-West. This was due to confidentiality concerns.
+- Croatia only have NA values on population but its spread by different regions, as it lacks all data from 2000 and some lacks from 2000-2012 and from 2021-2023. Same as Germany, here the lack of data can be explained by the changes in regions and districts, which may be the cause of the spread in NA values.
+- Switzerland is a EFTA country, and have not had a data-sharing agreement with Eurostat for NUTS3 GDP from 2000-2007, while in the 2008 the NUTS classification was updated and it was standardized across all regions. Switzerland also lacks the data from 2022-2023 which may be they are waiting to finalize the data before releasing it.
+
+We will then calculate the GDP per capita and explore regional inequality through a EDA (exploratory data analysis).
 
 ### GDP per Region
 
@@ -75,11 +85,24 @@ tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), ke
 head(tidyjoined, 15)
 ```
 
+## 
+
 ```{r}
+# Descriptive Analysis grouped by country code
+describeBy(
+  tidyjoined,
+  tidyjoined$Country
+)
+```
+
+
+```{r}
+#NA for all countries
 sum(is.na(tidyjoined))
 ```
 
 ```{r}
+# Simple statistics for all countries combined
 summary(tidyjoined)
 ```
 
@@ -106,6 +129,7 @@ head(ginigdp, 10)
 
 ```{r}
 #Gini Switzerland
+#Plot for Switzerland 
 ginigdp %>%
   filter(startsWith(NUTS2, "CH")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
@@ -123,6 +147,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "Broken down by NUTS2-region")
 ```
 
+
 ```{r}
 #Gini Germany
 ginigdp %>%
@@ -134,8 +159,25 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
 ```
 
 ```{r}
+# Picking out 10 different regions for Germany
+# Set.seed to no get random every time one runes the codes
+set.seed(123) 
 
+ginigdp %>%
+  filter(startsWith(NUTS2, "DE")) %>%
+  group_by(NUTS2) %>%
+  summarise() %>%
+  sample_n(10) %>%
+  pull(NUTS2) -> sampled_regions
+
+ginigdp %>%
+  filter(NUTS2 %in% sampled_regions) %>%
+  ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
+  geom_point() +
+  geom_line() + 
+  scale_x_discrete(breaks = 5) 
 ```
+
 
 ```{r}
 #Gini Croatia
@@ -143,5 +185,15 @@ ginigdp %>%
   filter(startsWith(NUTS2, "HR")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
   geom_point(mapping = aes()) + 
-  geom_line()
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 45))
 ```
+
+## The use of AI
+In this assignments there was used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback. The AI was used as a sparring partner to help with the wording of the writing and testing of the codes to provide an explanation of how each function in the code works.
+The software of AI we used was ChatGPT and the model was 3.5 which is the free version. This is a quick and basic model, which means that the text produced by this type of model must be checked. It was only used to check the functioning of our codes and recommend spellings of text. 
+
+
+
+
+
