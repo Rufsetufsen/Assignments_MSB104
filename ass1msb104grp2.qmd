@@ -20,7 +20,7 @@ In these datasets we encountered missing values which we decided to keep. These 
 
 - Germany which has the most observations, lacks data for GDP from the time 2023 in a lot of its regions. This can be because of late reporting of its data to Eurostat. There are also some missing data on population during 2000-2010 and a few other regions during 2000-2023 which may be the emergence of new regions or change in their districts that require their own data. 
 - Ireland lacks data from the early 2000 to 2011 in population due to changes in NUTS 3 level in their regions. When it comes to the GDP, Ireland only misses data from 2015-2017 in Mid-West and South-West. This was due to confidentiality concerns.
-- Croatia only have NA values on population but its spread by different regions, as it lacks all data from 2000 and some lacks from 2000-2012 and from 2021-2023. Same as Germany, here the lack of data can be explained by the changes in regions and districts, which may be the cause of the spread in NA values.
+- Croatia only have NA values on population but its spread by different regions, as it lacks all data from 2000 and some lacks from 2000-2012 and from 2021-2023. Same as Germany, here the lack of data can be explained by the changes in regions and districts, which may be the cause of the spread in NA values. It has also been shown that the NUTS2 regions have change from 2007 to 2021.
 - Switzerland is a EFTA country, and have not had a data-sharing agreement with Eurostat for NUTS3 GDP from 2000-2007, while in the 2008 the NUTS classification was updated and it was standardized across all regions. Switzerland also lacks the data from 2022-2023 which may be they are waiting to finalize the data before releasing it.
 
 We will then calculate the GDP per capita and explore regional inequality through a EDA (exploratory data analysis).
@@ -136,6 +136,8 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_point(mapping = aes()) +
   geom_line()
 ```
+- The graph over Switzerland shows a low Gini-coefficient over each region. There is a difference that divides the country's regions into two parts, one of which has a higher gini-coefficient then  the other. The different between these two parts can be that the regions have a strong cantonal self-government and fiscal autonomy, and how the country's resources are used can increase or decrease inequalities.
+
 
 ```{r}
 #Gini Ireland
@@ -146,7 +148,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) +
   geom_line() +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "Broken down by NUTS2-region")
 ```
-
+- Ireland's graph also shows a low gini-coefficient but a smaller different between the regions. This graph shows whoever a growth in the economics of Ireland where the NUTS2 code IE05 shows a dip and then a rise. This can also be the confidential info that was not shared to Eurostat that gives the dip. The different between IE04 and the two others, can be the cost of living and employment in each regions.
 
 ```{r}
 #Gini Germany
@@ -157,10 +159,12 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_line() +
   theme(axis.text.x = element_text(angle = 45))
 ```
+- Germany has been very good at reporting data, but as the graph shows, it gives alot of information. Germany consists off up to 38 NUTS2 regions which gives a spread from 0 to 0.4 in gini-coefficient. It is hard to follow which region goes where in the graph, so we have chosen to extract 10 random regions to get a better picture of Germany's regional inequalities.
+
 
 ```{r}
 # Picking out 10 different regions for Germany
-# Set.seed to no get random every time one runes the codes
+# Set.seed to not get random every time one runes the codes
 set.seed(123) 
 
 ginigdp %>%
@@ -177,6 +181,7 @@ ginigdp %>%
   geom_line() + 
   scale_x_discrete(breaks = 5) 
 ```
+- This graph takes 10 different regions and shows the same spread as the one with all regions. The gini-coefficient is relatively low inequalities but there is a different between the regions. The graph with all regions from Germany shows one region which is up to a 0.4 while most is between 0.1 to 0.2. One region with the code DE80 stands out as it shows a jump. It could mean a change in the region such as a merger or a change in how they report data.
 
 
 ```{r}
@@ -188,6 +193,10 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_line() +
   theme(axis.text.x = element_text(angle = 45))
 ```
+- The graph of Croatia shows us a different picture then the other countries. Here one of its NUTS2 code, HR03 starts showing its gini-coefficient from the start of 2001, while the others starts in 2012. Croatia have had its NUTS region change in different time periods during 2000 to 2023. This change have affected the collection of data, which is then shown here in the graph. The graph also shows a different between the regions in HR03 and the rest, which can be a cause of different economic development and investments choices.
+
+- Each graph has a NUTS2 code which gives them a 0 in gini-coefficient through the years. Each code also is just one NUTS3 code in each land, which may be why when we calculate the gini-coefficient, we get a 0.
+
 
 ## The use of AI
 In this assignments there was used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback. The AI was used as a sparring partner to help with the wording of the writing and testing of the codes to provide an explanation of how each function in the code works.
