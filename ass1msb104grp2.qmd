@@ -136,7 +136,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_point(mapping = aes()) +
   geom_line()
 ```
-- The graph over Switzerland shows a low Gini-coefficient over each region. There is a difference that divides the country's regions into two parts, one of which has a higher gini-coefficient then  the other. The different between these two parts can be that the regions have a strong cantonal self-government and fiscal autonomy, and how the country's resources are used can increase or decrease inequalities.
+- The graph over Switzerland shows a low Gini-coefficient over each region. There is a difference that divides the country's regions into two parts, one of which has a higher gini-coefficient then the other. The different between these two parts can be that the regions have a strong cantonal self-government and fiscal autonomy, and how the country's resources are used can increase or decrease inequalities.
 
 
 ```{r}
@@ -148,7 +148,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) +
   geom_line() +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "Broken down by NUTS2-region")
 ```
-- Ireland's graph also shows a low gini-coefficient but a smaller different between the regions. This graph shows whoever a growth in the economics of Ireland where the NUTS2 code IE05 shows a dip and then a rise. This can also be the confidential info that was not shared to Eurostat that gives the dip. The different between IE04 and the two others, can be the cost of living and employment in each regions.
+- Ireland's graph also shows a low gini-coefficient but a smaller different between the regions. This graph shows whoever a growth in the economics of Ireland where the NUTS2 code IE05 shows a dip and then a rise. This can also be the confidential info that was not shared to Eurostat that gives the dip. The different between IE04 and the two others, can be the cost of living and employment in each region.
 
 ```{r}
 #Gini Germany
@@ -193,7 +193,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_line() +
   theme(axis.text.x = element_text(angle = 45))
 ```
-- The graph of Croatia shows us a different picture then the other countries. Here one of its NUTS2 code, HR03 starts showing its gini-coefficient from the start of 2001, while the others starts in 2012. Croatia have had its NUTS region change in different time periods during 2000 to 2023. This change have affected the collection of data, which is then shown here in the graph. The graph also shows a different between the regions in HR03 and the rest, which can be a cause of different economic development and investments choices.
+- The graph of Croatia shows us a different picture then the other countries. Here one of its NUTS2 code, HR03 starts showing its gini-coefficient from the start of 2001, while the others start in 2012. Croatia have had its NUTS region change in different time periods during 2000 to 2023. This change has affected the collection of data, which is then shown here in the graph. The graph also shows a different between the regions in HR03 and the rest, which can be a cause of different economic development and investments choices.
 
 - Each graph has a NUTS2 code which gives them a 0 in gini-coefficient through the years. Each code also is just one NUTS3 code in each land, which may be why when we calculate the gini-coefficient, we get a 0.
 
