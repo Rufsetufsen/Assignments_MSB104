@@ -170,12 +170,12 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   theme(axis.text.x = element_text(angle = 45)) +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - full graph")
 ```
-- Germany has been very consistent at reporting data, but as the graph shows, it gives a lot of information. Germany consists of up to 38 NUTS2 regions which gives a spread from 0 to 0.4 in gini-coefficient. It is hard to follow which region goes where in the graph, so we have chosen to extract 10 random regions to get a better picture of Germany's regional inequalities.
+Germany has been very consistent at reporting data and we have data for the full period, but as the graph shows, we have a little bit of information overload on our hands. Germany consists of up to 38 NUTS2 regions which is crowding the graph, making it very hard to read. Our dataset gives a spread from 0 to 0.4 in gini-coefficient. To combat the information overload we have chosen to extract 10 random regions to get a better picture of Germany's regional inequalities.
 
 
 ```{r}
 # Picking out 10 different regions for Germany
-# Set.seed to not get random every time one runes the codes
+# Set.seed to not get random every time one runs the codes
 set.seed(123) 
 
 ginigdp %>%
@@ -194,7 +194,10 @@ ginigdp %>%
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - randomly selected.")
  
 ```
-- This graph takes 10 different regions and shows the same spread as the one with all regions. The gini-coefficient is relatively low inequalities but there is a different between the regions. The graph with all regions from Germany shows one region which is up to a 0.4 while most is between 0.1 to 0.2. One region with the code DE80 stands out as it shows a jump. It could mean a change in the region such as a merger or a change in how they report data.
+This graph takes 10 randomly selected NUTS2 regions and shows the same spread as the one with all regions. The graph containing all regions from Germany shows one region which has a Gini of 0,4 while most other regions lie between 0,1 and 0,2. The pattern seems to be the Gini coefficient remains stable over time, but we do have two significant "jumps".
+DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021. This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable. The other regions in the group do not see a similar jump, hence inequality grows.
+The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011. If we refer to the tidyjoined-table, we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period. The Gini coefficient for DE80 is therefore not comparable between the periods before 2010 and after 2011.
+DE60 only contains one NUTS3-region (Hamburg) and is therefore stable at 0.
 
 ### Croatia
 
