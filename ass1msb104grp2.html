@@ -221,6 +221,7 @@ The following objects are masked from 'package:ggplot2':
 </section>
 <section id="gdp-per-capita" class="level2">
 <h2 class="anchored" data-anchor-id="gdp-per-capita">GDP Per capita:</h2>
+<p>To calculate GDP per capita we have used the NUTS-3 column as a primary key to join the demographic and economic tables together. The code chunk below joins the two datasets and adds a new column called “GDP_Capita”, calculated by multiplying the “GDP Million EUR”-column by a million and dividing it by the reported population in the same year. We also add two more columns called “Country” and “NUTS2” by Extracting the first letters (which indicate country and NUTS2-region) from the NUTS3-column.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining the two datasets</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tidyjoined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tidy_demo, tidy_econ, <span class="at">by =</span> <span class="fu">join_by</span>(Geo_Labels, Time), <span class="at">keep =</span> <span class="cn">FALSE</span>)</span>
@@ -448,7 +449,10 @@ GDP_Capita       16456.08  193838.1  177382  1.73     2.03  4363.47</code></pre>
 </div>
 </div>
 </div>
-<p>The Swiss graph shows low Gini-coefficients for each region, with a tendency to stay below 0.20. There is seemingly a divide into two groups one of which has a higher gini-coefficient than the other. While the overall inequality seems to remain low and consistent, we do see a divergence from the rest by CH03 who has seen growing regional inequality the last 10+ years. This seems to be because CH031 Basel-Stadt has a much higher GDP per capita than the surrounding areas. CH07 stays at 0 for the whole period due to only having one region. ### Ireland</p>
+<p>The Swiss graph shows low Gini-coefficients for each region, with a tendency to stay below 0.20. There is seemingly a divide into two groups one of which has a higher gini-coefficient than the other. While the overall inequality seems to remain low and consistent, we do see a divergence from the rest by CH03 who has seen growing regional inequality the last 10+ years. This seems to be because CH031 Basel-Stadt has a much higher GDP per capita than the surrounding areas. CH07 stays at 0 for the whole period due to only having one region.</p>
+</section>
+<section id="ireland" class="level3">
+<h3 class="anchored" data-anchor-id="ireland">Ireland</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gini Ireland</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
@@ -486,12 +490,10 @@ GDP_Capita       16456.08  193838.1  177382  1.73     2.03  4363.47</code></pre>
 </div>
 </div>
 </div>
-<ul>
-<li>Germany has been very consistent at reporting data, but as the graph shows, it gives a lot of information. Germany consists of up to 38 NUTS2 regions which gives a spread from 0 to 0.4 in gini-coefficient. It is hard to follow which region goes where in the graph, so we have chosen to extract 10 random regions to get a better picture of Germany’s regional inequalities.</li>
-</ul>
+<p>Germany has been very consistent at reporting data and we have data for the full period, but as the graph shows, we have a little bit of information overload on our hands. Germany consists of up to 38 NUTS2 regions which is crowding the graph, making it very hard to read. Our dataset gives a spread from 0 to 0.4 in gini-coefficient. To combat the information overload we have chosen to extract 10 random regions to get a better picture of Germany’s regional inequalities.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Picking out 10 different regions for Germany</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set.seed to not get random every time one runes the codes</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set.seed to not get random every time one runs the codes</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) </span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>ginigdp <span class="sc">%&gt;%</span></span>
@@ -516,9 +518,7 @@ GDP_Capita       16456.08  193838.1  177382  1.73     2.03  4363.47</code></pre>
 </div>
 </div>
 </div>
-<ul>
-<li>This graph takes 10 different regions and shows the same spread as the one with all regions. The gini-coefficient is relatively low inequalities but there is a different between the regions. The graph with all regions from Germany shows one region which is up to a 0.4 while most is between 0.1 to 0.2. One region with the code DE80 stands out as it shows a jump. It could mean a change in the region such as a merger or a change in how they report data.</li>
-</ul>
+<p>This graph takes 10 randomly selected NUTS2 regions and shows the same spread as the one with all regions. The graph containing all regions from Germany showed one region with a Gini of 0,4 while most other regions lie between 0,1 and 0,2. The pattern seems to be the Gini coefficient remains stable over time, but we do have two significant “jumps”. DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021. This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable. The other regions in the group do not see a similar jump, hence inequality grows. The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011. If we refer to the tidyjoined-table, we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period. The Gini coefficient for DE80 is therefore not comparable between the periods before 2010 and after 2011. DE60 only contains one NUTS3-region (Hamburg) and is therefore stable at 0.</p>
 </section>
 <section id="croatia" class="level3">
 <h3 class="anchored" data-anchor-id="croatia">Croatia</h3>
@@ -539,10 +539,8 @@ GDP_Capita       16456.08  193838.1  177382  1.73     2.03  4363.47</code></pre>
 </div>
 </div>
 </div>
-<ul>
-<li><p>The graph of Croatia shows us a different picture from the other countries. Demographic data is missing for all regions but HR03 before 2013, hence the early start for HR03. Croatia have had its NUTS region change in different time periods during 2000 to 2023. This change has affected the collection of data, which is then shown here in the graph. The graph also shows a different between the regions in HR03 and the rest, which can be a cause of different economic development and investments choices.</p></li>
-<li><p>Each graph has a NUTS2 code which gives them a 0 in gini-coefficient through the years. Each code also is just one NUTS3 code in each land, which may be why when we calculate the gini-coefficient, we get a 0.</p></li>
-</ul>
+<p>The graph of Croatia shows us a bit of a different picture from the other countries. Demographic data seems to be missing for all regions but HR03 before 2013, hence the early start for HR03. Croatia has had its NUTS regions change several times between 2000 to 2023, and the data available from Eurostat contains both the old and new definitions, making it hard to pair the two datasets. For instance, the capital Zagreb appears as both HR041 and HR050 using different NUTS-definitions. Because we joined the two Eurostat-datasets by NUTS3-code, we end up getting a graph that looks incomplete, but this appears to be the best way to pair the available datasets with eachother while still limiting room for error.</p>
+<p>If we take a look at the calculated Gini coefficients, we see that we get very low values for all available regions. This could usually mean that we have very few NUTS3-regions per group, but if we take a look at the data, we see that this is not the case. HR06 for instance, has 5 NUTS3-regions inside of it, all with similar GDP per capita. The fact that all of Croatia’s regions have such a low Gini coefficient could indicate that economic development is evenly spread inside the NUTS2-regions. HR05 only contains the capital Zagreb, and is therefore shown as 0.</p>
 </section>
 </section>
 <section id="the-use-of-ai" class="level2">
