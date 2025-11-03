@@ -15,13 +15,16 @@ library(psych)
 ```
 
 ## Data Acquisition
-In this assignment we will use four countries data from Eurostat to process it and analyse the sub-national GDP (gross domestic product) and population data from the years 2000-2023. Eurostat serves as the statistical office of the European Union, and their work is to collect and provide statistics on EU countries, through reliable, impartial and comparable data These countries are Germany, Switzerland, Croatia and Ireland. 
-In these datasets we encountered missing values which we decided to keep. These NA, or missing data came from different reason from each country. 
 
-- Germany which has the most observations, lacks data for GDP from the time 2023 in a lot of its regions. This can be because of late reporting of its data to Eurostat. There are also some missing data on population during 2000-2010 and a few other regions during 2000-2023 which may be the emergence of new regions or change in their districts that require their own data. 
-- Ireland lacks data from the early 2000 to 2011 in population due to changes in NUTS 3 level in their regions. When it comes to the GDP, Ireland only misses data from 2015-2017 in Mid-West and South-West. This was due to confidentiality concerns.
-- Croatia only have NA values on population but its spread by different regions. Same as Germany, here the lack of data can be explained by the changes in regions and districts, which may be the cause of the spread in NA values. It has also been shown that the NUTS2 regions have changed from 2007 to 2021, and the data has been reported using several different NUTS-definitions.
-- Switzerland is a EFTA country, and have not had a data-sharing agreement with Eurostat for NUTS3 GDP from 2000-2007, while in the 2008 the NUTS classification was updated and it was standardized across all regions. Switzerland also lacks the data from 2022-2023 which may be they are waiting to finalize the data before releasing it.
+In this assignment we will use four countries data from Eurostat to process it and analyse the sub-national GDP (gross domestic product) and population data from the years 2000-2023.
+Eurostat serves as the statistical office of the European Union, and their work is to collect and provide statistics on EU countries, through reliable, impartial and comparable data These countries are Germany, Switzerland, Croatia and Ireland.
+In these datasets we encountered missing values which we decided to keep.
+These NA, or missing data came from different reason from each country.
+
+-   Germany which has the most observations, lacks data for GDP from the time 2023 in a lot of its regions. This can be because of late reporting of its data to Eurostat. There are also some missing data on population during 2000-2010 and a few other regions during 2000-2023 which may be the emergence of new regions or change in their districts that require their own data.
+-   Ireland lacks data from the early 2000 to 2011 in population due to changes in NUTS 3 level in their regions. When it comes to the GDP, Ireland only misses data from 2015-2017 in Mid-West and South-West. This was due to confidentiality concerns.
+-   Croatia only have NA values on population but its spread by different regions. Same as Germany, here the lack of data can be explained by the changes in regions and districts, which may be the cause of the spread in NA values. It has also been shown that the NUTS2 regions have changed from 2007 to 2021, and the data has been reported using several different NUTS-definitions.
+-   Switzerland is a EFTA country, and have not had a data-sharing agreement with Eurostat for NUTS3 GDP from 2000-2007, while in the 2008 the NUTS classification was updated and it was standardized across all regions. Switzerland also lacks the data from 2022-2023 which may be they are waiting to finalize the data before releasing it.
 
 We will then calculate the GDP per capita and explore regional inequality through a EDA (exploratory data analysis).
 
@@ -69,7 +72,8 @@ tidy_demo <- pivot_longer(data = raw_demo,
 ## GDP Per capita:
 
 To calculate GDP per capita we have used the NUTS-3 column as a primary key to join the demographic and economic tables together.
-The code chunk below joins the two datasets and adds a new column called "GDP_Capita", calculated by multiplying the "GDP Million EUR"-column by a million and dividing it by the reported population in the same year. We also add two more columns called "Country" and "NUTS2" by Extracting the first letters (which indicate country and NUTS2-region) from the NUTS3-column.
+The code chunk below joins the two datasets and adds a new column called "GDP_Capita", calculated by multiplying the "GDP Million EUR"-column by a million and dividing it by the reported population in the same year.
+We also add two more columns called "Country" and "NUTS2" by Extracting the first letters (which indicate country and NUTS2-region) from the NUTS3-column.
 
 ```{r}
 # Joining the two datasets
@@ -88,7 +92,7 @@ tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), ke
 head(tidyjoined, 15)
 ```
 
-## Descriptive analysis of the "GDP per capita"-table  
+## Descriptive analysis of the "GDP per capita"-table
 
 ```{r}
 # Descriptive Analysis grouped by country code
@@ -98,8 +102,9 @@ describeBy(
 )
 ```
 
+Using the following code, we see that we have a total of 3838 NA-values in our dataset.
+Most due to different ways of reporting demographic and economic data, making the datasets hard to pair and leading to more NA-values in the GDP_Capita-column.
 
-Using the following code, we see that we have a total of 3838 NA-values in our dataset. Most due to different ways of reporting demographic and economic data, making the datasets hard to pair and leading to more NA-values in the GDP_Capita-column.
 ```{r}
 #NA for all countries
 sum(is.na(tidyjoined))
@@ -112,15 +117,25 @@ summary(tidyjoined)
 
 ## Regional GDP inequality - Using light levels as a predictor of economic development
 
-In this assignment we use reported GDP and demographic data from Eurostat to determine regional inequality in a selection of countries, but what can you do when regional income data isn’t readily available? The paper “Regional inequality, convergence, and its determinants – A view from outer space” by Christian Lessmann and André Seidel aimed to find a new way of finding regional inequalities in areas without economic data – estimating regional income using satellite images of nighttime light intensity.
+In this assignment we use reported GDP and demographic data from Eurostat to determine regional inequality in a selection of countries, but what can you do when regional income data isn’t readily available?
+The paper “Regional inequality, convergence, and its determinants – A view from outer space” by Christian Lessmann and André Seidel aimed to find a new way of finding regional inequalities in areas without economic data – estimating regional income using satellite images of nighttime light intensity.
 
-Their method involved using luminosity data taken from meteorological satellites from the U.S air force, and existing income data to estimate a relationship between the two variables. They then used this estimate to predict regional income for other regions where economic data was not available, and to calculate inequality indicators such as the Gini coefficient.
-The main takeaway from the study would be that yes – it is possible to use light as an indicator of GDP. Findings also showed that for about 70% of countries, regional gaps got smaller, while other countries saw inequality grow. They also discovered an “n-shaped” link between development and regional inequality: in early stages of growth inequality is low, for mid-income regions it rises, before it falls again in rich economies. 
-
+Their method involved using luminosity data taken from meteorological satellites from the U.S air force, and existing income data to estimate a relationship between the two variables.
+They then used this estimate to predict regional income for other regions where economic data was not available, and to calculate inequality indicators such as the Gini coefficient.
+The main takeaway from the study would be that yes – it is possible to use light as an indicator of GDP.
+Findings also showed that for about 70% of countries, regional gaps got smaller, while other countries saw inequality grow.
+They also discovered an “n-shaped” link between development and regional inequality: in early stages of growth inequality is low, for mid-income regions it rises, before it falls again in rich economies.
 
 ## Regional GDP inequality - Calculating the Gini coefficient
 
-To calculate the Gini coefficient for our selected countries (weighted for population) we first insert our data including GDP per capita into a new function we have called "ginigdp". To be able to calculate the Gini coefficient, we then have to remove NA-values from our dataset. This can be done by using the "na.omit"-function. The output is then grouped by year (variable "Time") and region (NUTS2), and sent to a summarise-function which includes our Gini calculation (done by the "gini.wtd"-function). We have also included a count-column that shows the amount of NUTS3-regions in each of the NUTS2-regions. This is to provide clarity in case we get "strange" Gini-values like 0, which we would represent ultimate equality. We will get this in all cases where there is only one NUTS3-region per NUTS2-region. The code chunk below does all this and prints the first 10 results. 
+To calculate the Gini coefficient for our selected countries (weighted for population) we first insert our data including GDP per capita into a new function we have called "ginigdp".
+To be able to calculate the Gini coefficient, we then have to remove NA-values from our dataset.
+This can be done by using the "na.omit"-function.
+The output is then grouped by year (variable "Time") and region (NUTS2), and sent to a summarise-function which includes our Gini calculation (done by the "gini.wtd"-function).
+We have also included a count-column that shows the amount of NUTS3-regions in each of the NUTS2-regions.
+This is to provide clarity in case we get "strange" Gini-values like 0, which we would represent ultimate equality.
+We will get this in all cases where there is only one NUTS3-region per NUTS2-region.
+The code chunk below does all this and prints the first 10 results.
 
 ```{r}
 ginigdp <- tidyjoined %>%
@@ -133,11 +148,14 @@ head(ginigdp, 10)
 
 ## Visualizing the Gini coefficient
 
-In the sections below, we will use the newly created "ginigdp"-function where all our gini-coefficients have been stored. To do this, we first filter down to the specific country, before we send the data to ggplot, group it by NUTS2-region and visualize using geom_point and geom_line graphs.  
+In the sections below, we will use the newly created "ginigdp"-function where all our gini-coefficients have been stored.
+To do this, we first filter down to the specific country, before we send the data to ggplot, group it by NUTS2-region and visualize using geom_point and geom_line graphs.
 
 ### Switzerland
 
 ```{r}
+#| label: fig-Switzerland
+#| fig-cap: "Regional GDP Inequity in Switzerland"
 #Gini Switzerland
 #Plot for Switzerland 
 ginigdp %>%
@@ -147,11 +165,18 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_line() +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Switzerland", subtitle = "By NUTS2-region")
 ```
-The Swiss graph shows low Gini-coefficients for each region, with a tendency to stay below 0.20. There is seemingly a divide into two groups one of which has a higher gini-coefficient than the other. While the overall inequality seems to remain low and consistent, we do see a divergence from the rest by CH03 who has seen growing regional inequality the last 10+ years. This seems to be because CH031 Basel-Stadt has a much higher GDP per capita growth than the surrounding areas. CH07 stays at 0 for the whole period due to only having one region. 
+
+@fig-Switzerland shows low Gini-coefficients for each region, with a tendency to stay below 0.20.
+There is seemingly a divide into two groups one of which has a higher gini-coefficient than the other.
+While the overall inequality seems to remain low and consistent, we do see a divergence from the rest by CH03 who has seen growing regional inequality the last 10+ years.
+This seems to be because CH031 Basel-Stadt has a much higher GDP per capita growth than the surrounding areas.
+CH07 stays at 0 for the whole period due to only having one region.
 
 ### Ireland
 
 ```{r}
+#| label: fig-Ireland
+#| fig-cap: "Regional GDP Inequity in Ireland"
 #Gini Ireland
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
@@ -160,11 +185,19 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) +
   geom_line() +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "By NUTS2-region")
 ```
-The irish graph shows a bigger spread and more "movement" than the swiss graph. We only have population data from 2012 onwards, hence our starting point. As we can see in the graph, IE05 and IE4 start out with similarly low Gini coefficients, both lying around 0.1, whereas IE06, containing the capital Dublin, has a much less even distribution of GDP per capita. For the period 2015-2017 no GDP data was reported for the Mid-West and South-West NUTS3-regions, leaving only one NUTS3-region remaining in the IE05 group, giving us a Gini coefficient of 0,0 for those years. When GDP data returned in 2018, IE053 (South-West) had grown in GDP per capita in a big way, pulling away from the rest of the group and increasing the Gini coefficient. The graph seems to show a trend towards slowly growing regional inequality of development in Ireland.
+
+The irish graph seen in @fig-ireland shows a bigger spread and more "movement" than the swiss graph.
+We only have population data from 2012 onwards, hence our starting point.
+As we can see in the graph, IE05 and IE4 start out with similarly low Gini coefficients, both lying around 0.1, whereas IE06, containing the capital Dublin, has a much less even distribution of GDP per capita.
+For the period 2015-2017 no GDP data was reported for the Mid-West and South-West NUTS3-regions, leaving only one NUTS3-region remaining in the IE05 group, giving us a Gini coefficient of 0,0 for those years.
+When GDP data returned in 2018, IE053 (South-West) had grown in GDP per capita in a big way, pulling away from the rest of the group and increasing the Gini coefficient.
+The graph seems to show a trend towards slowly growing regional inequality of development in Ireland.
 
 ### Germany
 
 ```{r}
+#| label: fig-Germany
+#| fig-cap: "Regional GDP Inequity in Germany - Full graph"
 #Gini Germany
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>%
@@ -174,10 +207,15 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   theme(axis.text.x = element_text(angle = 45)) +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - full graph")
 ```
-Germany has been very consistent at reporting data and we have data for the full period, but as the graph shows, we have a little bit of information overload on our hands. Germany consists of up to 38 NUTS2 regions which is crowding the graph, making it very hard to read. Our dataset gives a spread from 0 to 0.4 in gini-coefficient. To combat the information overload we have chosen to extract 10 random regions to get a better picture of Germany's regional inequalities.
 
+Germany has been very consistent at reporting data and we have data for the full period, but as @fig-Germany shows, we have a little bit of information overload on our hands.
+Germany consists of up to 38 NUTS2 regions which is crowding the graph, making it very hard to read.
+Our dataset gives a spread from 0 to 0.4 in gini-coefficient.
+To combat the information overload we have chosen to extract 10 random regions to get a better picture of Germany's regional inequalities.
 
 ```{r}
+#| label: fig-DErandom
+#| fig-cap: "Regional GDP Inequity in Germany - Random selection"
 # Picking out 10 different regions for Germany
 # Set.seed to not get random every time one runs the codes
 set.seed(123) 
@@ -198,14 +236,23 @@ ginigdp %>%
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - randomly selected.")
  
 ```
-This graph takes 10 randomly selected NUTS2 regions and shows the same spread as the one with all regions. The graph containing all regions from Germany showed one region with a Gini of 0,4 while most other regions lie between 0,1 and 0,2. The pattern seems to be the Gini coefficient remains stable over time, but we do have two significant "jumps".
-DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021. This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable. The other regions in the group do not see a similar jump, hence inequality grows.
-The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011. If we refer to the tidyjoined-table, we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period. The Gini coefficient for DE80 is therefore not comparable between the periods before 2010 and after 2011.
+
+@fig-DErandom takes 10 randomly selected NUTS2 regions and shows the same spread as the one with all regions.
+The graph @fig-Germany containing all regions from Germany showed one region with a Gini of 0,4 while most other regions lie between 0,1 and 0,2.
+The pattern seems to be the Gini coefficient remains stable over time, but we do have two significant "jumps".
+DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021.
+This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable.
+The other regions in the group do not see a similar jump, hence inequality grows.
+The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011.
+If we refer to the tidyjoined-table, we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period.
+The Gini coefficient for DE80 is therefore not comparable between the periods before 2010 and after 2011.
 DE60 only contains one NUTS3-region (Hamburg) and is therefore stable at 0.
 
 ### Croatia
 
 ```{r}
+#| label: fig-Croatia
+#| fig-cap: "Regional GDP Inequity in Croatia"
 #Gini Croatia
 ginigdp %>%
   filter(startsWith(NUTS2, "HR")) %>%
@@ -215,17 +262,23 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   theme(axis.text.x = element_text(angle = 45)) +
   labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Croatia", subtitle = "By NUTS2-region.")
 ```
-The graph of Croatia shows us a bit of a different picture from the other countries. Demographic data seems to be missing in the "ginigdp"-table for all regions but HR03 before 2013, hence the early start for HR03. Croatia has had its NUTS regions change several times between 2000 to 2023, and the data available from Eurostat contains both the old and new definitions, making it hard to pair the two datasets. For instance, the capital Zagreb appears as both HR041 and HR050 using different NUTS-definitions. Because we joined the two Eurostat-datasets by NUTS3-code, we end up getting a graph that looks incomplete, but this appears to be the best way to pair the available datasets with eachother while still limiting room for error.
 
-If we take a look at the calculated Gini coefficients, we see that we get very low values for all available regions. This could usually mean that we have very few NUTS3-regions per group, but if we take a look at the data, we see that this is not the case. HR06 for instance, has 5 NUTS3-regions inside of it, all with similar GDP per capita. The fact that all of Croatia's regions have such a low Gini coefficient could indicate that economic development is evenly spread inside the NUTS2-regions.
+The graph of Croatia @fig-Croatia shows us a bit of a different picture from the other countries.
+Demographic data seems to be missing in the "ginigdp"-table for all regions but HR03 before 2013, hence the early start for HR03.
+Croatia has had its NUTS regions change several times between 2000 to 2023, and the data available from Eurostat contains both the old and new definitions, making it hard to pair the two datasets.
+For instance, the capital Zagreb appears as both HR041 and HR050 using different NUTS-definitions.
+Because we joined the two Eurostat-datasets by NUTS3-code, we end up getting a graph that looks incomplete, but this appears to be the best way to pair the available datasets with eachother while still limiting room for error.
+
+If we take a look at the calculated Gini coefficients, we see that we get very low values for all available regions.
+This could usually mean that we have very few NUTS3-regions per group, but if we take a look at the data, we see that this is not the case.
+HR06 for instance, has 5 NUTS3-regions inside of it, all with similar GDP per capita.
+The fact that all of Croatia's regions have such a low Gini coefficient could indicate that economic development is evenly spread inside the NUTS2-regions.
 HR05 only contains the capital Zagreb, and is therefore shown as 0.
 
-
 ## The use of AI
-In this assignments there was used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback. The AI was used as a sparring partner to help with the wording of the writing and testing of the codes to provide an explanation of how each function in the code works.
-The software of AI we used was ChatGPT and the model was 3.5 which is the free version. This is a quick and basic model, which means that the text produced by this type of model must be checked. It was only used to check the functioning of our codes and recommend spellings of text. 
 
-
-
-
-
+In this assignments there was used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback.
+The AI was used as a sparring partner to help with the wording of the writing and testing of the codes to provide an explanation of how each function in the code works.
+The software of AI we used was ChatGPT and the model was 3.5 which is the free version.
+This is a quick and basic model, which means that the text produced by this type of model must be checked.
+It was only used to check the functioning of our codes and recommend spellings of text.
