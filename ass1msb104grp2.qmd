@@ -1,7 +1,25 @@
 ---
-title: "ass1msb104grp2"
-format: html
-editor: visual
+title: "Assignment 1:"
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies"
+author: "Kristoffer Tufta and Harald Vika"
+date: last-modified
+date-format: "dddd D MMM, YYYY"
+lang: en-GB
+format:
+  html: default
+  typst:
+    papersize: a4
+  pdf: 
+    documentclass: article
+    number-sections: true
+    keep-tex: true
+    papersize: A4
+    fig-pos: "H"
+abstract: ""
+editor: 
+  markdown: 
+    wrap: sentence
+echo: false
 ---
 
 ```{r}
@@ -12,12 +30,14 @@ library(readxl)
 library(purrr)
 library(dineq)
 library(psych)
+library(flextable)
 ```
 
 ## Data Acquisition
 
 In this assignment we will use four selected countries data from Eurostat to process it and analyse the sub-national GDP (gross domestic product) and population data from the years 2000-2023.
-Eurostat serves as the statistical office of the European Union, and their work is to collect and provide statistics on EU countries, through reliable, impartial and comparable data The countries in question are Germany, Switzerland, Croatia and Ireland.
+Eurostat serves as the statistical office of the European Union, and their work is to collect and provide statistics on EU countries, through reliable, impartial and comparable data.
+The countries we have analyzed are Germany, Switzerland, Croatia and Ireland.
 In these datasets we encountered missing values which we decided to keep.
 These NA, or missing data came from different reason for each country.
 
@@ -39,7 +59,7 @@ raw_econ <- read_excel("./Data/GDP_noFlag.xlsx", sheet = "Sheet 1", range = "A8:
 #Dropping the first row to align time with years
   raw_econ <- raw_econ[-1,]
   names(raw_econ)[1] <- "Geo_Labels"
-print(raw_econ)
+as_flextable(raw_econ)
 ```
 
 ```{r}
@@ -63,7 +83,7 @@ raw_demo <- read_excel("./Data/demo_noFlag.xlsx", sheet = "Sheet 1", range = "A1
   raw_demo <- raw_demo[-1,]
   names(raw_demo)[1] <- "Geo_Codes"
   names(raw_demo)[2] <- "Geo_Labels"
-print(raw_demo)
+as_flextable(raw_demo)
 ```
 
 ```{r}
@@ -83,7 +103,7 @@ We also add two more columns called "Country" and "NUTS2" by Extracting the firs
 
 ```{r}
 #| label: tbl-tidyjoined
-#| fig-cap: "Joined, tidy datasets"
+#| fig-cap: "Joined, tidied datasets"
 # Joining the two datasets
 tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), keep = FALSE)
 # Mutating to add column for GDP per capita.
@@ -97,7 +117,7 @@ tidyjoined <- left_join(tidy_demo, tidy_econ, by = join_by(Geo_Labels, Time), ke
    mutate(Country = substr(Geo_Codes, 1, 2), .before = 2)
  tidyjoined <- tidyjoined %>%
    mutate( NUTS2 = (str_sub(Geo_Codes, start= 1L, end = 4L)), .before = 2)
-print(tidyjoined)
+as_flextable(tidyjoined)
 ```
 
 ## Descriptive analysis of the "GDP per capita"-table
@@ -111,7 +131,7 @@ describeBy(
 ```
 
 Using the following code, we see that we have a total of 3838 NA-values in our dataset.
-Most due to different ways of reporting demographic and economic data, making the datasets hard to pair and leading to more NA-values in the GDP_Capita-column.
+Most due to different ways of reporting demographic and economic data, making the datasets hard to pair and leading to even more NA-values in the GDP_Capita-column.
 
 ```{r}
 #NA for all countries
@@ -136,7 +156,8 @@ They also discovered an “n-shaped” link between development and regional ine
 
 ## Regional GDP inequality - Calculating the Gini coefficient
 
-To calculate the Gini coefficient for our selected countries (weighted for population) we first insert our data including GDP per capita @tbl-tidyjoined into a new function we have called "ginigdp" @tbl-ginigdp. To be able to calculate the Gini coefficient, we then have to remove NA-values from our dataset.
+To calculate the Gini coefficient for our selected countries (weighted for population) we first insert our data including GDP per capita @tbl-tidyjoined into a new function we have called "ginigdp" @tbl-ginigdp.
+To be able to calculate the Gini coefficient, we then have to remove NA-values from our dataset.
 This can be done by using the "na.omit"-function.
 The output is then grouped by year (variable "Time") and region (NUTS2), and sent to a summarise-function which includes our Gini calculation (done by the "gini.wtd"-function).
 We have also included a count-column that shows the amount of NUTS3-regions in each of the NUTS2-regions.
@@ -152,7 +173,7 @@ ginigdp <- tidyjoined %>%
   group_by(NUTS2, Time)%>%
   summarise( Count = n(),
             gini = gini.wtd(GDP_Capita, weights = Population))
-print(ginigdp)
+as_flextable(ginigdp)
 ```
 
 ## Visualizing the Gini coefficient
@@ -250,7 +271,7 @@ ginigdp %>%
 The graph @fig-Germany containing all regions from Germany showed one region with a Gini of 0,4 while most other regions lie between 0,1 and 0,2.
 The pattern seems to be the Gini coefficient remains stable over time, but we do have two significant "jumps".
 DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021.
-This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable.
+This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable leading to a boost in productivity.
 The other regions in the group do not see a similar jump, hence inequality grows.
 The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011.
 If we refer to the tidyjoined-table @tbl-tidyjoined , we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period.
