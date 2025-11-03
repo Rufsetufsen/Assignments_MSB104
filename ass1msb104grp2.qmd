@@ -4,6 +4,7 @@ subtitle:  "Regional GDP Inequality in 4 Selected European Economies"
 author: "Kristoffer Tufta and Harald Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
+csl: apa7.csl
 lang: en-GB
 format:
   html: default
@@ -20,10 +21,12 @@ editor:
   markdown: 
     wrap: sentence
 echo: false
+bibliography: references.bib
 ---
 
 ```{r}
 #| label: setup
+#| include: FALSE
 library (tidyverse)
 library (PxWebApiData)
 library(readxl)
@@ -143,10 +146,10 @@ sum(is.na(tidyjoined))
 summary(tidyjoined)
 ```
 
-## Regional GDP inequality - Using light levels as a predictor of economic development
+## Using light levels as a predictor of economic development
 
 In this assignment we use reported GDP and demographic data from Eurostat to determine regional inequality in a selection of countries, but what can you do when regional income data isn’t readily available?
-The paper “Regional inequality, convergence, and its determinants – A view from outer space” by Christian Lessmann and André Seidel aimed to find a new way of finding regional inequalities in areas without economic data – estimating regional income using satellite images of nighttime light intensity.
+The paper “Regional inequality, convergence, and its determinants – A view from outer space” by Christian Lessmann and André Seidel @lessmann2017 aimed to find a new way of finding regional inequalities in areas without economic data – estimating regional income using satellite images of nighttime light intensity.
 
 Their method involved using luminosity data taken from meteorological satellites from the U.S air force, and existing income data to estimate a relationship between the two variables.
 They then used this estimate to predict regional income for other regions where economic data was not available, and to calculate inequality indicators such as the Gini coefficient.
@@ -317,13 +320,12 @@ This could mean that economic development in our selected countries is mostly st
 Our findings do however not entirely dismiss the idea that growth and economic development is mostly centered around cities.
 If we take a look at the data for Croatia in @tbl-tidyjoined, we can see that Zagreb has been designated as its' own region, with a GDP per capita much higher than the other regions in Croatia.
 Had Zagreb instead been a part of any of the other regions, the calculated Gini coefficient would have been much higher than what @fig-Croatia showed.
-The same is the case for Berlin, Hamburg and many other highly productive cities, but because they are designated to their own NUTS2-regions, they end up as "blind spots" for this specific assignment and end up with a Gini of 0.
-To further examine this theory, it would be interesting to look at the calculated Gini coefficients based on variations of GDP per capita per NUTS2 region, which might be able to pick up these disparities.
+The same is the case for Berlin, Hamburg and many other highly productive cities, but because they are designated to their own NUTS2-regions, they end up as "blind spots" for this specific assignment and end up with a Gini of 0 (due to only consisting of one NUTS3-region).
+To further examine this theory, it would be interesting to look at the calculated Gini coefficients based on variations of GDP per capita per NUTS2 region, which would show variations in GDP per capita inside the whole country, which might be able to pick up these disparities.
 
-## The use of AI
+## AI Disclaimer
 
-In this assignments there was used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback.
+In this assignments we have used AI to confirm through controlling questions and constructive judging the text and the codes used, to provide a constructive feedback.
 The AI was used as a sparring partner to help with the wording of the writing and testing of the codes to provide an explanation of how each function in the code works.
-The software of AI we used was ChatGPT and the model was 3.5 which is the free version.
-This is a quick and basic model, which means that the text produced by this type of model must be checked.
-It was only used to check the functioning of our codes and recommend spellings of text.
+The software of AI we used was ChatGPT 3.5, which is the free version available for all users.
+It was only used to function test our codes and recommend correct grammar and code syntax.
