@@ -100,7 +100,7 @@ tidy_demo <- pivot_longer(data = raw_demo,
 
 ## GDP Per capita:
 
-To calculate GDP per capita we have used the NUTS-3 column as a primary key to join the tidied demographic and economic tables together.
+To calculate GDP per capita we have used the NUTS-3 codes from the "Geo_Codes" column as a primary key to join the tidied demographic and economic tables together.
 The code chunk below joins the two datasets and adds a new column called "GDP_Capita", calculated by multiplying the "GDP Million EUR"-column by a million and dividing it by the reported population in the same year.
 We also add two more columns called "Country" and "NUTS2" by Extracting the first letters (which indicate country and NUTS2-region) from the NUTS3-column.
 
@@ -188,7 +188,7 @@ To do this, we first filter down to the specific country, before we send the dat
 
 ```{r}
 #| label: fig-Switzerland
-#| fig-cap: "Regional GDP Inequity in Switzerland"
+#| fig-cap: "Regional GDP Inequality in Switzerland"
 #Gini Switzerland
 #Plot for Switzerland 
 ginigdp %>%
@@ -196,7 +196,7 @@ ginigdp %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) + 
   geom_point(mapping = aes()) +
   geom_line() +
-  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Switzerland", subtitle = "By NUTS2-region")
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequality in Switzerland", subtitle = "By NUTS2-region")
 ```
 
 @fig-Switzerland shows low Gini-coefficients for each region, with a tendency to stay below 0.20.
@@ -209,14 +209,14 @@ CH07 stays at 0 for the whole period due to only having one region.
 
 ```{r}
 #| label: fig-Ireland
-#| fig-cap: "Regional GDP Inequity in Ireland"
+#| fig-cap: "Regional GDP Inequality in Ireland"
 #Gini Ireland
 ginigdp %>%
   filter(startsWith(NUTS2, "IE")) %>%
 ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2, )) + 
   geom_point(mapping = aes()) + 
   geom_line() +
-  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Ireland", subtitle = "By NUTS2-region")
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequality in Ireland", subtitle = "By NUTS2-region")
 ```
 
 The irish graph seen in @fig-Ireland shows a bigger spread and more "movement" than the swiss graph.
@@ -230,7 +230,7 @@ The graph seems to show a trend towards slowly growing regional inequality of de
 
 ```{r}
 #| label: fig-Germany
-#| fig-cap: "Regional GDP Inequity in Germany - Full graph"
+#|fig-cap: "Regional GDP Inequality in Germany - Full graph"
 #Gini Germany
 ginigdp %>%
   filter(startsWith(NUTS2, "DE")) %>%
@@ -238,7 +238,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_point(mapping = aes()) + 
   geom_line() +
   theme(axis.text.x = element_text(angle = 45)) +
-  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - full graph")
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequality in Germany", subtitle = "By NUTS2-region - full graph")
 ```
 
 Germany has been very consistent at reporting data and we have data for the full period, but as @fig-Germany shows, we have a little bit of an information overload on our hands.
@@ -248,7 +248,7 @@ To combat the information overload we have chosen to extract 10 random regions t
 
 ```{r}
 #| label: fig-DErandom
-#| fig-cap: "Regional GDP Inequity in Germany - Random selection"
+#| fig-cap: "Regional GDP Inequality in Germany - Random selection"
 # Picking out 10 different regions for Germany
 # Set.seed to not get random every time one runs the codes
 set.seed(123) 
@@ -266,7 +266,7 @@ ginigdp %>%
   geom_point() +
   geom_line() +
   theme(axis.text.x = element_text(angle = 45)) +
-  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Germany", subtitle = "By NUTS2-region - randomly selected.")
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequality in Germany", subtitle = "By NUTS2-region - randomly selected.")
  
 ```
 
@@ -277,7 +277,7 @@ DEB3 shows a significant jump from 0,24 in 2020 to 0,32 in 2021.
 This seems to be because DEB35 Mainz doubles in reported GDP, with their population remaining stable leading to a boost in productivity.
 The other regions in the group do not see a similar jump, hence inequality grows.
 The other jump can be seen in DE80, where we have a jump from 0,017 (extremely low) in 2010 to 0,083 in 2011.
-If we refer to the tidyjoined-table @tbl-tidyjoined , we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low data for the preceeding period.
+If we refer to the tidyjoined-table @tbl-tidyjoined , we see that population data was only reported for two of the NUTS3-regions in DE80 until 2011, giving us artificially low  values for the preceeding period.
 The Gini coefficient for DE80 is therefore not comparable between the periods before 2010 and after 2011.
 DE60 only contains one NUTS3-region (Hamburg) and is therefore stable at 0.
 
@@ -285,7 +285,7 @@ DE60 only contains one NUTS3-region (Hamburg) and is therefore stable at 0.
 
 ```{r}
 #| label: fig-Croatia
-#| fig-cap: "Regional GDP Inequity in Croatia"
+#| fig-cap: "Regional GDP Inequality in Croatia"
 #Gini Croatia
 ginigdp %>%
   filter(startsWith(NUTS2, "HR")) %>%
@@ -293,7 +293,7 @@ ggplot(mapping = aes(x = Time, y = gini, colour = NUTS2, group = NUTS2)) +
   geom_point(mapping = aes()) + 
   geom_line() +
   theme(axis.text.x = element_text(angle = 45)) +
-  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequity in Croatia", subtitle = "By NUTS2-region.")
+  labs(x = "Year", y = "Gini-Coefficient", title = "Regional GDP Inequality in Croatia", subtitle = "By NUTS2-region.")
 ```
 
 The graph of Croatia @fig-Croatia shows us a bit of a different picture from the other countries.
@@ -315,7 +315,7 @@ The calculated variations in the Gini coefficient tell us something about the va
 A high Gini could indicate that we have a case of a highly productive city-region inside a greater region containing a lot of less productive land.
 
 Overall, the the calculated Gini coefficients seem to be stable over time, except for a few outliers as commented on previously.
-This could mean that economic development in our selected countries is mostly stable, and not especially concentrated in a handful of highly productive cities inside larger regions.
+This could mean that economic development in our selected countries is mostly stable "across the board", and not especially concentrated in a handful of highly productive cities inside larger regions.
 
 Our findings do however not entirely dismiss the idea that growth and economic development is mostly centered around cities.
 If we take a look at the data for Croatia in @tbl-tidyjoined, we can see that Zagreb has been designated as its' own region, with a GDP per capita much higher than the other regions in Croatia.
