@@ -331,6 +331,7 @@ The software of AI we used was ChatGPT 3.5, which is the free version available 
 It was only used to function test our codes and recommend correct grammar and code syntax.
 
 ```{r}
+sessionInfo()
 citation()
 ```
 
