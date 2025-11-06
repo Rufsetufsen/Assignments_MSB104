@@ -23,13 +23,16 @@ library(flextable)
 
 ```{r}
 #Fetching change in GDP
-GDP <- tidyjoined %>%
+GDPChange <- tidyjoined %>%
   select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
   group_by(NUTS2, Country, Time) %>%
   summarise(
-    "N2GDPSUM" = sum(`GDP Million EUR`),
-    "N2POPSUM" = sum(Population),
+    "N2GDPSUM" = sum(`GDP Million EUR`, na.rm = TRUE),
+    "N2POPSUM" = sum(Population, na.rm = TRUE),
     "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)%>%
-  dplyr::filter(Time > "2015" & Time < "2018")
-
+  filter(Time > "2015" & Time < "2018")%>%
+mutate(
+    lagged_capita = dplyr::lag(N2GDPCAP),
+    chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
+    chg_gdpc = 100 * chg_gdpc)
 ```
