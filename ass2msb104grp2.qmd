@@ -1,0 +1,22 @@
+---
+title: "ass2msb104grp2"
+format: html
+editor: visual
+---
+```{r}
+#| label: setup
+#| include: FALSE
+library (tidyverse)
+library (PxWebApiData)
+library(readxl)
+library(purrr)
+library(dineq)
+library(psych)
+library(flextable)
+```
+
+```{r}
+# seperating the year 2017 from the ginigdp
+
+```
+
