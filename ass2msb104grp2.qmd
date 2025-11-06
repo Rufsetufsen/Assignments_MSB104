@@ -3,6 +3,7 @@ title: "ass2msb104grp2"
 format: html
 editor: visual
 ---
+
 ```{r}
 #| label: setup
 #| include: FALSE
@@ -20,3 +21,13 @@ library(flextable)
 
 ```
 
+```{r}
+#Fetching change in GDP
+GDP <- tidyjoined %>%
+  select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
+  group_by(NUTS2, Country, Time) %>%
+  summarise(
+    "N2GDPSUM" = sum(`GDP Million EUR`),
+    "N2POPSUM" = sum(Population),
+    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)
+```

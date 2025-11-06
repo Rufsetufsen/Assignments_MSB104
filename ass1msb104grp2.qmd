@@ -172,7 +172,7 @@ The code chunk below does all this and prints the first 10 results.
 #| label: tbl-ginigdp
 #| fig-cap: "Regional inequality - full table"
 ginigdp <- tidyjoined %>%
-  na.omit %>%
+  na.omit() %>%
   group_by(NUTS2, Time)%>%
   summarise( Count = n(),
             gini = gini.wtd(GDP_Capita, weights = Population))
