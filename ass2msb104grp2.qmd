@@ -36,3 +36,13 @@ mutate(
 ineqgdpcjoined <- left_join(GDPChange, ginigdp, by = join_by(NUTS2, Time), keep = FALSE)
 ```
 
+```{r}
+lmineqgdpc <-
+summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
+)
+```
+
+```{r}
+lmineqgdpc
+```
+
