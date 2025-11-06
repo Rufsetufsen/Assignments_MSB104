@@ -14,11 +14,12 @@ library(purrr)
 library(dineq)
 library(psych)
 library(flextable)
+
 ```
 
 ```{r}
 #Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.
-GDPChange <- tidyjoined %>%
+GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
   select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
   group_by(NUTS2, Country, Time) %>%
   summarise(
@@ -33,7 +34,8 @@ mutate(
 ```
 ```{r}
 #Joining the Gini dataset onto the filtered table showing GDPC change.
-ineqgdpcjoined <- left_join(GDPChange, ginigdp, by = join_by(NUTS2, Time), keep = FALSE)
+ineqgdpcjoined <- left_join(GDPChange, readRDS("./data/ginigdp.rds"),
+by = join_by(NUTS2, Time), keep = FALSE)
 ```
 
 ```{r}
