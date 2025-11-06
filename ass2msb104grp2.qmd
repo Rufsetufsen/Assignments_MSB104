@@ -16,7 +16,23 @@ library(flextable)
 ```
 
 ```{r}
-# seperating the year 2017 from the ginigdp
+# Merging datasett gini og tidyjoined 
+GDP <- select(tidyjoined, NUTS2, Time, GDP_Capita)
+GDP_per_capita_2017 <- filter(GDP, Time == 2017)
+```
+
+```{r}
+by_day <- group_by(GDP_per_capita_2017, NUTS2, Time) 
+# Summarize scores per name
+summary_df <- GDP_per_capita_2017 %>%
+  group_by(NUTS2) %>%
+  summarise(
+    total_score = sum(GDP_Capita),
+    .groups = 'drop'  # optional, removes grouping after summarise
+  )
 
 ```
+
+
+
 
