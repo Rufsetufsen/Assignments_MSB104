@@ -17,12 +17,7 @@ library(flextable)
 ```
 
 ```{r}
-# seperating the year 2017 from the ginigdp
-
-```
-
-```{r}
-#Fetching change in GDP
+#Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.
 GDPChange <- tidyjoined %>%
   select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
   group_by(NUTS2, Country, Time) %>%
@@ -36,3 +31,8 @@ mutate(
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
     chg_gdpc = 100 * chg_gdpc)
 ```
+```{r}
+#Joining the Gini dataset onto the filtered table showing GDPC change.
+ineqgdpcjoined <- left_join(GDPChange, ginigdp, by = join_by(NUTS2, Time), keep = FALSE)
+```
+
