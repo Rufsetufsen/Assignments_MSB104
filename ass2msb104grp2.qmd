@@ -29,5 +29,7 @@ GDP <- tidyjoined %>%
   summarise(
     "N2GDPSUM" = sum(`GDP Million EUR`),
     "N2POPSUM" = sum(Population),
-    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)
+    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)%>%
+  dplyr::filter(Time > "2015" & Time < "2018")
+
 ```
