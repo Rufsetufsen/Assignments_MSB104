@@ -3,6 +3,7 @@ title: "ass2msb104grp2"
 format: html
 editor: visual
 ---
+
 ```{r}
 #| label: setup
 #| include: FALSE
@@ -22,9 +23,9 @@ GDP_per_capita_2017 <- filter(GDP, Time == 2017)
 ```
 
 ```{r}
-by_day <- group_by(GDP_per_capita_2017, NUTS2, Time) 
+GDP_2017 <- group_by(GDP, NUTS2, Time) 
 # Summarize scores per name
-summary_df <- GDP_per_capita_2017 %>%
+summary_df <- GDP %>%
   group_by(NUTS2) %>%
   summarise(
     total_score = sum(GDP_Capita),
@@ -33,6 +34,16 @@ summary_df <- GDP_per_capita_2017 %>%
 
 ```
 
+```{r}
+#Fetching change in GDP
+GDP <- tidyjoined %>%
+  select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
+  group_by(NUTS2, Country, Time) %>%
+  summarise(
+    "N2GDPSUM" = sum(`GDP Million EUR`),
+    "N2POPSUM" = sum(Population),
+    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)
+```
 
 
 
