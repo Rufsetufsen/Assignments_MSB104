@@ -70,6 +70,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="ass2msb104grp2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="ass2msb104grp2_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -98,6 +127,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>In this assignment we build on the foundation we made in assignment 1. Using the calculated regional inequality and gdp per capita, we estimate a simple cross-sectional Ordinary Least Squares (OLS) regression for the year 2017 in our selected countries, broken down by NUTS2-region. The model examines if intraregional inequality - represented by a calculated Gini-coefficient of GDP per capita in each NUTS2 region - is associated with short-term economic development across NUTS2 regions:</p>
+<p><span class="math display">\[
+\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i
+\]</span> Where:</p>
+<ul>
+<li><span class="math inline">\(\text{Gini}_{i,2017}\)</span> — Calculated Gini coefficient of region <em>i</em> in 2017 (regional GDP per capita inequality)<br>
+</li>
+<li><span class="math inline">\(\Delta \text{GDPpc}_{i,2016 \to 2017}\)</span> — percent change in GDP per capita from 2016 to 2017 in region <em>i</em><br>
+</li>
+<li><span class="math inline">\(\alpha\)</span> — intercept term (baseline inequality when GDP-per-capita change is zero)<br>
+</li>
+<li><span class="math inline">\(\beta\)</span> — slope coefficient showing how inequality changes with a one-percentage-point increase in GDP-per-capita growth<br>
+</li>
+<li><span class="math inline">\(u_i\)</span> — error term capturing unobserved regional factors</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>GDPChange <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./Data/Tidyjoined.rds"</span>) <span class="sc">%&gt;%</span></span>
@@ -120,7 +164,8 @@ the `.groups` argument.</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Joining the Gini dataset onto the filtered table showing GDPC change.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ineqgdpcjoined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(GDPChange, <span class="fu">readRDS</span>(<span class="st">"./data/ginigdp.rds"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">by =</span> <span class="fu">join_by</span>(NUTS2, Time), <span class="at">keep =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">by =</span> <span class="fu">join_by</span>(NUTS2, Time), <span class="at">keep =</span> <span class="cn">FALSE</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Time <span class="sc">==</span> <span class="st">"2017"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lmineqgdpc <span class="ot">&lt;-</span></span>
@@ -146,11 +191,13 @@ chg_gdpc    -0.002446   0.003108  -0.787    0.435
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.08068 on 50 degrees of freedom
-  (54 observations deleted due to missingness)
+  (1 observation deleted due to missingness)
 Multiple R-squared:  0.01224,   Adjusted R-squared:  -0.007518 
 F-statistic: 0.6194 on 1 and 50 DF,  p-value: 0.435</code></pre>
 </div>
 </div>
+<p>The intercept (<span class="math inline">\(\hat{\alpha}=0.1336\)</span>) reflects average inequality when GDP growth is zero, while the slope (<span class="math inline">\(\hat{\beta}=-0.0024\)</span>) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality (<span class="math inline">\(R^2=0.012\)</span>).</p>
+<p>In other words, faster-growing NUTS2 regions in 2017 tended to have slightly lower inequality, but the effect is negligible and not statistically meaningful.</p>
 
 </main>
 <!-- /main column -->
