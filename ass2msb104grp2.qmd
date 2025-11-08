@@ -17,33 +17,39 @@ library(flextable)
 ```
 
 ```{r}
-# Merging datasett gini og tidyjoined 
-GDP <- select(tidyjoined, NUTS2, Time, GDP_Capita)
-GDP_per_capita_2017 <- filter(GDP, Time == 2017)
+#Removing the metadata from the top and bottom by defining the range.
+raw_Labourforce <- read_excel("./Data/Labour force by NUTS2.xlsx", sheet = "Sheet 1", range = "A10:D66", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Labourforce <- raw_Labourforce[-1,]
+   names(raw_Labourforce)[1] <- "Geo_Codes"
+   names(raw_Labourforce)[2] <- "Geo_Labels"
+as_flextable(raw_Labourforce)
+```
+
+
+```{r}
+# Making raw_Labourforce into long format.
+tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Thousand persons")
+```
+
+
+```{r}
+#Removing the metadata from the top and bottom by defining the range.
+raw_Unemployment <- read_excel("./Data/Unemployment rate NUTS2.xlsx", sheet = "Sheet 1", range = "A11:D68", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Unemployment <- raw_Unemployment[-1,]
+   names(raw_Unemployment)[1] <- "Geo_Codes"
+   names(raw_Unemployment)[2] <- "Geo_Labels"
+as_flextable(raw_Unemployment)
 ```
 
 ```{r}
-GDP_2017 <- group_by(GDP, NUTS2, Time) 
-# Summarize scores per name
-summary_df <- GDP %>%
-  group_by(NUTS2) %>%
-  summarise(
-    total_score = sum(GDP_Capita),
-    .groups = 'drop'  # optional, removes grouping after summarise
-  )
-
+# Making raw_Unemployment into long format.
+tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Percentage")
 ```
-
-```{r}
-#Fetching change in GDP
-GDP <- tidyjoined %>%
-  select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
-  group_by(NUTS2, Country, Time) %>%
-  summarise(
-    "N2GDPSUM" = sum(`GDP Million EUR`),
-    "N2POPSUM" = sum(Population),
-    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)
-```
-
-
-
