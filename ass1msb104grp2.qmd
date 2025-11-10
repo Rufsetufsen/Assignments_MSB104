@@ -682,6 +682,105 @@ ggplot(
   labs(x = "Year", y = "Gini-Coefficient")
 ```
 
+```{r}
+multiN2 <- ginigdp |> 
+  filter(
+    str_sub(NUTS2, 1, 2) == "DE"
+  ) |> 
+  mutate(
+    NUTS1 = str_sub(NUTS2, 1, 3)
+  ) |> 
+  group_by(NUTS1, Time) |> 
+  summarise(
+    N2 = n(),
+    .groups = "drop"
+  ) |> 
+  filter(N2 > 1 & Time == 2022) |> 
+  select(NUTS1) |> 
+  pull()
+```
+
+```{r}
+oneN2 <- ginigdp |> 
+  filter(
+    str_sub(NUTS2, 1, 2) == "DE"
+  ) |> 
+  mutate(
+    NUTS1 = str_sub(NUTS2, 1, 3)
+  ) |> 
+  group_by(NUTS1, Time) |> 
+  summarise(
+    N2 = n(),
+    .groups = "drop"
+  ) |> 
+  filter(N2 == 1 & Time == 2022) |> 
+  select(NUTS1) |> 
+  pull()
+```
+
+
+```{r}
+#| label: fig-Germany-ag3
+#| fig-cap: "Regional GDP Inequality in Germany - NUTS1 regions with multiple NUTS2 regions."
+#Gini Germany
+ginigdp %>%
+  filter(startsWith(NUTS2, "DE")) %>%
+  filter(gini > 0) |> 
+  mutate(
+    year = paste(Time, "01-01", sep = "-"),
+    year = ymd(year),
+    NUTS1 = str_sub(NUTS2, 1, 3)
+  ) |> 
+  filter(NUTS1 %in% multiN2) |> 
+  ggplot(
+      mapping = aes(
+      x = year, 
+      y = gini
+      )
+      ) + 
+  geom_line(
+    mapping = aes(
+      group = NUTS2
+      ),
+    linewidth = 0.3
+  ) +
+  facet_wrap(~NUTS1, ncol = 3, scales = "fixed") +
+ scale_colour_viridis_d() +
+  labs(x = "Year", y = "Gini-Coefficient") +
+  theme(legend.position = "none")
+```
+
+```{r}
+#| label: fig-Germany-ag4
+#| fig-cap: "Regional GDP Inequality in Germany - NUTS1 regions with a single NUTS2 region."
+#Gini Germany
+ginigdp %>%
+  filter(startsWith(NUTS2, "DE")) %>%
+  filter(gini > 0) |> 
+  mutate(
+    year = paste(Time, "01-01", sep = "-"),
+    year = ymd(year),
+    NUTS1 = str_sub(NUTS2, 1, 3)
+  ) |> 
+  filter(NUTS1 %in% oneN2) |> 
+  ggplot(
+      mapping = aes(
+      x = year, 
+      y = gini
+      )
+      ) + 
+  geom_line(
+    mapping = aes(
+      group = NUTS2
+      ),
+    linewidth = 0.3
+  ) +
+  facet_wrap(~NUTS1, ncol = 3, scales = "fixed") +
+ scale_colour_viridis_d() +
+  labs(x = "Year", y = "Gini-Coefficient") +
+  theme(legend.position = "none")
+```
+
 
 
 Germany has been very consistent at reporting data and we have data for the full period, but as @fig-Germany shows, we have a little bit of an information overload on our hands.
