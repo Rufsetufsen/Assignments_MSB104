@@ -67,3 +67,19 @@ lmineqgdpc
 If we take a look at the results of the model, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$). We can determine that the relationship is statistically insignificant due to the very large P-value of 0,435. 
 
 In other words, faster-growing NUTS2 regions in 2017 tended to have slightly lower inequality, but the effect is small and not statistically meaningful.
+
+```{r}
+#| label: fig-RegDev-Gini
+#| fig-cap: "Regional GDP Inequality as a function of GDP"
+ineqgdpcjoined %>%
+ggplot(aes(x = chg_gdpc, y = gini)) +
+geom_point(size = 2, alpha = 0.7) +
+geom_smooth(method = "lm", se = TRUE) +
+labs(
+title = "Regional development and inequality across NUTS2 regions, 2017",
+subtitle = "OLS fit of Gini coefficient on GDP per capita growth (2016→2017)",
+x = "GDP per capita growth (%)",
+y = "Regional inequality (Gini coefficient)"
+)
+```
+
