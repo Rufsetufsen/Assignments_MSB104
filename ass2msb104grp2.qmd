@@ -15,6 +15,7 @@ library(dineq)
 library(psych)
 library(flextable)
 library(modelsummary)
+library(lmtest)
 
 ```
 
@@ -36,7 +37,13 @@ $$ Where:
 
 ### Preparing the data
 
-First point of action: data preparation. In the following code chunk we read the data produced in document 1, and select our needed columns. We then sum up the totals of GDP and population for each NUTS2-region. Since we want to look at a cross-section of the year 2017 - including a change in gdp, we have to do a little bit of calculation. We filter our "Time"-column so that it only shows the years 2016 and 2016, and then we add a new column called "Lagged_capita". The "Lagged_capita"-column shows the GDP value for the previous year, and lets us add another column where we calculate the percentage change in GDP, on just one row. Since 2015 has been filtered away, we see some NA-values in all the rows showing GDP change and lagged capita for 2016, but we will filter these away in the next step anyways, so no harm done.
+First point of action: data preparation.
+In the following code chunk we read the data produced in document 1, and select our needed columns.
+We then sum up the totals of GDP and population for each NUTS2-region.
+Since we want to look at a cross-section of the year 2017 - including a change in gdp, we have to do a little bit of calculation.
+We filter our "Time"-column so that it only shows the years 2016 and 2016, and then we add a new column called "Lagged_capita".
+The "Lagged_capita"-column shows the GDP value for the previous year, and lets us add another column where we calculate the percentage change in GDP, on just one row.
+Since 2015 has been filtered away, we see some NA-values in all the rows showing GDP change and lagged capita for 2016, but we will filter these away in the next step anyways, so no harm done.
 
 ```{r}
 #Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.
@@ -56,6 +63,7 @@ as_flextable(GDPChange)
 ```
 
 We then join the table showing our calculated Gini-coefficients from assignment 1 onto this newly prepared table, and filter down to the year 2017.
+
 ```{r}
 #Joining the Gini dataset onto the filtered table showing GDPC change.
 ineqgdpcjoined <- left_join(GDPChange, readRDS("./data/ginigdp.rds"),
@@ -65,6 +73,7 @@ as_flextable(ineqgdpcjoined)
 ```
 
 ## Making the regression model
+
 ```{r}
 lmineqgdpc <-
 summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
@@ -72,17 +81,48 @@ summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
 ```
 
 ```{r}
+#| label: tbl-Regdev-Gini
+#| fig-cap: "Regression - Regional GDP Inequality as a function of GDP"
+
 as_flextable(
 lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
 title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
 
+```{r}
+#| label: tbl-BPtest
+#| fig-cap: "Testing for heteroskedasticity via Breusch-Pagan testing of our model."
+bp_reg_lin <- bptest(lmineqgdpc)
+bp_reg_lin |> 
+  as_flextable() |> 
+  line_spacing(space = 0.3, part = "all")
+```
 
+In @tbl-BPtest we check for heteroskedasticity by running a Breusch-Pagan test on our regression model.
+With a P-value of 0,29 (more than \<0,05), we conclude that we have homoskedasticity.
 
-If we take a look at the results of the model, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$). We can determine that the relationship is statistically insignificant due to the very large P-value of 0,435. 
+### Model Diagnostics
+
+If we take a look at the results of the model in @tbl-Regdev-Gini, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$).
+We can determine that the relationship is statistically insignificant due to the (quite large) P-value of 0,435.
 
 In other words, faster-growing NUTS2 regions in 2017 tended to have slightly lower inequality, but the effect is small and not statistically meaningful.
+The R-squared indicates an explanatory power of around 1,2 %, meaning that other variables likely explain much more of the variation.
+
+#### OLS Assumptions
+
+The "ordinary least squares"-method includes a few classical assumptions that have to be validated for the model to produce the best possible estimates.
+
+1.  **Linearity:** The true relationship between our dependent variable (regional inequality) and explanatory variable (GDP per capita growth) is assumed to be linear in the parameters, plus an additive error term. In layman's terms: we assume the data can be described by a straight line, plus some random noise. If this assumption is wrong, our line will systematically miss the pattern, for instance, if the real relationship *curves* upward or *flattens* at higher GDP growth levels. Potential fix: Try transforming variables (log, square root) or adding non-linear terms.
+2.  **Sample Variation:** There must be actual variation in the explanatory variable(s). If all regions had identical GDP growth (the same X), we couldn’t estimate a slope. In our data: The growth rates clearly vary between regions, so this assumption holds. If violated: OLS can’t separate effects or compute a meaningful slope. Fix: Gather more varied data or remove redundant variables.
+3.  **Random Sampling**: The observations are assumed to be randomly drawn from the population. This ensures that each region represents the broader population of NUTS2 regions without systematic bias. Our dataset comes from Eurostat, which covers all regions of the selected countries, so it’s not truly random but close enough to the full "population" to treat as representative. If violated: The sample might systematically over- or under-represent certain types of regions, leading to biased results.
+4.  **Exogeneity:** The most important assumption! It means that the error term — the “unexplained stuff” — has an average value of zero and is unrelated to our GDP growth. In other words, growth shouldn’t be correlated with hidden factors that also influence (confound) inequality, like education levels, industry mix, or policy differences. If violated: The slope estimate becomes biased because it accidentally captures the influence of those hidden factors. Fix: Add instrumental variables that isolate exogenous variation and run a 2SLS-test.
+5.  **Homoskedasticity**: The error term has the same variance for each value of the independent variable. We tested for heteroskedasticity in @tbl-BPtest , so we can rest assured that this assumption holds for our data. If this assumption had been violated and we could conclude with heteroskedasticity, we would have had unreliable standard errors and P-values.
+6.  **Normality of the Error Term**
+The error term is assumed to follow a normal distribution with mean zero.
+This assumption mainly matters for small samples, as the assumption of normality can be replaced by a large sample size (as defined in the cental limit theorem). It ensures that t-tests and confidence intervals work as expected.
+In our data: With around 50 NUTS2-regions (aggregated from 476 NUTS3-regions), slight deviations from normality are not a big problem here. 
 
 ```{r}
 #| label: fig-RegDev-Gini
@@ -99,4 +139,6 @@ y = "Regional inequality (Gini coefficient)"
 )
 ```
 
-@fig-RegDev-Gini plots the relationship between GDP per capita growth and regional inequality across NUTS2 regions in 2017. Each point represents one NUTS2-region. The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
+@fig-RegDev-Gini plots the relationship between GDP per capita growth and regional inequality across NUTS2 regions in 2017.
+Each point represents one NUTS2-region.
+The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
