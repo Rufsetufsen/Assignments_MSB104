@@ -53,3 +53,25 @@ tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
              names_to = "Time",
              values_to = "Percentage")
 ```
+
+
+```{r}
+#Removing the metadata from the top and bottom by defining the range.
+raw_Population.density <- read_excel("./Data/Population density NUTS2.xlsx", sheet = "Sheet 1", range = "A8:D60", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Population.density <- raw_Population.density[-1,]
+   names(raw_Population.density)[1] <- "Geo_Codes"
+   names(raw_Population.density)[2] <- "Geo_Labels"
+as_flextable(raw_Population.density)
+```
+
+```{r}
+# Making raw_Population.density into long format.
+tidy_Populatiopn.density <- pivot_longer(data = raw_Population.density,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Persons per square kilometre")
+```
+
+
+
