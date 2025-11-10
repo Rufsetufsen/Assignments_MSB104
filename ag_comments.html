@@ -98,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Her får vi et lite problem siden 14 NUTS1 regioner i Tyskland, men bare 13 ulike linjetyper i ggplot.</li>
 <li>Har løst problemt med å dele opp i to datasett der DE1 blir behandlet for seg.</li>
 <li>Har også vist et alternativ der bare farge angir NUTS1 med viridis fargepalett (skal ha god kontrast mellom fargene). Personlig synes jeg også denne blir for uryddig.</li>
-<li>En løsning er kanskje å splitte dette opp i to plot. Et for Nord-Tyskland og et for Sør-Tyskland.</li>
+<li>En løsning er kanskje å splitte dette opp i to plot. Et for NUTS1 regioner med flere NUTS2 regioner og et for NUTS1 med bare 1 NUTS2 region.</li>
 <li>Også her kunne det være en ide å kombinere NUTS1 og count for å angi hvor mange soner det er i hver (men da må antall NUTS2 soner beregns Count angir antall NUTS3 i hver NUTS2 sone).</li>
 </ul></li>
 <li>Merk at <code>#|fig-cap:</code> istedenfor <code>#| fig-cap:</code> er nok til at caption for figuren ikke vises. Uten noe advarsel. Jeg har fikset dem.</li>
@@ -106,12 +106,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="generelle-kommentarer" class="level2">
 <h2 class="anchored" data-anchor-id="generelle-kommentarer">Generelle kommentarer</h2>
 <ul>
-<li>Dokumentet er reproduserbart i html og pdf format. Flott!</li>
-<li>La in <code>citeproc: true</code>i YAML header for å få <code>typst</code> format.</li>
-<li>Fin gjennomgang av årsaken til maglende data for de fire landene. Dette likte jeg 8-)</li>
-<li>Siden dere har valgt <code>lang: en-GB</code> vil jeg anbefale å bruke britisk engelsk f.eks «analysed» istedenfor «analyzed».</li>
-<li>Har forslått noen språklige endringer. Bruk dem hvis dere er enig.</li>
-<li>Ser i <code>GDP_noFlag.xlsx</code> at dere ikke har fått med region kode (NUTS3) i gdp filen. Dere har den imidlertid i <code>demo_noFlag.xlsx</code>. Dermed kan dere i prinsippet greie dere med å legge data fra gdp til demo og bruke Time (year) og Region Navn som nøkkel. Dette er imidlertid risikabelt så jeg har hentet ned en ny GDP.xlsx fil med region code (NUTS3).</li>
+<li><p>Dokumentet er reproduserbart i html og pdf format. Flott!</p></li>
+<li><p>La in <code>citeproc: true</code>i YAML header for å få <code>typst</code> format.</p></li>
+<li><p>Fin gjennomgang av årsaken til maglende data for de fire landene. Dette likte jeg 8-)</p></li>
+<li><p>Siden dere har valgt <code>lang: en-GB</code> vil jeg anbefale å bruke britisk engelsk f.eks «analysed» istedenfor «analyzed».</p></li>
+<li><p>Har forslått noen språklige endringer. Bruk dem hvis dere er enig.</p></li>
+<li><p>Ser i <code>GDP_noFlag.xlsx</code> at dere ikke har fått med region kode (NUTS3) i gdp filen. Dere har den imidlertid i <code>demo_noFlag.xlsx</code>. Dermed kan dere i prinsippet greie dere med å legge data fra gdp til demo og bruke Time (year) og Region Navn som nøkkel. Dette er imidlertid risikabelt så jeg har hentet ned en ny GDP.xlsx fil med region code (NUTS3).</p></li>
+<li><p>God diskusjon av hoppene i NUTS2 i Tyskland.</p></li>
+<li><p>Ser dere noe av det Seidel et al rapporterte: «Findings also showed that for about 70% of countries, regional gaps got smaller, while other countries saw inequality grow. They also discovered an “n-shaped” link between development and regional inequality: in early stages of growth inequality is low, for mid-income regions it rises, before it falls again in rich economies.»</p></li>
 </ul>
 </section>
 
