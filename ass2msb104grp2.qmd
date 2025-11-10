@@ -2,11 +2,14 @@
 title: "ass2msb104grp2"
 format: html
 editor: visual
+bibliography: references.bib
 ---
 
 ```{r}
 #| label: setup
 #| include: FALSE
+#| message: false
+#| warning: false
 library (tidyverse)
 library (PxWebApiData)
 library(readxl)
@@ -23,17 +26,13 @@ library(lmtest)
 
 In this assignment we build on the foundation we made in assignment 1.
 Using the calculated regional inequality and gdp per capita, we estimate a simple cross-sectional Ordinary Least Squares (OLS) regression for the year 2017 in our selected countries, broken down by NUTS2-region.
-The model examines if intraregional inequality - represented by a calculated Gini-coefficient of GDP per capita in each NUTS2 region - is associated with short-term economic development across NUTS2 regions:
 
-$$
-\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i
-$$ Where:
+### Expected Relationships
 
--   $\text{Gini}_{i,2017}$ — Calculated Gini coefficient of region *i* in 2017 (regional GDP per capita inequality)\
--   $\Delta \text{GDPpc}_{i,2016 \to 2017}$ — percent change in GDP per capita from 2016 to 2017 in region *i*\
--   $\alpha$ — intercept term (baseline inequality when GDP-per-capita change is zero)\
--   $\beta$ — slope coefficient showing how inequality changes with a one-percentage-point increase in GDP-per-capita growth\
--   $u_i$ — error term capturing unobserved regional factors
+Basing ourselves on the theory established by @lessmann2017, we predict that we can see a link between regional inequality and economic growth.
+They described the relationship as an "inverted U, or maybe even an N-shaped" relationship between inequality and development.
+In short, this implies that regional inequality is at it's lowest for low and high-income countries, but higher for middle-income countries.
+Based on this theory, we expect a negative slope coefficient: regions with stronger growth from 2016 to 2017 should, on average, exhibit slightly lower inequality.
 
 ### Preparing the data
 
@@ -53,7 +52,8 @@ GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
   summarise(
     "N2GDPSUM" = sum(`GDP Million EUR`, na.rm = TRUE),
     "N2POPSUM" = sum(Population, na.rm = TRUE),
-    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM)%>%
+    "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM,
+    .groups = "drop")%>%
   filter(Time > "2015" & Time < "2018")%>%
 mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
@@ -71,6 +71,28 @@ by = join_by(NUTS2, Time), keep = FALSE)%>%
   filter(Time == "2017")
 as_flextable(ineqgdpcjoined)
 ```
+
+### Model Specification
+
+The model will examine if intraregional inequality - represented by a calculated Gini-coefficient of GDP per capita in each NUTS2 region - is associated with short-term economic development across NUTS2 regions:
+
+$$
+\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i
+$$ Where:
+
+-   $\text{Gini}_{i,2017}$ — Calculated Gini coefficient of region *i* in 2017 (regional GDP per capita inequality)\
+-   $\Delta \text{GDPpc}_{i,2016 \to 2017}$ — percent change in GDP per capita from 2016 to 2017 in region *i*\
+-   $\alpha$ — intercept term (baseline inequality when GDP-per-capita change is zero)\
+-   $\beta$ — slope coefficient showing how inequality changes with a one-percentage-point increase in GDP-per-capita growth\
+-   $u_i$ — error term capturing unobserved regional factors
+
+**Variable selection**
+
+Dependent variable: Regional inequality (Gini) was chosen because it quantifies GDP inequality within each NUTS2 region and directly represents the outcome discussed in the literature on regional convergence.
+
+Independent variable: Change in GDP per capita captures short-term economic development, making it suitable to test whether faster-growing regions are converging or diverging in terms of inequality.
+
+Both variables are derived from Eurostat data prepared in assignment 1.
 
 ## Making the regression model
 
@@ -90,9 +112,17 @@ title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
 
+### Model Diagnostics
+
+If we take a look at the results of the model in @tbl-Regdev-Gini, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$).
+We can determine that the relationship is statistically insignificant due to the (quite large) P-value of 0,435.
+
+In other words, faster-growing NUTS2 regions in 2017 tended to have slightly lower inequality, but the effect is small and not statistically meaningful.
+The R-squared indicates an explanatory power of around 1,2 %, meaning that other variables likely explain much more of the variation.
+
 ```{r}
 #| label: tbl-BPtest
-#| fig-cap: "Testing for heteroskedasticity via Breusch-Pagan testing of our model."
+#| fig-cap: Testing for heteroskedasticity via Breusch-Pagan testing of our model.
 bp_reg_lin <- bptest(lmineqgdpc)
 bp_reg_lin |> 
   as_flextable() |> 
@@ -101,14 +131,6 @@ bp_reg_lin |>
 
 In @tbl-BPtest we check for heteroskedasticity by running a Breusch-Pagan test on our regression model.
 With a P-value of 0,29 (more than \<0,05), we conclude that we have homoskedasticity.
-
-### Model Diagnostics
-
-If we take a look at the results of the model in @tbl-Regdev-Gini, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$).
-We can determine that the relationship is statistically insignificant due to the (quite large) P-value of 0,435.
-
-In other words, faster-growing NUTS2 regions in 2017 tended to have slightly lower inequality, but the effect is small and not statistically meaningful.
-The R-squared indicates an explanatory power of around 1,2 %, meaning that other variables likely explain much more of the variation.
 
 #### OLS Assumptions
 
@@ -119,14 +141,13 @@ The "ordinary least squares"-method includes a few classical assumptions that ha
 3.  **Random Sampling**: The observations are assumed to be randomly drawn from the population. This ensures that each region represents the broader population of NUTS2 regions without systematic bias. Our dataset comes from Eurostat, which covers all regions of the selected countries, so it’s not truly random but close enough to the full "population" to treat as representative. If violated: The sample might systematically over- or under-represent certain types of regions, leading to biased results.
 4.  **Exogeneity:** The most important assumption! It means that the error term — the “unexplained stuff” — has an average value of zero and is unrelated to our GDP growth. In other words, growth shouldn’t be correlated with hidden factors that also influence (confound) inequality, like education levels, industry mix, or policy differences. If violated: The slope estimate becomes biased because it accidentally captures the influence of those hidden factors. Fix: Add instrumental variables that isolate exogenous variation and run a 2SLS-test.
 5.  **Homoskedasticity**: The error term has the same variance for each value of the independent variable. We tested for heteroskedasticity in @tbl-BPtest , so we can rest assured that this assumption holds for our data. If this assumption had been violated and we could conclude with heteroskedasticity, we would have had unreliable standard errors and P-values.
-6.  **Normality of the Error Term**
-The error term is assumed to follow a normal distribution with mean zero.
-This assumption mainly matters for small samples, as the assumption of normality can be replaced by a large sample size (as defined in the cental limit theorem). It ensures that t-tests and confidence intervals work as expected.
-In our data: With around 50 NUTS2-regions (aggregated from 476 NUTS3-regions), slight deviations from normality are not a big problem here. 
+6.  **Normality of the Error Term** The error term is assumed to follow a normal distribution with mean zero. This assumption mainly matters for small samples, as the assumption of normality can be replaced by a large sample size (as defined in the cental limit theorem). It ensures that t-tests and confidence intervals work as expected. In our data: With around 50 NUTS2-regions (aggregated from 476 NUTS3-regions), slight deviations from normality are not a big problem here.
 
 ```{r}
 #| label: fig-RegDev-Gini
 #| fig-cap: "Regional GDP Inequality as a function of GDP"
+#| warning: false
+#| message: false
 ineqgdpcjoined %>%
 ggplot(aes(x = chg_gdpc, y = gini)) +
 geom_point(size = 2, alpha = 0.7) +
