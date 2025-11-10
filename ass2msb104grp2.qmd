@@ -14,8 +14,11 @@ library(purrr)
 library(dineq)
 library(psych)
 library(flextable)
+library(modelsummary)
 
 ```
+
+# Part A: Growth and Inequality
 
 In this assignment we build on the foundation we made in assignment 1.
 Using the calculated regional inequality and gdp per capita, we estimate a simple cross-sectional Ordinary Least Squares (OLS) regression for the year 2017 in our selected countries, broken down by NUTS2-region.
@@ -31,6 +34,10 @@ $$ Where:
 -   $\beta$ — slope coefficient showing how inequality changes with a one-percentage-point increase in GDP-per-capita growth\
 -   $u_i$ — error term capturing unobserved regional factors
 
+### Preparing the data
+
+First point of action: data preparation. In the following code chunk we read the data produced in document 1, and select our needed columns. We then sum up the totals of GDP and population for each NUTS2-region. Since we want to look at a cross-section of the year 2017 - including a change in gdp, we have to do a little bit of calculation. We filter our "Time"-column so that it only shows the years 2016 and 2016, and then we add a new column called "Lagged_capita". The "Lagged_capita"-column shows the GDP value for the previous year, and lets us add another column where we calculate the percentage change in GDP, on just one row. Since 2015 has been filtered away, we see some NA-values in all the rows showing GDP change and lagged capita for 2016, but we will filter these away in the next step anyways, so no harm done.
+
 ```{r}
 #Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.
 GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
@@ -45,15 +52,19 @@ mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
     chg_gdpc = 100 * chg_gdpc)
+as_flextable(GDPChange)
 ```
 
+We then join the table showing our calculated Gini-coefficients from assignment 1 onto this newly prepared table, and filter down to the year 2017.
 ```{r}
 #Joining the Gini dataset onto the filtered table showing GDPC change.
 ineqgdpcjoined <- left_join(GDPChange, readRDS("./data/ginigdp.rds"),
 by = join_by(NUTS2, Time), keep = FALSE)%>%
   filter(Time == "2017")
+as_flextable(ineqgdpcjoined)
 ```
 
+## Making the regression model
 ```{r}
 lmineqgdpc <-
 summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
@@ -61,8 +72,13 @@ summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
 ```
 
 ```{r}
-lmineqgdpc
+as_flextable(
+lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
+title = "OLS regression of inequality on GDP per capita growth, 2017"
+)
 ```
+
+
 
 If we take a look at the results of the model, we see that the intercept ($\hat{\alpha}=0.1336$) reflects average inequality when GDP growth is zero, while the slope ($\hat{\beta}=-0.0024$) suggests a small, negative, and statistically insignificant relationship between GDP-per-capita growth and regional inequality ($R^2=0.012$). We can determine that the relationship is statistically insignificant due to the very large P-value of 0,435. 
 
@@ -83,3 +99,4 @@ y = "Regional inequality (Gini coefficient)"
 )
 ```
 
+@fig-RegDev-Gini plots the relationship between GDP per capita growth and regional inequality across NUTS2 regions in 2017. Each point represents one NUTS2-region. The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
