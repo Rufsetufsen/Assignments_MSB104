@@ -110,7 +110,7 @@ summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
 #| label: tbl-Regdev-Gini
 #| fig-cap: "Regression - Regional GDP Inequality as a function of GDP"
 as_flextable(
-lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
+lm(gini ~ chg_gdpc, data = ineqgdpcjoined, na.rm = TRUE),
 title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
@@ -262,3 +262,24 @@ tidyjoined2 <- tidyjoined2 %>%
 as_flextable(tidyjoined2)
 
 ```
+
+## Multiple Regression Model
+
+We will now test our new variables to see if they have more of an effect on regional inequality. To do this, we will be making a multiple regression model where labour force, unemployment and population density serve as explanatory variables.
+
+```{r}
+#Merging our new variables onto ineqgdpjoined, creating a new table.
+ineqgdpcjoined2 <- left_join(ineqgdpcjoined, tidyjoined2,
+by = join_by("NUTS2", "Time"), keep = FALSE)
+as_flextable(ineqgdpcjoined2)
+```
+
+
+```{r}
+#| label: tbl-MLR
+#| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
+as_flextable(
+lm(formula = gini ~ "Persons per square kilometre" + "Thousand persons" + "Percentage", data = ineqgdpcjoined2, na.rm = TRUE)
+)
+```
+
