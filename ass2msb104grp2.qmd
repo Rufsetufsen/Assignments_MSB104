@@ -17,7 +17,10 @@ library(flextable)
 ```
 
 ## Our chosen variabels 
-In part B we have chosen the variables: Labour force, Unemployment and Population density. We will look in to each of these variable, and see how they are a potential a determaint factor for the regional inequality. Labour force is a variable which includes all persons how are both employed and unemployed. Its the total supply of the regions labour forsce. 
+In part B we have chosen the variables: Labour force, Unemployment and Population density. We will look in to each of these variable, and see how they are a potential a determaint factor for the regional inequality. First lets look at what Regional inequality, and it is the variable that describes an uneven distribution of resources, opportunities and well-being across geographic areas.
+Labour force is the variable which includes all persons how are both employed and unemployed. It represent the total supply of labour that's available in the regions. Labour force can factor in the different between regions avabile workforce which then affect the regions inequality.
+The Unemployment rate variable can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work. The variable is shown as a percentage of the labour force. With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
+The last is the population density in each region. This variable shows the relationship between the annual average population and the land area of the respective region. With this variable we can see the different in population by area of each region, which may have a affect on regional inequality.
 
 
 ```{r}
