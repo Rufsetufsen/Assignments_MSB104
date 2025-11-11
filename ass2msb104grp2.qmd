@@ -109,12 +109,12 @@ summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
 ```{r}
 #| label: tbl-Regdev-Gini
 #| fig-cap: "Regression - Regional GDP Inequality as a function of GDP"
-
 as_flextable(
 lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
 title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
+
 
 ### Model Diagnostics
 
@@ -169,3 +169,93 @@ Each point represents one NUTS2-region.
 The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
 
 # Part B: 
+
+## Our chosen variabels 
+In part B we have chosen the variables: Labour force, Unemployment and Population density. We will look in to each of these variable, and see how they are a potential a determaint factor for the regional inequality. Labour force is a variable which includes all persons how are both employed and unemployed. Its the total supply of the regions labour forsce. 
+
+
+```{r}
+#Removing the metadata from the top and bottom by defining the range.
+raw_Labourforce <- read_excel("./Data/Labour force by NUTS2.xlsx", sheet = "Sheet 1", range = "A10:C66", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Labourforce <- raw_Labourforce[-1,]
+   names(raw_Labourforce)[1] <- "Geo_Codes"
+   names(raw_Labourforce)[2] <- "Geo_Labels"
+as_flextable(raw_Labourforce)
+```
+
+
+```{r}
+# Making raw_Labourforce into long format.
+tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Thousand persons")
+```
+
+
+```{r}
+#Removing the metadata from the top and bottom by defining the range.
+raw_Unemployment <- read_excel("./Data/Unemployment rate NUTS2.xlsx", sheet = "Sheet 1", range = "A11:C68", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Unemployment <- raw_Unemployment[-1,]
+   names(raw_Unemployment)[1] <- "Geo_Codes"
+   names(raw_Unemployment)[2] <- "Geo_Labels"
+as_flextable(raw_Unemployment)
+```
+
+```{r}
+# Making raw_Unemployment into long format.
+tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Percentage")
+```
+
+
+```{r}
+#Removing the metadata from the top and bottom by defining the range.
+raw_Population.density <- read_excel("./Data/Population density NUTS2.xlsx", sheet = "Sheet 1", range = "A8:C60", col_types = "text")
+#Dropping the first row to align time with years
+   raw_Population.density <- raw_Population.density[-1,]
+   names(raw_Population.density)[1] <- "Geo_Codes"
+   names(raw_Population.density)[2] <- "Geo_Labels"
+as_flextable(raw_Population.density)
+```
+
+```{r}
+# Making raw_Population.density into long format.
+tidy_Populatiopn.density <- pivot_longer(data = raw_Population.density,
+             cols = c(-Geo_Codes, -Geo_Labels),
+             names_to = "Time",
+             values_to = "Persons per square kilometre")
+```
+
+
+
+```{r}
+#| label: tbl-tidyjoined
+#| fig-cap: "Slått sammen og ryddet datasett med NUTS2 som kolonne nummer 2"
+
+# Slår sammen tre datasett basert på Geo_Labels og Time
+tidyjoined2 <- list(tidy_Populatiopn.density, tidy_Labourforce, tidy_Unemployment) %>%
+  reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
+  select(-matches("\\.x$"), -matches("\\.y$"))  # fjerner duplikate kolonner
+
+# Rydder og setter riktig kolonnerekkefølge
+tidyjoined2 <- tidyjoined2 %>%
+  mutate(
+    `Persons per square kilometre` = as.numeric(`Persons per square kilometre`),
+    Percentage = as.numeric(Percentage),
+    `Thousand persons` = as.numeric(`Thousand persons`),
+    NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
+  ) %>%
+  select(NUTS2, Geo_Labels, Time,
+         `Persons per square kilometre`,
+         `Thousand persons`,
+         Percentage)  # NUTS2 som kolonne nr 2
+
+# Viser tabellen pent
+as_flextable(tidyjoined2)
+
+```
