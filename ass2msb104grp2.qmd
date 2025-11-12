@@ -311,10 +311,10 @@ However, given the weak statistical significance, this relationship should be in
 The aligns with parts of the regional-development theory discussed by @lessmann2017: agglomeration and workforce expansion can increase income dispersion, while institutional factors within densely populated areas may counteract inequality through redistribution and accessibility.
 
 # Part C: Use of AI
-In this assignments we have used AI to ask controlling questions and constructive judging the text and the codes used. In that way we could get a constructive feedback.
-The AI was used as a sparring partner to help with the grammar in the writing and testing of the codes. Any information outside of the codes and writing grammar was double checked up to other sources to verifies. 
+
+In this assignments we have used AI to ask controlling questions and constructive judging the text and the codes used.
+In that way we could get a constructive feedback.
+The AI was used as a sparring partner to help with the grammar in the writing and testing of the codes.
+Any information outside of the codes and writing grammar was double checked up to other sources to verifies.
 The software of AI we used was ChatGPT 3.5, which is the free version available for all users.
-It was only used to function test our codes and recommend correct grammar and code syntax. 
-
-
-
+It was only used to function test our codes and recommend correct grammar and code syntax.
