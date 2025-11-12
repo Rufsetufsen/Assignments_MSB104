@@ -279,7 +279,7 @@ as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2
 
 ## Interpreting our results
 
-The model has an R² of 0,283 and an adjusted R² of 0,235, meaning that approximately 28 % of the variation in regional inequality can be explained by these three predictors.
+We can see in @tbl-MLR that the model has an R² of 0,283 and an adjusted R² of 0,235, meaning that approximately 28 % of the variation in regional inequality can be explained by these three predictors.
 We will go over each of the variables below.
 
 **Workforce**
