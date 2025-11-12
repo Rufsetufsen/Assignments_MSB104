@@ -74,8 +74,6 @@ by = join_by(NUTS2, Time), keep = FALSE)%>%
 as_flextable(ineqgdpcjoined)
 ```
 
-
-
 ### Model Specification
 
 The model will examine if intraregional inequality - represented by a calculated Gini-coefficient of GDP per capita in each NUTS2 region - is associated with short-term economic development across NUTS2 regions:
@@ -98,8 +96,6 @@ Independent variable: Change in GDP per capita captures short-term economic deve
 
 Both variables are derived from Eurostat data prepared in assignment 1.
 
-
-
 ```{r}
 lmineqgdpc <-
 summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
@@ -114,7 +110,6 @@ lm(gini ~ chg_gdpc, data = ineqgdpcjoined, na.rm = TRUE),
 title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
-
 
 ### Model Diagnostics
 
@@ -168,14 +163,20 @@ y = "Regional inequality (Gini coefficient)"
 Each point represents one NUTS2-region.
 The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
 
-# Part B: 
+# Part B:
 
-## Our chosen variabels 
-In part B we have chosen the variables: Labour force, Unemployment and Population density. We will look in to each of these variable, and see how they are a potential a determaint factor for the regional inequality. First lets look at what Regional inequality, and it is the variable that describes an uneven distribution of resources, opportunities and well-being across geographic areas.
-Labour force is the variable which includes all persons how are both employed and unemployed. It represent the total supply of labour that's available in the regions. Labour force can factor in the different between regions avabile workforce which then affect the regions inequality.
-The Unemployment rate variable can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work. The variable is shown as a percentage of the labour force. With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
-The last is the population density in each region. This variable shows the relationship between the annual average population and the land area of the respective region. With this variable we can see the different in population by area of each region, which may have a affect on regional inequality.
+## Our chosen variables
 
+In part B we have chosen to test for the effect of three additional variables: available labour force, unemployment and population density.
+We will look in to each of these variables, and see how they could be determinant factors for regional inequality. Like before, these datasets have been fetched from Eurostat.
+
+- **Labour force** is the variable which includes all persons how are both employed and unemployed.
+It represents the total supply of labour that's available in the regions.
+Labour force can factor in the different between regions avabile workforce which then affect the regions inequality.
+- **Unemployment rate** variable can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work.
+The variable is shown as a percentage of the labour force.
+With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
+- **Population density** is given as "persons per square kilometer", and indicates how populated a region is, divided by it's total area. A higher population density can indicate a higher degree of urbanization of a region.
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
@@ -187,15 +188,13 @@ raw_Labourforce <- read_excel("./Data/Labour force by NUTS2.xlsx", sheet = "Shee
 as_flextable(raw_Labourforce)
 ```
 
-
 ```{r}
 # Making raw_Labourforce into long format.
 tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
-             values_to = "Thousand persons")
+             values_to = "Workforce")
 ```
-
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
@@ -212,9 +211,8 @@ as_flextable(raw_Unemployment)
 tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
-             values_to = "Percentage")
+             values_to = "Unemp_prct")
 ```
-
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
@@ -228,35 +226,33 @@ as_flextable(raw_Population.density)
 
 ```{r}
 # Making raw_Population.density into long format.
-tidy_Populatiopn.density <- pivot_longer(data = raw_Population.density,
+tidy_Population.density <- pivot_longer(data = raw_Population.density,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
-             values_to = "Persons per square kilometre")
+             values_to = "Pop_km2")
 ```
-
-
 
 ```{r}
 #| label: tbl-tidyjoined
 #| fig-cap: "Slått sammen og ryddet datasett med NUTS2 som kolonne nummer 2"
 
 # Slår sammen tre datasett basert på Geo_Labels og Time
-tidyjoined2 <- list(tidy_Populatiopn.density, tidy_Labourforce, tidy_Unemployment) %>%
+tidyjoined2 <- list(tidy_Population.density, tidy_Labourforce, tidy_Unemployment) %>%
   reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
   select(-matches("\\.x$"), -matches("\\.y$"))  # fjerner duplikate kolonner
 
 # Rydder og setter riktig kolonnerekkefølge
 tidyjoined2 <- tidyjoined2 %>%
   mutate(
-    `Persons per square kilometre` = as.numeric(`Persons per square kilometre`),
-    Percentage = as.numeric(Percentage),
-    `Thousand persons` = as.numeric(`Thousand persons`),
+    `Pop_km2` = as.numeric(`Pop_km2`),
+    Unemp_prct = as.numeric(Unemp_prct),
+    Workforce = as.numeric(Workforce)*1000,
     NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
   ) %>%
   select(NUTS2, Geo_Labels, Time,
-         `Persons per square kilometre`,
-         `Thousand persons`,
-         Percentage)  # NUTS2 som kolonne nr 2
+         Pop_km2,
+         Workforce,
+         Unemp_prct)  # NUTS2 som kolonne nr 2
 
 # Viser tabellen pent
 as_flextable(tidyjoined2)
@@ -265,7 +261,8 @@ as_flextable(tidyjoined2)
 
 ## Multiple Regression Model
 
-We will now test our new variables to see if they have more of an effect on regional inequality. To do this, we will be making a multiple regression model where labour force, unemployment and population density serve as explanatory variables.
+We will now test our new variables to see if they have more of an effect on regional inequality.
+To do this, we will be making a multiple regression model where labour force, unemployment and population density serve as explanatory variables.
 
 ```{r}
 #Merging our new variables onto ineqgdpjoined, creating a new table.
@@ -274,12 +271,11 @@ by = join_by("NUTS2", "Time"), keep = FALSE)
 as_flextable(ineqgdpcjoined2)
 ```
 
-
 ```{r}
 #| label: tbl-MLR
 #| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
 as_flextable(
-lm(formula = gini ~ "Persons per square kilometre" + "Thousand persons" + "Percentage", data = ineqgdpcjoined2, na.rm = TRUE)
-)
+lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2, na.rm = TRUE
+))
 ```
-
+# Part C: Use of AI
