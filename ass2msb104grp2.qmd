@@ -245,7 +245,7 @@ tidyjoined2 <- tidyjoined2 %>%
   mutate(
     `Pop_km2` = as.numeric(`Pop_km2`),
     Unemp_prct = as.numeric(Unemp_prct),
-    Workforce = as.numeric(Workforce)*1000,
+    Workforce = as.numeric(Workforce),
     NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
   ) %>%
   select(NUTS2, Geo_Labels, Time,
@@ -270,8 +270,7 @@ as_flextable(ineqgdpcjoined2)
 ```{r}
 #| label: tbl-MLR
 #| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
-as_flextable(
-lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2, na.rm = TRUE
+as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2
 ))
 ```
 # Part C: Use of AI
