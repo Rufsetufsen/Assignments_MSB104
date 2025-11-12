@@ -42,7 +42,7 @@ First point of action: data preparation.
 In the following code chunk we read the data produced in document 1, and select our needed columns.
 We then sum up the totals of GDP and population for each NUTS2-region.
 Since we want to look at a cross-section of the year 2017 - including a change in gdp, we have to do a little bit of calculation.
-We filter our "Time"-column so that it only shows the years 2016 and 2016, and then we add a new column called "Lagged_capita".
+We filter our "Time"-column so that it only shows the years 2016 and 2017, and then we add a new column called "Lagged_capita".
 The "Lagged_capita"-column shows the GDP value for the previous year, and lets us add another column where we calculate the percentage change in GDP, on just one row.
 Since 2015 has been filtered away, we see some NA-values in all the rows showing GDP change and lagged capita for 2016, but we will filter these away in the next step anyways, so no harm done.
 
@@ -163,10 +163,10 @@ y = "Regional inequality (Gini coefficient)"
 Each point represents one NUTS2-region.
 The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
 
-# Part B:
+# Part B: Exploring Other Determinants of Inequity
+In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017 and justify them. We will the use the Gini-coefficient as the dependent variable with the three new variables to create a multiple linear regression and document on the findings. The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction ad statistical significant. Then reflect on the overall model and how the variables explaining the variations in regional inequality.
 
 ## Our chosen variables
-
 In part B we have chosen to test for the effect of three additional variables: available labour force, unemployment and population density.
 We will look in to each of these variables, and see how they could be determinant factors for regional inequality. Like before, these datasets have been fetched from Eurostat.
 
@@ -234,14 +234,13 @@ tidy_Population.density <- pivot_longer(data = raw_Population.density,
 
 ```{r}
 #| label: tbl-tidyjoined
-#| fig-cap: "Slått sammen og ryddet datasett med NUTS2 som kolonne nummer 2"
-
+#| fig-cap: "A cleaner dataset"
 # Slår sammen tre datasett basert på Geo_Labels og Time
 tidyjoined2 <- list(tidy_Population.density, tidy_Labourforce, tidy_Unemployment) %>%
   reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
-  select(-matches("\\.x$"), -matches("\\.y$"))  # fjerner duplikate kolonner
+  select(-matches("\\.x$"), -matches("\\.y$"))  # Removes duplicate columns
 
-# Rydder og setter riktig kolonnerekkefølge
+# Clears and sets the correct column order
 tidyjoined2 <- tidyjoined2 %>%
   mutate(
     `Pop_km2` = as.numeric(`Pop_km2`),
@@ -253,10 +252,7 @@ tidyjoined2 <- tidyjoined2 %>%
          Pop_km2,
          Workforce,
          Unemp_prct)  # NUTS2 som kolonne nr 2
-
-# Viser tabellen pent
 as_flextable(tidyjoined2)
-
 ```
 
 ## Multiple Regression Model
