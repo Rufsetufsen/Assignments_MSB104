@@ -262,6 +262,7 @@ as_flextable(tidyjoined2)
 We will now test our new variables to see if they have more of an effect on regional inequality.
 To do this, we will be making a multiple regression model where labour force, unemployment and population density serve as explanatory variables.
 
+
 ```{r}
 #Merging our new variables onto ineqgdpjoined, creating a new table.
 ineqgdpcjoined2 <- left_join(ineqgdpcjoined, tidyjoined2,
