@@ -106,7 +106,7 @@ summary(lm(gini ~ chg_gdpc, data = ineqgdpcjoined)
 #| label: tbl-Regdev-Gini
 #| fig-cap: "Regression - Regional GDP Inequality as a function of GDP"
 as_flextable(
-lm(gini ~ chg_gdpc, data = ineqgdpcjoined, na.rm = TRUE),
+lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
 title = "OLS regression of inequality on GDP per capita growth, 2017"
 )
 ```
@@ -182,6 +182,8 @@ Like before, these datasets have been fetched from Eurostat.
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
+#| message: false
+#| warning: false
 raw_Labourforce <- read_excel("./Data/Labour force by NUTS2.xlsx", sheet = "Sheet 1", range = "A10:C66", col_types = "text")
 #Dropping the first row to align time with years
    raw_Labourforce <- raw_Labourforce[-1,]
@@ -200,6 +202,8 @@ tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
+#| message: false
+#| warning: false
 raw_Unemployment <- read_excel("./Data/Unemployment rate NUTS2.xlsx", sheet = "Sheet 1", range = "A11:C68", col_types = "text")
 #Dropping the first row to align time with years
    raw_Unemployment <- raw_Unemployment[-1,]
@@ -218,6 +222,8 @@ tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
+#| message: false
+#| warning: false
 raw_Population.density <- read_excel("./Data/Population density NUTS2.xlsx", sheet = "Sheet 1", range = "A8:C60", col_types = "text")
 #Dropping the first row to align time with years
    raw_Population.density <- raw_Population.density[-1,]
@@ -237,6 +243,8 @@ tidy_Population.density <- pivot_longer(data = raw_Population.density,
 ```{r}
 #| label: tbl-tidyjoined
 #| fig-cap: "A cleaner dataset"
+#| message: false
+#| warning: false
 # Slår sammen tre datasett basert på Geo_Labels og Time
 tidyjoined2 <- list(tidy_Population.density, tidy_Labourforce, tidy_Unemployment) %>%
   reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
@@ -261,6 +269,11 @@ as_flextable(tidyjoined2)
 
 We will now test our new variables to see if they have more of an effect on regional inequality.
 To do this, we will be making a multiple regression model where labour force, unemployment and population density serve as explanatory variables.
+We have specified the following multiple linear regression model: $$
+\text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i
+$$
+
+where $\alpha$ is the intercept, $\beta_1$, $\beta_2$, and $\beta_3$ are the slope coefficients for each explanatory variable, and $u_i$ is the error term capturing unobserved factors affecting inequality.
 
 
 ```{r}
@@ -283,30 +296,26 @@ as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2
 We can see in @tbl-MLR that the model has an R² of 0,283 and an adjusted R² of 0,235, meaning that approximately 28 % of the variation in regional inequality can be explained by these three predictors.
 We will go over each of the variables below.
 
-**Workforce**
-The slope for Workforce (β = 0,000043, p = 0,0216) is statistically significant at the 5 % level.
+**Workforce**: The slope for Workforce (β = 0,000043, p = 0,0216) is statistically significant at the 5 % level.
 Holding population density and unemployment constant, an increase of a thousand workers is associated with a 0,000043 rise in the regional Gini coefficient.
 Economically, regions with larger or more active labour markets tend to experience slightly higher income dispersion, consistent with the idea that economic agglomeration creates greater occupational and wage diversity.
 
-**Population density**
-Population density (β = −0,000041, p = 0,0083) is statistically significant at the 1 % level and has a negative sign.
+**Population density**: Population density (β = −0,000041, p = 0,0083) is statistically significant at the 1 % level and has a negative sign.
 This implies that more densely populated regions tend to have lower inequality.
 A possible interpretation is that highly urbanised regions benefit from better access to education, more specialized jobs or broader labour-market integration that reduce within-region disparities.
 
-**Unemployment**
-The coefficient for Unemployment (β = −0,0114, p = 0,0613) is marginally significant at the 10 % level.
+**Unemployment**: The coefficient for Unemployment (β = −0,0114, p = 0,0613) is marginally significant at the 10 % level.
 The negative sign suggests that regions with higher unemployment rates have slightly lower Gini coefficient.
 However, given the weak statistical significance, this relationship should be interpreted with caution.
 
-**Model assessment**
-The improvement in explanatory power compared to the first regression model shows that labour-market and demographic characteristics are stronger predictors of regional inequality than just short-term GDP growth alone.
+**Model assessment**: The improvement in explanatory power compared to the first regression model shows that labour-market and demographic characteristics are stronger predictors of regional inequality than just short-term GDP growth alone.
 The aligns with parts of the regional-development theory discussed by @lessmann2017: agglomeration and workforce expansion can increase income dispersion, while institutional factors within densely populated areas may counteract inequality through redistribution and accessibility.
 
 # Part C: Use of AI
-In this assignments we have used AI to ask controlling questions and constructive judging the text and the codes used. In that way we could get a constructive feedback.
-The AI was used as a sparring partner to help with the grammar in the writing and testing of the codes. Any information outside of the codes and writing grammar was double checked up to other sources to verifies. 
+
+In this assignments we have used AI to ask controlling questions and constructive judging the text and the codes used.
+In that way we could get a constructive feedback.
+The AI was used as a sparring partner to help with the grammar in the writing and testing of the codes.
+Any information outside of the codes and writing grammar was double checked up to other sources to verifies.
 The software of AI we used was ChatGPT 3.5, which is the free version available for all users.
-It was only used to function test our codes and recommend correct grammar and code syntax. 
-
-
-
+It was only used to function test our codes and recommend correct grammar and code syntax.
