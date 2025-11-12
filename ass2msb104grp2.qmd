@@ -1,6 +1,6 @@
 ---
 title: "Assignment 2:"
-subtitle:  "Regional GDP Inequality in 4 Selected European Economies"
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Exploring Determinants"
 author: "Kristoffer Tufta and Harald Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
@@ -213,6 +213,8 @@ as_flextable(raw_Labourforce)
 
 ```{r}
 # Making raw_Labourforce into long format.
+#| message: false
+#| warning: false
 tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
@@ -241,8 +243,8 @@ tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
-#| message: false
 #| warning: false
+#| message: false
 raw_Population.density <- read_excel("./Data/Population density NUTS2.xlsx", sheet = "Sheet 1", range = "A8:C60", col_types = "text")
 #Dropping the first row to align time with years
    raw_Population.density <- raw_Population.density[-1,]
@@ -262,8 +264,8 @@ tidy_Population.density <- pivot_longer(data = raw_Population.density,
 ```{r}
 #| label: tbl-tidyjoined
 #| fig-cap: "A cleaner dataset"
-#| message: false
 #| warning: false
+#| message: false
 # Slår sammen tre datasett basert på Geo_Labels og Time
 tidyjoined2 <- list(tidy_Population.density, tidy_Labourforce, tidy_Unemployment) %>%
   reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
@@ -293,7 +295,6 @@ We have specified the following multiple linear regression model: $$
 $$
 
 where $\alpha$ is the intercept, $\beta_1$, $\beta_2$, and $\beta_3$ are the slope coefficients for each explanatory variable, and $u_i$ is the error term capturing unobserved factors affecting inequality.
-
 
 ```{r}
 #Merging our new variables onto ineqgdpjoined, creating a new table.
@@ -332,9 +333,6 @@ The aligns with parts of the regional-development theory discussed by @lessmann2
 
 # Part C: Use of AI
 
-In this assignments we have used AI to ask controlling questions and constructive judging the text and the codes used.
-In that way we could get a constructive feedback.
-The AI was used as a sparring partner to help with the grammar in the writing and testing of the codes.
-Any information outside of the codes and writing grammar was double checked up to other sources to verifies.
-The software of AI we used was ChatGPT 3.5, which is the free version available for all users.
-It was only used to function test our codes and recommend correct grammar and code syntax.
+In this assignment we have used AI to ask controlling questions and constructive judging of the text and the codes used, including interpreting the results from our models.
+The language models used were ChatGPT 3.5 and chatGPT 5.0.
+All code has been verified by humans, ethically sourced, and has not been tested on animals.
