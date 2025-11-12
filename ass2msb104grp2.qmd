@@ -1,7 +1,26 @@
 ---
-title: "ass2msb104grp2"
-format: html
-editor: visual
+title: "Assignment 2:"
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies"
+author: "Kristoffer Tufta and Harald Vika"
+date: last-modified
+date-format: "dddd D MMM, YYYY"
+csl: apa7.csl
+lang: en-GB
+format:
+  html: default
+  typst:
+    papersize: a4
+  pdf: 
+    documentclass: article
+    number-sections: true
+    keep-tex: true
+    papersize: A4
+    fig-pos: "H"
+abstract: ""
+editor: 
+  markdown: 
+    wrap: sentence
+echo: false
 bibliography: references.bib
 ---
 
