@@ -164,19 +164,21 @@ Each point represents one NUTS2-region.
 The fitted regression line shows a slight negative slope, suggesting that regions with faster economic growth tended to have marginally lower inequality, although the relationship is weak and statistically insignificant.
 
 # Part B: Exploring Other Determinants of Inequity
-In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017 and justify them. We will the use the Gini-coefficient as the dependent variable with the three new variables to create a multiple linear regression and document on the findings. The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction ad statistical significant. Then reflect on the overall model and how the variables explaining the variations in regional inequality.
+
+In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017 and justify them.
+We will the use the Gini-coefficient as the dependent variable with the three new variables to create a multiple linear regression and document on the findings.
+The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction ad statistical significant.
+Then reflect on the overall model and how the variables explaining the variations in regional inequality.
 
 ## Our chosen variables
-In part B we have chosen to test for the effect of three additional variables: available labour force, unemployment and population density.
-We will look in to each of these variables, and see how they could be determinant factors for regional inequality. Like before, these datasets have been fetched from Eurostat.
 
-- **Labour force** is the variable which includes all persons how are both employed and unemployed.
-It represents the total supply of labour that's available in the regions.
-Labour force can factor in the different between regions avabile workforce which then affect the regions inequality.
-- **Unemployment rate** variable can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work.
-The variable is shown as a percentage of the labour force.
-With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
-- **Population density** is given as "persons per square kilometer", and indicates how populated a region is, divided by it's total area. A higher population density can indicate a higher degree of urbanization of a region.
+In part B we have chosen to test for the effect of three additional variables: available labour force, unemployment and population density.
+We will look into each of these variables, and see how they could be determinant factors for regional inequality.
+Like before, these datasets have been fetched from Eurostat.
+
+-   **Labour force** is the variable which includes all persons how are both employed and unemployed. It represents the total supply of labour that's available in the regions, represented in our dataset as "thousand workers".
+-   **Unemployment rate** can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work. The variable is shown as a percentage of the total labour force per region. With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
+-   **Population density** is given as "persons per square kilometer", and indicates how populated a region is, divided by it's total area. A higher population density can indicate a higher degree of urbanization of a region.
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
@@ -271,6 +273,32 @@ as_flextable(ineqgdpcjoined2)
 #| label: tbl-MLR
 #| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
 as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2
-))
+))%>%
+  colformat_double(j = 2, digits = 6)
 ```
+
+## Interpreting our results
+
+The model has an R² of 0,283 and an adjusted R² of 0,235, meaning that approximately 28 % of the variation in regional inequality can be explained by these three predictors.
+We will go over each of the variables below.
+
+**Workforce**
+The slope for Workforce (β = 0,000043, p = 0,0216) is statistically significant at the 5 % level.
+Holding population density and unemployment constant, an increase of a thousand workers is associated with a 0,000043 rise in the regional Gini coefficient.
+Economically, regions with larger or more active labour markets tend to experience slightly higher income dispersion, consistent with the idea that economic agglomeration creates greater occupational and wage diversity.
+
+**Population density**
+Population density (β = −0,000041, p = 0,0083) is statistically significant at the 1 % level and has a negative sign.
+This implies that more densely populated regions tend to have lower inequality.
+A possible interpretation is that highly urbanised regions benefit from better access to education, more specialized jobs or broader labour-market integration that reduce within-region disparities.
+
+**Unemployment**
+The coefficient for Unemployment (β = −0,0114, p = 0,0613) is marginally significant at the 10 % level.
+The negative sign suggests that regions with higher unemployment rates have slightly lower Gini coefficient.
+However, given the weak statistical significance, this relationship should be interpreted with caution.
+
+**Model assessment**
+The improvement in explanatory power compared to the first regression model shows that labour-market and demographic characteristics are stronger predictors of regional inequality than just short-term GDP growth alone.
+The aligns with parts of the regional-development theory discussed by @lessmann2017: agglomeration and workforce expansion can increase income dispersion, while institutional factors within densely populated areas may counteract inequality through redistribution and accessibility.
+
 # Part C: Use of AI
