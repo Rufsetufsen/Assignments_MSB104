@@ -41,3 +41,11 @@ library(lmtest)
 
 ```
  
+```{r}
+full_dataset <- readRDS("./data/Gini_EUdata_Full.rds")
+```
+
+```{r}
+
+```
+
