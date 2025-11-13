@@ -46,6 +46,12 @@ full_dataset <- readRDS("./data/Gini_EUdata_Full.rds")
 ```
 
 ```{r}
-
+densitysliced <- cut(full_dataset$Pop_km2, breaks = quantile(full_dataset$Pop_km2, na.rm = TRUE), labels = c("Low density", "Medium density", "High density", "MegaUltradensity"))
+table(densitysliced)
+```
+```{r}
+Gini_EUdata_Full %>%
+ggplot(mapping = aes(x = NUTS2, y = Pop_km2)) +
+geom_point()
 ```
 
