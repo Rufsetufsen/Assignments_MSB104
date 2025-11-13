@@ -301,6 +301,7 @@ where $\alpha$ is the intercept, $\beta_1$, $\beta_2$, and $\beta_3$ are the slo
 ineqgdpcjoined2 <- left_join(ineqgdpcjoined, tidyjoined2,
 by = join_by("NUTS2", "Time"), keep = FALSE)
 as_flextable(ineqgdpcjoined2)
+saveRDS(ineqgdpcjoined2, "./data/Gini_EUdata_Full.rds")
 ```
 
 ```{r}
