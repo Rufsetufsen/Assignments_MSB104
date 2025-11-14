@@ -92,3 +92,21 @@ Unemp_prct_segm <- full_dataset %>%
                            labels = c("Low", "Medium", "High")))
 ```
 
+```{r}
+High_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "High") %>%
+  lm(formula = gini ~ chg_gdpc)
+Medium_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc)
+Low_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "Low") %>%
+  lm(formula = gini ~ chg_gdpc)
+```
+
+```{r}
+ggplot(Pop_km2_segm, aes(x = chg_gdpc, y = gini)) +
+geom_point(data = Pop_km2_segm %>%
+            filter(Segments == "High"))
+```
+
