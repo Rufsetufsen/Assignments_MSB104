@@ -160,7 +160,7 @@ With a P-value of 0,29 (more than \<0,05), we conclude that we have homoskedasti
 
 #### OLS Assumptions
 
-The "ordinary least squares"-method includes a few classical assumptions that have to be validated for the model to produce the best possible estimates.
+The "ordinary least squares"-method includes a few classical assumptions that have to be validated for the model to produce the best possible estimates. If these are not in place, it could indicate that the OLS-method is not the best linear unbiased estimator, and that there are other, more efficient linear estimators for this situation.
 
 1.  **Linearity:** The true relationship between our dependent variable (regional inequality) and explanatory variable (GDP per capita growth) is assumed to be linear in the parameters, plus an additive error term. In layman's terms: we assume the data can be described by a straight line, plus some random noise. If this assumption is wrong, our line will systematically miss the pattern, for instance, if the real relationship *curves* upward or *flattens* at higher GDP growth levels. Potential fix: Try transforming variables (log, square root) or adding non-linear terms.
 2.  **Sample Variation:** There must be actual variation in the explanatory variable(s). If all regions had identical GDP growth (the same X), we couldn’t estimate a slope. In our data: The growth rates clearly vary between regions, so this assumption holds. If violated: OLS can’t separate effects or compute a meaningful slope. Fix: Gather more varied data or remove redundant variables.
