@@ -40,16 +40,7 @@ library(modelsummary)
 library(lmtest)
 
 ```
-
-<<<<<<< HEAD
-## Our chosen variabels 
-In part B we have chosen the variables: Labour force, Unemployment and Population density. We will look in to each of these variable, and see how they are a potential a determaint factor for the regional inequality. First lets look at what Regional inequality, and it is the variable that describes an uneven distribution of resources, opportunities and well-being across geographic areas.
-Labour force is the variable which includes all persons how are both employed and unemployed. It represent the total supply of labour that's available in the regions. Labour force can factor in the different between regions avabile workforce which then affect the regions inequality.
-The Unemployment rate variable can be seen as a sub sector from labour force, as these are persons without work, available for work and are seeking work. The variable is shown as a percentage of the labour force. With this variable we may look into if the The unemployment rate has an effect on the income of those in the region, which affects GDP, which will then have a effect on the regional inequality.
-The last is the population density in each region. This variable shows the relationship between the annual average population and the land area of the respective region. With this variable we can see the different in population by area of each region, which may have a affect on regional inequality.
-=======
 # Part A: Growth and Inequality
->>>>>>> main
 
 In this assignment we build on the foundation we made in assignment 1.
 Using the calculated regional inequality and gdp per capita, we estimate a simple cross-sectional Ordinary Least Squares (OLS) regression for the year 2017 in our selected countries, broken down by NUTS2-region.
@@ -192,10 +183,10 @@ The fitted regression line shows a slight negative slope, suggesting that region
 
 # Part B: Exploring Other Determinants of Inequity
 
-In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017 and justify them.
+In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017.
 We will the use the Gini-coefficient as the dependent variable with the three new variables to create a multiple linear regression and document on the findings.
-The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction ad statistical significant.
-Then reflect on the overall model and how the variables explaining the variations in regional inequality.
+The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction and statistical significance.
+We then reflect on the overall model and how the variables could help explain the variations in regional inequality.
 
 ## Our chosen variables
 
