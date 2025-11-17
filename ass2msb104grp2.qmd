@@ -40,7 +40,10 @@ library(modelsummary)
 library(lmtest)
 
 ```
+
+
 # Part A: Growth and Inequality
+
 
 In this assignment we build on the foundation we made in assignment 1.
 Using the calculated regional inequality and gdp per capita, we estimate a simple cross-sectional Ordinary Least Squares (OLS) regression for the year 2017 in our selected countries, broken down by NUTS2-region.
@@ -151,7 +154,7 @@ With a P-value of 0,29 (more than \<0,05), we conclude that we have homoskedasti
 
 #### OLS Assumptions
 
-The "ordinary least squares"-method includes a few classical assumptions that have to be validated for the model to produce the best possible estimates. If these are not in place, it could indicate that the OLS-method is not the best linear unbiased estimator, and that there are other, more efficient linear estimators for this situation.
+The "ordinary least squares"-method includes a few classical assumptions that have to be validated for the model to produce the best possible estimates.
 
 1.  **Linearity:** The true relationship between our dependent variable (regional inequality) and explanatory variable (GDP per capita growth) is assumed to be linear in the parameters, plus an additive error term. In layman's terms: we assume the data can be described by a straight line, plus some random noise. If this assumption is wrong, our line will systematically miss the pattern, for instance, if the real relationship *curves* upward or *flattens* at higher GDP growth levels. Potential fix: Try transforming variables (log, square root) or adding non-linear terms.
 2.  **Sample Variation:** There must be actual variation in the explanatory variable(s). If all regions had identical GDP growth (the same X), we couldn’t estimate a slope. In our data: The growth rates clearly vary between regions, so this assumption holds. If violated: OLS can’t separate effects or compute a meaningful slope. Fix: Gather more varied data or remove redundant variables.
@@ -183,10 +186,10 @@ The fitted regression line shows a slight negative slope, suggesting that region
 
 # Part B: Exploring Other Determinants of Inequity
 
-In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017.
+In this part of the assignment we will gather data on three new variables that may have a influence on the regional inequity for the year 2017 and justify them.
 We will the use the Gini-coefficient as the dependent variable with the three new variables to create a multiple linear regression and document on the findings.
-The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction and statistical significance.
-We then reflect on the overall model and how the variables could help explain the variations in regional inequality.
+The last part of B is to interpretate the estimated coefficients and to discuss their magnitude, direction ad statistical significant.
+Then reflect on the overall model and how the variables explaining the variations in regional inequality.
 
 ## Our chosen variables
 
@@ -224,7 +227,7 @@ tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
 #Removing the metadata from the top and bottom by defining the range.
 #| message: false
 #| warning: false
-raw_Unemployment <- read_excel("./Data/Unemployment rate 2013-2023.xlsx", sheet = "Sheet 1", range = "A11:M67", col_types = "text")
+raw_Unemployment <- read_excel("./Data/Unemployment rate 2013-2023.xlsx", sheet = "Sheet 1", range = "A11:M68", col_types = "text")
 #Dropping the first row to align time with years
    raw_Unemployment <- raw_Unemployment[-1,]
    names(raw_Unemployment)[1] <- "Geo_Codes"
@@ -278,13 +281,13 @@ tidyjoined2 <- tidyjoined2 %>%
     Workforce = as.numeric(Workforce),
     NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
   ) %>%
-  filter(Time > "2016" & Time < "2018") %>% 
   select(NUTS2, Geo_Labels, Time,
          Pop_km2,
          Workforce,
          Unemp_prct)  # NUTS2 som kolonne nr 2
 as_flextable(tidyjoined2) 
 ```
+
 
 ## Multiple Regression Model
 
