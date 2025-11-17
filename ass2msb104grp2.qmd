@@ -278,13 +278,14 @@ tidyjoined2 <- tidyjoined2 %>%
     Workforce = as.numeric(Workforce),
     NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
   ) %>%
-  filter(Time > "2016" & Time < "2018") %>% 
   select(NUTS2, Geo_Labels, Time,
          Pop_km2,
          Workforce,
-         Unemp_prct)  # NUTS2 som kolonne nr 2
-as_flextable(tidyjoined2) 
-```
+         Unemp_prct)%>%
+    write_rds("./data/tidyjoined2.rds")
+as_flextable(tidyjoined2)
+
+```  
 
 ## Multiple Regression Model
 
@@ -307,7 +308,7 @@ saveRDS(ineqgdpcjoined2, "./data/Gini_EUdata_Full.rds")
 ```{r}
 #| label: tbl-MLR
 #| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
-as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = ineqgdpcjoined2
+as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = filter(ineqgdpcjoined2, Time > "2015" & Time < "2018") 
 ))%>%
   colformat_double(j = 2, digits = 6)
 ```
