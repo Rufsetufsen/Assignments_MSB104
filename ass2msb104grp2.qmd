@@ -211,7 +211,7 @@ Like before, these datasets have been fetched from Eurostat.
 #Removing the metadata from the top and bottom by defining the range.
 #| message: false
 #| warning: false
-raw_Labourforce <- read_excel("./Data/Labour force by NUTS2.xlsx", sheet = "Sheet 1", range = "A10:C66", col_types = "text")
+raw_Labourforce <- read_excel("./Data/Labour force 2000-2023.xlsx", sheet = "Sheet 1", range = "A10:Z66", col_types = "text")
 #Dropping the first row to align time with years
    raw_Labourforce <- raw_Labourforce[-1,]
    names(raw_Labourforce)[1] <- "Geo_Codes"
@@ -226,14 +226,14 @@ as_flextable(raw_Labourforce)
 tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
-             values_to = "Workforce")
+             values_to = "Workforce") 
 ```
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
 #| message: false
 #| warning: false
-raw_Unemployment <- read_excel("./Data/Unemployment rate NUTS2.xlsx", sheet = "Sheet 1", range = "A11:C68", col_types = "text")
+raw_Unemployment <- read_excel("./Data/Unemployment rate 2013-2023.xlsx", sheet = "Sheet 1", range = "A11:M68", col_types = "text")
 #Dropping the first row to align time with years
    raw_Unemployment <- raw_Unemployment[-1,]
    names(raw_Unemployment)[1] <- "Geo_Codes"
@@ -246,14 +246,14 @@ as_flextable(raw_Unemployment)
 tidy_Unemployment <- pivot_longer(data = raw_Unemployment,
              cols = c(-Geo_Codes, -Geo_Labels),
              names_to = "Time",
-             values_to = "Unemp_prct")
+             values_to = "Unemp_prct") 
 ```
 
 ```{r}
 #Removing the metadata from the top and bottom by defining the range.
 #| warning: false
 #| message: false
-raw_Population.density <- read_excel("./Data/Population density NUTS2.xlsx", sheet = "Sheet 1", range = "A8:C60", col_types = "text")
+raw_Population.density <- read_excel("./Data/Population density 2012-2023.xlsx", sheet = "Sheet 1", range = "A8:N60", col_types = "text")
 #Dropping the first row to align time with years
    raw_Population.density <- raw_Population.density[-1,]
    names(raw_Population.density)[1] <- "Geo_Codes"
@@ -274,12 +274,12 @@ tidy_Population.density <- pivot_longer(data = raw_Population.density,
 #| fig-cap: "A cleaner dataset"
 #| warning: false
 #| message: false
-# Slår sammen tre datasett basert på Geo_Labels og Time
+# Combining the three datasets based on Geo_Labels and Time
 tidyjoined2 <- list(tidy_Population.density, tidy_Labourforce, tidy_Unemployment) %>%
   reduce(left_join, by = join_by(Geo_Labels, Time)) %>%
   select(-matches("\\.x$"), -matches("\\.y$"))  # Removes duplicate columns
 
-# Clears and sets the correct column order
+# Clears and sets the correct column order, filters to the year 2017
 tidyjoined2 <- tidyjoined2 %>%
   mutate(
     `Pop_km2` = as.numeric(`Pop_km2`),
@@ -287,11 +287,12 @@ tidyjoined2 <- tidyjoined2 %>%
     Workforce = as.numeric(Workforce),
     NUTS2 = str_sub(Geo_Codes, start = 1L, end = 4L)
   ) %>%
+  filter(Time > "2016" & Time < "2018") %>% 
   select(NUTS2, Geo_Labels, Time,
          Pop_km2,
          Workforce,
          Unemp_prct)  # NUTS2 som kolonne nr 2
-as_flextable(tidyjoined2)
+as_flextable(tidyjoined2) 
 ```
 
 ## Multiple Regression Model

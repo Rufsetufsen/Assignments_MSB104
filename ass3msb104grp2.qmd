@@ -48,6 +48,10 @@ full_dataset <- readRDS("./data/Gini_EUdata_Full.rds")
 Separating to low, middel and hight segments
 
 ```{r}
+densitysliced <- cut(full_dataset$Pop_km2, breaks = quantile(full_dataset$Pop_km2, na.rm = TRUE), labels = c("Low density", "Medium density", "High density", "MegaUltradensity"))
+table(densitysliced)
+```
+```{r}
 #Population density
 Pop_km2_segm <- full_dataset %>%
   select(NUTS2, Geo_Labels, chg_gdpc, gini, Pop_km2) %>% 
@@ -86,6 +90,4 @@ Unemp_prct_segm <- full_dataset %>%
                            breaks = quantile(Unemp_prct, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
                            include.lowest = TRUE,
                            labels = c("Low", "Medium", "High")))
-
 ```
-
