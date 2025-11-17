@@ -224,7 +224,7 @@ tidy_Labourforce <- pivot_longer(data = raw_Labourforce,
 #Removing the metadata from the top and bottom by defining the range.
 #| message: false
 #| warning: false
-raw_Unemployment <- read_excel("./Data/Unemployment rate 2013-2023.xlsx", sheet = "Sheet 1", range = "A11:M68", col_types = "text")
+raw_Unemployment <- read_excel("./Data/Unemployment rate 2013-2023.xlsx", sheet = "Sheet 1", range = "A11:M67", col_types = "text")
 #Dropping the first row to align time with years
    raw_Unemployment <- raw_Unemployment[-1,]
    names(raw_Unemployment)[1] <- "Geo_Codes"
