@@ -41,7 +41,8 @@ library(lmtest)
 
 ```
 
-\# Part A: Testing development effects across subsets
+
+# Part A: Testing development effects across subsets
 
 ```{r}
 #Reading prewritten datasets
@@ -49,7 +50,9 @@ full_dataset <- readRDS("./data/tidyjoined2.rds")
 xsection2017<- readRDS("./data/Gini_EUdata_full.rds") 
 ```
 
-## Population Density
+## Segmenting our cross-sectional data
+
+### Population Density
 
 Breaking down our population density into logical segments could help us make a more accurate regression line.
 If we take a look at our dataset, the data varies a lot, where we have many rural regions with low population density, and then some large city-regions with a much higher density.
@@ -65,8 +68,7 @@ Their classification is based on continuous cell clusters of one square kilomete
 
 ```{r}
 #Population density
-xsection2017 <- xsection2017 %>%
-  select(NUTS2, Geo_Labels, chg_gdpc, gini, Pop_km2) %>% 
+xsection2017 <- xsection2017 %>% 
   mutate(
     Density_class = cut(
       Pop_km2,
@@ -87,37 +89,51 @@ as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = xsection2017
 ```
 
 ```{r}
-High_Density_reg <- Pop_km2_segm %>%
-  filter(Density_class == "High") %>%
-  lm(formula = gini ~ chg_gdpc)
-Medium_Density_reg <- Pop_km2_segm %>%
-  filter(Density_class == "Medium") %>%
-  lm(formula = gini ~ chg_gdpc)
-Low_Density_reg <- Pop_km2_segm %>%
-  filter(Density_class == "Low") %>%
-  lm(formula = gini ~ chg_gdpc)
+#| label: tbl-Reg_HD
+#| fig-cap: "Effect of GDP change on regional inequality - High population density "
+#| Title: "Effect of GDP change on regional inequality - High population density "
+#Reg. High density
+xsection2017 %>%
+  filter(Density_class == "High Density") %>%
+  lm(formula = gini ~ chg_gdpc)%>%
+as_flextable()
 ```
+
+Running a regression model on our high density subsection, we get a negative relationship (-0,020) between an increase in GDP per capita and our calculated Gini coefficient. The result is however barely statistically insignificant, with a P-value of 0,08. 
 
 ```{r}
+#| label: tbl-Reg_MD
+#| fig-cap: "Effect of GDP change on regional inequality - Medium population density "
+#| Title: "Effect of GDP change on regional inequality - Medium population density "
+#Reg. Med. Density
 xsection2017 %>%
-  filter(Density_class == "High") %>%
-  lm(formula = gini ~ chg_gdpc) + 
-  xsection2017 %>%
-  filter(Density_class == "Medium") %>%
-  lm(formula = gini ~ chg_gdpc) + 
-  xsection2017 %>%
-  filter(Density_class == "Rural") %>%
-  lm(formula = gini ~ chg_gdpc)
+  filter(Density_class == "Medium Density") %>%
+  lm(formula = gini ~ chg_gdpc)%>%
+as_flextable()
 ```
 
-## Workforce
+Running the same model for our medium density section, we see a positive relationship between the two variables. The result is however not statistically significant, with a P-value of 0,59.
+
+```{r}
+#| label: tbl-Reg_Rural
+#| fig-cap: "Effect of GDP change on regional inequality - Rural population density "
+#| Title: "Effect of GDP change on regional inequality - Rural population density "
+#Reg. Rural
+xsection2017 %>%
+  filter(Density_class == "Rural") %>%
+  lm(formula = gini ~ chg_gdpc)%>%
+as_flextable()
+```
+
+Our rural section is also not statistically significant, but the relationship flips to negative again.
+
+### Workforce
 
 Our data on available workforce is much more linear than for population density, so here we will simply be doing a quantile split into three equally sized classifications: "low", "medium" and "high" workforce.
 
 ```{r}
 #Workforce
-Workforce_segm <- xsection2017 %>%
-  select(NUTS2, Geo_Labels, chg_gdpc, gini, Workforce) %>% 
+xsection2017 <- xsection2017 %>%
   mutate(Workforce_Class = cut(Workforce,
                            breaks = quantile(Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
                            include.lowest = TRUE,
@@ -125,10 +141,49 @@ Workforce_segm <- xsection2017 %>%
 
 ```
 
-## Unemployment Rate
+```{r}
+#| label: tbl-Reg_Work_High
+#| fig-cap: "Effect of GDP change on regional inequality - High available workforce"
+#| Title: "Effect of GDP change on regional inequality - High available workforce"
+xsection2017 %>%
+  filter(Workforce_Class == "High") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
+```
+
+When applying our model on the "high available workforce"-subset, we see a positive relationship between GDP change and Gini, although it is not statistically significant.
+```{r}
+#| label: tbl-Reg_Work_Medium
+#| fig-cap: "Effect of GDP change on regional inequality - Medium available workforce"
+#| Title: "Effect of GDP change on regional inequality - Medium available workforce"
+xsection2017 %>%
+  filter(Workforce_Class == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
+```
+
+For our "medium workforce", the relationship inverts again, but also here statistically insignificant
 
 ```{r}
-Unemp_prct_segm <- xsection2017 %>%
+#| label: tbl-Reg_Work_Low
+#| fig-cap: "Effect of GDP change on regional inequality - Low available workforce"
+#| Title: "Effect of GDP change on regional inequality - Low available workforce"
+xsection2017 %>%
+  filter(Workforce_Class == "Low") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
+```
+
+Low available workforce inverts the relationship once again, but also here statistically insignificant.
+
+### Unemployment Rate
+
+For unemployment rate, we have a pretty continuous spread from 2% to 7%, before we see a few outliers with much higher unemployment rates, relative to the rest of the dataset. We have chosen to section our datasets into three sections: low, medium and high unemployment rates, with breaks being at 0%, >5% and >10%  
+```{r}
+xsection2017 <- xsection2017 %>%
   mutate(
     Unemp_Class = cut(
       Unemp_prct,
@@ -141,7 +196,57 @@ Unemp_prct_segm <- xsection2017 %>%
 ```
 
 ```{r}
-ggplot(Pop_km2_segm, aes(x = chg_gdpc, y = gini)) +
-geom_point(data = Pop_km2_segm %>%
-            filter(Segments == "High"))
+#| label: tbl-Reg_Unemp_High
+#| fig-cap: "Effect of GDP change on regional inequality - High unemployment"
+#| Title: "Effect of GDP change on regional inequality - High unemployment"
+xsection2017 %>%
+  filter(Unemp_Class == "High") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
 ```
+The regression line in @tbl-Reg_Unemp_High is missing standard error, t-value and p-value due to only containing two observations.
+
+```{r}
+#| label: tbl-Reg_Unemp_Medium
+#| fig-cap: "Effect of GDP change on regional inequality - Medium unemployment"
+#| Title: "Effect of GDP change on regional inequality - Medium unemployment"
+xsection2017 %>%
+  filter(Unemp_Class == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
+```
+In the "medium unemployment" subsection, we see that there is a small, negative, but statistically insignificant relationship between increasing GDP per capita and regional inequality.
+
+```{r}
+#| label: tbl-Reg_Unemp_Low
+#| fig-cap: "Effect of GDP change on regional inequality - Low unemployment"
+#| Title: "Effect of GDP change on regional inequality - Low unemployment"
+xsection2017 %>%
+  filter(Unemp_Class == "Low") %>%
+  lm(formula = gini ~ chg_gdpc) %>%
+  as_flextable()
+
+```
+For our "low unemployment" subset however, the relationship between GDPC increase and regional inequality is positive, but still statistically insignificant.
+
+## Subset Analysis Discussion
+
+Segmenting the data reveals that the estimated relationship between GDP growth and regional inequality changes depending on which type of region we are looking at. 
+For population density, the rural group shows a very small and statistically weak negative coefficient. Medium-density regions display a similarly weak pattern, also statistically insignificant. Only the high-density subset shows a noticeably larger negative estimate, but it still lacks statistical significance. In addition to this, several of the regions in the "high density"-category include only one NUTS2-region, automatically making these regions  more equal. 
+In other words, the relationship between GDP growth and regional GDP inequality becomes stronger in magnitude as density increases, but we don't have enough evidence to treat this as a consistent pattern.
+
+The workforce availability segments show a similar story. Regions with lower workforce availability exhibit weaker estimates, while the high-workforce subset shows a somewhat stronger association. Still, uncertainty is large, and none of the segments are statistically significant.
+
+For unemployment segments, the differences are also mostly about magnitude. Low-unemployment regions tend to have smaller estimated effects, while medium and high segments show slightly larger coefficients. Again, none of these are precise enough to draw conclusions, but the variation itself suggests that the relationship between development and inequality isn’t identical across labour-market contexts.
+
+Overall, the subset analysis doesn’t point to a single, stable development–inequality relationship across all our regional types. Instead, we see small  differences in coefficient size across population density, unemployment, and workforce segments, with no segment showing a statistically significant effect.
+
+# Part B: Exploring Alternative Functional Forms
+
+# Part C: Testing for Heteroskedacity and Discussing Causality
+
+# Part D: Panel Estimates
+
+# Part E: Use of AI
