@@ -91,4 +91,3 @@ Unemp_prct_segm <- full_dataset %>%
                            include.lowest = TRUE,
                            labels = c("Low", "Medium", "High")))
 ```
-
