@@ -40,27 +40,43 @@ library(modelsummary)
 library(lmtest)
 
 ```
- 
+
+\# Part A: Testing development effects across subsets
+
 ```{r}
 full_dataset <- readRDS("./data/Gini_EUdata_Full.rds")
 ```
 
-Separating to low, middel and hight segments
+## Population Density
+
+Breaking down our population density into logical segments could help us make a more accurate regression line.
+If we take a look at our dataset, the data varies a lot, where we have many rural regions with low population density, and then some large city-regions with a much higher density.
+To define the classifications, we will be taking inspiration from Eurostat's own definition on urban clusters and density, which divides Europe into:
+
+-   *"Urban centre (high-density cluster): a cluster of contiguous grid cells of 1 km² (excluding diagonals) with a population density of at least 1 500 inhabitants per km² and collectively a minimum population of 50 000 inhabitants after gap-filling*
+-   *Urban cluster (moderate-density cluster): a cluster of contiguous grid cells of 1 km² (including diagonals) with a population density of at least 300 inhabitants per km² and a minimum population of 5 000 inhabitants*
+-   *Rural grid cells: grid cells that aren’t identified as urban centres or as urban clusters."*
+
+[@populati]
+
+Their classification is based on continuous cell clusters of one square kilometer cells , whereas ours is for whole NUTS2-regions, but we will be using the same break values.
 
 ```{r}
-densitysliced <- cut(full_dataset$Pop_km2, breaks = quantile(full_dataset$Pop_km2, na.rm = TRUE), labels = c("Low density", "Medium density", "High density", "MegaUltradensity"))
-table(densitysliced)
-```
-```{r}
-#Population density
+#Population Density Segmenting.
 Pop_km2_segm <- full_dataset %>%
   select(NUTS2, Geo_Labels, chg_gdpc, gini, Pop_km2) %>% 
-  mutate(Segments = cut(Pop_km2,
-                           breaks = quantile(Pop_km2, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
-                           include.lowest = TRUE,
-                           labels = c("Low", "Medium", "High")))
+  mutate(
+    Segments = cut(
+      Pop_km2,
+      breaks = c(-Inf, 300, 1500, Inf),
+      labels = c("Rural", "Medium Density", "High Density"),
+      include.lowest = TRUE
+    )
+  )
 
 ```
+
+
 
 ```{r}
 #| label: tbl-MLR
@@ -68,9 +84,8 @@ Pop_km2_segm <- full_dataset %>%
 as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = Pop_km2_segm
 ))%>%
   colformat_double(j = 2, digits = 6)
-``` 
- 
- 
+```
+
 ```{r}
 #Workforce
 Workforce_segm <- full_dataset %>%
@@ -109,4 +124,3 @@ ggplot(Pop_km2_segm, aes(x = chg_gdpc, y = gini)) +
 geom_point(data = Pop_km2_segm %>%
             filter(Segments == "High"))
 ```
-
