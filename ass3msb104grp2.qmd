@@ -41,7 +41,8 @@ library(lmtest)
 
 ```
 
-\# Part A: Testing development effects across subsets
+
+# Part A: Testing development effects across subsets
 
 ```{r}
 #Reading prewritten datasets
@@ -229,3 +230,23 @@ xsection2017 %>%
 
 ```
 For our "low unemployment" subset however, the relationship between GDPC increase and regional inequality is positive, but still statistically insignificant.
+
+## Subset Analysis Discussion
+
+Segmenting the data reveals that the estimated relationship between GDP growth and regional inequality changes depending on which type of region we are looking at. 
+For population density, the rural group shows a very small and statistically weak negative coefficient. Medium-density regions display a similarly weak pattern, also statistically insignificant. Only the high-density subset shows a noticeably larger negative estimate, but it still lacks statistical significance. In addition to this, several of the regions in the "high density"-category include only one NUTS2-region, automatically making these regions  more equal. 
+In other words, the relationship between GDP growth and regional GDP inequality becomes stronger in magnitude as density increases, but we don't have enough evidence to treat this as a consistent pattern.
+
+The workforce availability segments show a similar story. Regions with lower workforce availability exhibit weaker estimates, while the high-workforce subset shows a somewhat stronger association. Still, uncertainty is large, and none of the segments are statistically significant.
+
+For unemployment segments, the differences are also mostly about magnitude. Low-unemployment regions tend to have smaller estimated effects, while medium and high segments show slightly larger coefficients. Again, none of these are precise enough to draw conclusions, but the variation itself suggests that the relationship between development and inequality isn’t identical across labour-market contexts.
+
+Overall, the subset analysis doesn’t point to a single, stable development–inequality relationship across all our regional types. Instead, we see small  differences in coefficient size across population density, unemployment, and workforce segments, with no segment showing a statistically significant effect.
+
+# Part B: Exploring Alternative Functional Forms
+
+# Part C: Testing for Heteroskedacity and Discussing Causality
+
+# Part D: Panel Estimates
+
+# Part E: Use of AI
