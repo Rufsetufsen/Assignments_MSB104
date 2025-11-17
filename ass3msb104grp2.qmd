@@ -63,7 +63,7 @@ Their classification is based on continuous cell clusters of one square kilomete
 
 ```{r}
 #Population Density Segmenting.
-Pop_km2_segm <- full_dataset %>%
+full_dataset <- full_dataset %>%
   select(NUTS2, Geo_Labels, chg_gdpc, gini, Pop_km2) %>% 
   mutate(
     Segments = cut(
@@ -81,10 +81,36 @@ Pop_km2_segm <- full_dataset %>%
 ```{r}
 #| label: tbl-MLR
 #| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of GDP and population density."
-as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = Pop_km2_segm
+as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = full_dataset
 ))%>%
   colformat_double(j = 2, digits = 6)
 ```
+
+```{r}
+High_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "High") %>%
+  lm(formula = gini ~ chg_gdpc)
+Medium_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc)
+Low_Density_reg <- Pop_km2_segm %>%
+  filter(Segments == "Low") %>%
+  lm(formula = gini ~ chg_gdpc)
+```
+
+```{r}
+full_dataset %>%
+  filter(Segments == "High") %>%
+  lm(formula = gini ~ chg_gdpc) + 
+  full_dataset %>%
+  filter(Segments == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc) + 
+  full_dataset %>%
+  filter(Segments == "Rural") %>%
+  lm(formula = gini ~ chg_gdpc)
+```
+
+
 
 ## Workforce
 Our data on available workforce is much more linear than for population density, so here we will simply be doing a quantile split into three equally sized classifications: "low", "medium" and "high" workforce.
@@ -115,17 +141,7 @@ Unemp_prct_segm <- full_dataset %>%
 
 ```
 
-```{r}
-High_Density_reg <- Pop_km2_segm %>%
-  filter(Segments == "High") %>%
-  lm(formula = gini ~ chg_gdpc)
-Medium_Density_reg <- Pop_km2_segm %>%
-  filter(Segments == "Medium") %>%
-  lm(formula = gini ~ chg_gdpc)
-Low_Density_reg <- Pop_km2_segm %>%
-  filter(Segments == "Low") %>%
-  lm(formula = gini ~ chg_gdpc)
-```
+
 
 ```{r}
 ggplot(Pop_km2_segm, aes(x = chg_gdpc, y = gini)) +
