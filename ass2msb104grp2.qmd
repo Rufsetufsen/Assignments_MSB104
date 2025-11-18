@@ -68,7 +68,7 @@ The "Lagged_capita"-column shows the GDP value for the previous year, and lets u
 Since 2015 has been filtered away, we see some NA-values in all the rows showing GDP change and lagged capita for 2016, but we will filter these away in the next step anyways, so no harm done.
 
 ```{r}
-#Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. Filtering by year 2016/2017 and mutating column for change in GDP.
+#Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. 
 GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
   select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
   group_by(NUTS2, Country, Time) %>%
@@ -77,6 +77,13 @@ GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
     "N2POPSUM" = sum(Population, na.rm = TRUE),
     "N2GDPCAP"  = (N2GDPSUM * 1000000)/ N2POPSUM,
     .groups = "drop")%>%
+write_rds("./data/TidyNUTS2.rds")
+```
+
+
+```{r}
+#Filtering by year 2016/2017 and mutating column for change in GDP.
+GDPChange %>%
   filter(Time > "2015" & Time < "2018")%>%
 mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
