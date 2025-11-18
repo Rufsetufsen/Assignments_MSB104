@@ -38,7 +38,7 @@ library(psych)
 library(flextable)
 library(modelsummary)
 library(lmtest)
-
+library(plm)
 ```
 
 
@@ -80,51 +80,36 @@ xsection2017 <- xsection2017 %>%
 
 ```
 
-```{r}
-#| label: tbl-MLR
-#| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of GDP and population density."
-as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-```
 
 ```{r}
-#| label: tbl-Reg_HD
-#| fig-cap: "Effect of GDP change on regional inequality - High population density "
-#| Title: "Effect of GDP change on regional inequality - High population density "
-#Reg. High density
-xsection2017 %>%
+#| label: tbl-Reg
+#| fig-cap: "Effect of GDP change on regional inequality - Sectioned by population density "
+#| Title: "Effect of GDP change on regional inequality - Sectioned by population density "
+#Reg. Pop density
+lmregHD <- xsection2017 %>%
   filter(Density_class == "High Density") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
+  lm(formula = gini ~ chg_gdpc)
+lmregMD <- xsection2017 %>%
+  filter(Density_class == "Medium Density") %>%
+  lm(formula = gini ~ chg_gdpc)
+lmregRural <- xsection2017 %>%
+  filter(Density_class == "Rural") %>%
+  lm(formula = gini ~ chg_gdpc)
+modelsummary(
+  models = list(
+    "High Density" = lmregHD,
+    "Medium Density" = lmregMD,
+"Rural" = lmregRural
+  ),
+  fmt = 4,
+  output = "flextable"
+) %>%
+  autofit() %>% 
+  line_spacing(space = 0.4, part = "body") 
 ```
 
 Running a regression model on our high density subsection, we get a negative relationship (-0,020) between an increase in GDP per capita and our calculated Gini coefficient. The result is however barely statistically insignificant, with a P-value of 0,08. 
-
-```{r}
-#| label: tbl-Reg_MD
-#| fig-cap: "Effect of GDP change on regional inequality - Medium population density "
-#| Title: "Effect of GDP change on regional inequality - Medium population density "
-#Reg. Med. Density
-xsection2017 %>%
-  filter(Density_class == "Medium Density") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
-```
-
 Running the same model for our medium density section, we see a positive relationship between the two variables. The result is however not statistically significant, with a P-value of 0,59.
-
-```{r}
-#| label: tbl-Reg_Rural
-#| fig-cap: "Effect of GDP change on regional inequality - Rural population density "
-#| Title: "Effect of GDP change on regional inequality - Rural population density "
-#Reg. Rural
-xsection2017 %>%
-  filter(Density_class == "Rural") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
-```
-
 Our rural section is also not statistically significant, but the relationship flips to negative again.
 
 ### Workforce
@@ -142,40 +127,40 @@ xsection2017 <- xsection2017 %>%
 ```
 
 ```{r}
-#| label: tbl-Reg_Work_High
-#| fig-cap: "Effect of GDP change on regional inequality - High available workforce"
-#| Title: "Effect of GDP change on regional inequality - High available workforce"
-xsection2017 %>%
+#| label: tbl-Reg_Workforce
+#| fig-cap: "Effect of GDP change on regional inequality - Sectioned by workforce availability"
+#| Title: "Effect of GDP change on regional inequality - Sectioned by workforce availability"
+
+# Regressions by Workforce_Class
+lmregWF_High <- xsection2017 %>%
   filter(Workforce_Class == "High") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
-  as_flextable()
+  lm(formula = gini ~ chg_gdpc)
+
+lmregWF_Medium <- xsection2017 %>%
+  filter(Workforce_Class == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc)
+
+lmregWF_Low <- xsection2017 %>%
+  filter(Workforce_Class == "Low") %>%
+  lm(formula = gini ~ chg_gdpc)
+
+modelsummary(
+  models = list(
+    "High Workforce" = lmregWF_High,
+    "Medium Workforce" = lmregWF_Medium,
+    "Low Workforce" = lmregWF_Low
+  ),
+  fmt = 4,
+  output = "flextable"
+) %>%
+  autofit() %>% 
+  line_spacing(space = 0.4, part = "body")
 
 ```
 
 When applying our model on the "high available workforce"-subset, we see a positive relationship between GDP change and Gini, although it is not statistically significant.
-```{r}
-#| label: tbl-Reg_Work_Medium
-#| fig-cap: "Effect of GDP change on regional inequality - Medium available workforce"
-#| Title: "Effect of GDP change on regional inequality - Medium available workforce"
-xsection2017 %>%
-  filter(Workforce_Class == "Medium") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
-  as_flextable()
-
-```
 
 For our "medium workforce", the relationship inverts again, but also here statistically insignificant
-
-```{r}
-#| label: tbl-Reg_Work_Low
-#| fig-cap: "Effect of GDP change on regional inequality - Low available workforce"
-#| Title: "Effect of GDP change on regional inequality - Low available workforce"
-xsection2017 %>%
-  filter(Workforce_Class == "Low") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
-  as_flextable()
-
-```
 
 Low available workforce inverts the relationship once again, but also here statistically insignificant.
 
@@ -196,39 +181,54 @@ xsection2017 <- xsection2017 %>%
 ```
 
 ```{r}
-#| label: tbl-Reg_Unemp_High
-#| fig-cap: "Effect of GDP change on regional inequality - High unemployment"
-#| Title: "Effect of GDP change on regional inequality - High unemployment"
-xsection2017 %>%
+#| label: tbl-Reg_Unemployment
+#| fig-cap: "Effect of GDP change on regional inequality - Sectioned by unemployment rate"
+#| Title: "Effect of GDP change on regional inequality - Sectioned by unemployment rate"
+
+# Regressions by Unemployment_Class
+lmregUnemp_High <- xsection2017 %>%
   filter(Unemp_Class == "High") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
-  as_flextable()
+  lm(formula = gini ~ chg_gdpc)
+
+lmregUnemp_Medium <- xsection2017 %>%
+  filter(Unemp_Class == "Medium") %>%
+  lm(formula = gini ~ chg_gdpc)
+
+lmregUnemp_Low <- xsection2017 %>%
+  filter(Unemp_Class == "Low") %>%
+  lm(formula = gini ~ chg_gdpc)
+
+modelsummary(
+  models = list(
+    "High Unemployment" = lmregUnemp_High,
+    "Medium Unemployment" = lmregUnemp_Medium,
+    "Low Unemployment" = lmregUnemp_Low
+  ),
+  fmt = 4,
+  output = "flextable"
+) %>%
+  autofit() %>% 
+  line_spacing(space = 0.4, part = "body")
 
 ```
-The regression line in @tbl-Reg_Unemp_High is missing standard error, t-value and p-value due to only containing two observations.
+The model for the "high unemployment" section showed remarkable predictive power, with an R-squared of 1, but we have opted out of including this in our table due to the small amount of observations. The high unemployment section ony contained two observations which were statistical outliers, relative to the rest of the data. While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive. We have presented the results from the data.
 
 ```{r}
-#| label: tbl-Reg_Unemp_Medium
-#| fig-cap: "Effect of GDP change on regional inequality - Medium unemployment"
-#| Title: "Effect of GDP change on regional inequality - Medium unemployment"
 xsection2017 %>%
-  filter(Unemp_Class == "Medium") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
+    lm(formula = gini ~ chg_gdpc + Density_class) %>%
   as_flextable()
-
 ```
+
+
+```{r}
+xsection2017 %>%
+filter(Unemp_Class == "High") %>%
+  summary(output = "Flextable")
+```
+
+
 In the "medium unemployment" subsection, we see that there is a small, negative, but statistically insignificant relationship between increasing GDP per capita and regional inequality.
 
-```{r}
-#| label: tbl-Reg_Unemp_Low
-#| fig-cap: "Effect of GDP change on regional inequality - Low unemployment"
-#| Title: "Effect of GDP change on regional inequality - Low unemployment"
-xsection2017 %>%
-  filter(Unemp_Class == "Low") %>%
-  lm(formula = gini ~ chg_gdpc) %>%
-  as_flextable()
-
-```
 For our "low unemployment" subset however, the relationship between GDPC increase and regional inequality is positive, but still statistically insignificant.
 
 ## Subset Analysis Discussion
@@ -248,5 +248,45 @@ Overall, the subset analysis doesn’t point to a single, stable development–i
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
 # Part D: Panel Estimates
+
+## Data Prep
+
+```{r}
+PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, keep = FALSE, by = join_by(NUTS2, Time)) %>%
+  left_join(y = readRDS("./data/ginigdp.rds"), by = join_by(NUTS2, Time)) %>%
+  mutate(
+    lagged_capita = dplyr::lag(N2GDPCAP),
+    chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
+    chg_gdpc = 100 * chg_gdpc)%>%
+
+print(PanelData)
+```
+
+In the code chunk above we load the long format data containing summed GDP and population per NUTS2 from assignment 1, and join on the additional variables from earlier in assignment 3, in addition to the calculated Gini coefficient based on internal GDP variations per region. The dataset containing population density, unemployment rate and total workforce only includes data from 2013 on, so the resulting dataframe (PanelData) contains a few NA-values in the cases where we have GDP data and no additional variables.
+
+```{r}
+#Cleaning our data - NA/NaN/Inf-values will break our model.
+PanelData_clean <- PanelData %>% 
+  filter(!is.na(gini), !is.na(chg_gdpc), !is.nan(chg_gdpc))
+```
+
+```{r}
+#turning our data frame into panel data based on assignment specs.
+pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
+pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
+
+```
+
+
+```{r}
+fe_nuts2 <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "individual"  # NUTS2 FE
+)
+
+```
+
 
 # Part E: Use of AI
