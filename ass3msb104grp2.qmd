@@ -41,9 +41,8 @@ library(lmtest)
 
 ```
 
-<<<<<<< HEAD
-=======
-\# Part A: Testing development effects across subsets
+
+# Part A: Testing development effects across subsets
 
 ```{r}
 #Reading prewritten datasets
@@ -150,119 +149,148 @@ geom_point(data = Pop_km2_segm %>%
 ```
 
 
+--------------------------------------------------------------------
+
+## Part B Exploring Alternative Functional forms
+-Functional form exploration:
+Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit. 
+
 
 ```{r}
-log_model <- lm(gini ~ chg_gdpc + log(Unemp_prct), data = xsection2017)
+# Creating different functional forms for change in gdpc
+# Linear funksjon
+as_flextable (lm(gini ~ chg_gdpc, data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+liner_Unemp <- lm(gini ~ chg_gdpc, data = xsection2017)
 
-kubisk_model <- lm(gini ~ chg_gdpc + Unemp_prct + I(Unemp_prct^2) + I(Unemp_prct^2), data = xsection2017)
+# Logarithmic:
+as_flextable (lm(gini ~ log(chg_gdpc), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Log_Unemp <- lm(gini ~ log(chg_gdpc), data = xsection2017)
+
+#Quadratic:
+as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Kvad_Unemp <- lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017)
 ```
+Modell 1 og 2 passer best for denne variabelen, forklar 
+For the employment rate we have chosen the logarithmic and the quadratic functions to see if they provide a better fit. Model one gives a p-verdi for hele modellen på en 0.0018 noe som viser at modellen forklarer en variasjon i repsonsvariablene. Så får vi en R²=0.27 som sier at modellen har en 27% forklaringskraft på den 
+The first model is the logarithmic function which gives a estimated value of 0.233016 when all explanatory variables are 0
+
 
 ```{r}
-# Unemployment rate forskjellige funksjoner:
-# Logaritmisk:
-as_flextable (lm(gini ~ chg_gdpc + log(Unemp_prct), data = xsection2017
+# Creating different functional forms for Labour force 
+# Linear function
+as_flextable(lm(gini ~ chg_gdpc, data = xsection2017)
+linear_Pop_km2 <- lm(gini ~ chg_gdpc, data = xsection2017)
+
+# Logarithmic function:
+as_flextable (lm(gini ~ log(Workforce), data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
 
-#Kvadratisk:
-as_flextable (lm(gini ~ chg_gdpc + I(Unemp_prct^2), data = xsection2017
+#Quadratic function:
+as_flextable (lm(gini ~ Workforce + I(Workforce^2), data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-
-#Kubisk:
-as_flextable(lm(gini ~ chg_gdpc + Unemp_prct + I(Unemp_prct^2) + I(Unemp_prct^3), data = xsection2017))
-```
-Modell 2 og 3 passer best for unemployment rate, forklar hvorfor 
-
-```{r}
-# workforce forskjellige funksjoner:
-# Logaritmisk:
-as_flextable (lm(gini ~ chg_gdpc + log(Workforce), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-testmodel <- as_flextable (lm(gini ~ chg_gdpc + log(Workforce), data = xsection2017
-))
-
-#Kvadratisk:
-as_flextable (lm(gini ~ chg_gdpc + I(Workforce^2), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-
-#Kubisk:
-as_flextable(lm(gini ~ chg_gdpc + Workforce + I(Workforce^2) + I(Workforce^3), data = xsection2017))
 ```
 Modell 1 og modell 2 er de jeg kan bruke men begge har en svært lav forklaringskraft på hvordan workforce påvirker den regional ulikeheten, kan dette være fordi det er der forskjeller i fra den lave til høy?
 
 ```{r}
-# Set seed
-{set.seed(1234)
-# Sample size
-n <- 1e3
-# Generate data
-log_df <- tibble(
-  x = runif(n, 0, 10),
-  y = exp(3 * log(x) + rnorm(n, sd = 0.5))
-)
-reg3 <- lm(log(y) ~ log(x), log_df)
-a3 <- round(reg3$coefficients[1], 3)
-b3 <- round(reg3$coefficients[2], 3)
-}
+# Creating different functional forms for Population density 
+# Linear function
+as_flextable(lm(gini ~ Pop_km2, data = xsection2017)
+linear_Pop_km2 <- lm(gini ~ Pop_km2, data = xsection2017))
+# Logarithmic function:
+as_flextable (lm(gini ~ log(Pop_km2), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Log_Pop_km2 <- lm(gini ~ log(Pop_km2), data = xsection2017)
+
+#Quadratic function:
+as_flextable (lm(gini ~ Pop_km2 + I(Pop_km2^2), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Kvad_Pop_km2 <- lm(gini ~ Pop_km2 + I(Pop_km2^2), data = xsection2017)
 ```
 
 ```{r}
-plot_log_log <- ggplot(data = log_df, aes(x = x, y = y)) +
-geom_point(size = 1.5, colour = "orange", alpha = 0.2) +
-geom_smooth(linewidth = 1.5, colour = "blue", se = FALSE) +
-xlab("X") +
-ylab("Y") +
-  labs(title = bquote('log('~hat(Y)[i]~')='~.(a3)~ + .(b3)~'·'~'log('~X[i]~')'))
-# to get rid of message from geom_smooth
-suppressMessages(print(plot_log_log))
+# Creating different functional forms for Population density 
+# Linear function
+as_flextable(lm(gini ~ Unemp_prct, data = xsection2017))
+linear_Unemp <- (lm(gini ~ Unemp_prct, data = xsection2017))
+# Logarithmic function:
+as_flextable (lm(gini ~ log(Unemp_prct), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Log_Pop_km2 <- lm(gini ~ log(Unemp_prct), data = xsection2017)
+
+#Quadratic function:
+as_flextable (lm(gini ~ Unemp_prct + I(Unemp_prct^2), data = xsection2017
+))%>%
+  colformat_double(j = 2, digits = 6)
+Kvad_Pop_km2 <- lm(gini ~ Unemp_prct + I(Unemp_prct^2), data = xsection2017)
 ```
 
 
 
-
 ```{r}
-quad_reg <- lm(gini ~ Workforce + I(Workforce^2), data = xsection2017) 
-coef_q_reg <- coef(quad_reg)
-b1 <- coef_q_reg[2]
-b2 <- coef_q_reg[3]
-```
-
-```{r}
-p_quad <- xsection2017 |> 
-  ggplot(mapping = aes(x = Workforce, y = gini)) +
-  geom_point(size = 1.5, colour = "orange", alpha = 0.2) +
-  geom_smooth(
-    method = "lm", 
-    formula = y ~ x + I(x^2),
-    linewidth = 1.5, 
-    colour = "blue", 
-    se = FALSE
+linear_Pop_km2 |> # creating a linear regression line 
+  ggplot(
+    mapping = aes(
+      x = liner_Pop_km2$residuals, 
+      y = liner_Pop_km2$fitted.values
+    )
   ) +
-  xlab("Workforce") +
+  geom_jitter(
+    size = 1,
+    alpha = 0.70
+  ) +
+  geom_smooth(linewidth = 1, 
+    colour = "blue"
+    )+
+  xlab("Population density") +
   ylab("Gini")
 
-suppressMessages(print(p_quad))
+Log_Pop_km2 |> # creating a logarithmic regression line 
+  ggplot(
+    mapping = aes(
+      x = Log_Pop_km2$residuals,
+      y = Log_Pop_km2$fitted.values
+    )
+  ) +
+  geom_jitter(
+    size = 1,
+    alpha = 0.70
+  ) +
+  geom_smooth(linewidth = 1, 
+    colour = "blue"
+    )+
+  xlab("Population density") +
+  ylab("Gini")
+
+Kvad_Pop_km2 |>
+  ggplot(
+    mapping = aes(
+      x = Kvad_Pop_km2$residuals,
+      y = Kvad_Pop_km2$fitted.values
+    )
+  ) +
+  geom_jitter(
+    size = 1,
+    alpha = 0.70
+  ) +
+  geom_smooth(
+    linewidth = 1, 
+    colour = "blue"
+    )+
+  xlab("Population density") +
+  ylab("Gini")
 ```
 
 
-```{r}
-# Population density forskjellige funksjoner:
-# Logaritmisk:
-as_flextable (lm(gini ~ chg_gdpc + log(Pop_km2), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-
-#Kvadratisk:
-as_flextable (lm(gini ~ chg_gdpc + I(Pop_km2^2), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-
-#Kubisk:
-as_flextable(lm(gini ~ chg_gdpc + Pop_km2 + I(Pop_km2^2) + I(Pop_km2^3), data = xsection2017))
-```
-```
 
 
