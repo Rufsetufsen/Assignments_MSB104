@@ -80,51 +80,38 @@ xsection2017 <- xsection2017 %>%
 
 ```
 
-```{r}
-#| label: tbl-MLR
-#| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of GDP and population density."
-as_flextable (lm(gini ~ chg_gdpc + Pop_km2, data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-```
 
 ```{r}
-#| label: tbl-Reg_HD
-#| fig-cap: "Effect of GDP change on regional inequality - High population density "
-#| Title: "Effect of GDP change on regional inequality - High population density "
-#Reg. High density
-xsection2017 %>%
+#| label: tbl-Reg
+#| fig-cap: "Effect of GDP change on regional inequality - Sectioned by population density "
+#| Title: "Effect of GDP change on regional inequality - Sectioned by population density "
+#Reg. Pop density
+lmregHD <- xsection2017 %>%
   filter(Density_class == "High Density") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
+  lm(formula = gini ~ chg_gdpc)
+lmregMD <- xsection2017 %>%
+  filter(Density_class == "Medium Density") %>%
+  lm(formula = gini ~ chg_gdpc)
+lmregRural <- xsection2017 %>%
+  filter(Density_class == "Rural") %>%
+  lm(formula = gini ~ chg_gdpc)
+modelsummary(
+  models = list(
+    "High Density" = lmregHD,
+    "Medium Density" = lmregMD,
+"Rural" = lmregRural
+  ),
+  fmt = 4,
+  output = "flextable"
+) %>%
+  autofit() %>% 
+  line_spacing(space = 0.4, part = "body") 
+
+
 ```
 
 Running a regression model on our high density subsection, we get a negative relationship (-0,020) between an increase in GDP per capita and our calculated Gini coefficient. The result is however barely statistically insignificant, with a P-value of 0,08. 
-
-```{r}
-#| label: tbl-Reg_MD
-#| fig-cap: "Effect of GDP change on regional inequality - Medium population density "
-#| Title: "Effect of GDP change on regional inequality - Medium population density "
-#Reg. Med. Density
-xsection2017 %>%
-  filter(Density_class == "Medium Density") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
-```
-
 Running the same model for our medium density section, we see a positive relationship between the two variables. The result is however not statistically significant, with a P-value of 0,59.
-
-```{r}
-#| label: tbl-Reg_Rural
-#| fig-cap: "Effect of GDP change on regional inequality - Rural population density "
-#| Title: "Effect of GDP change on regional inequality - Rural population density "
-#Reg. Rural
-xsection2017 %>%
-  filter(Density_class == "Rural") %>%
-  lm(formula = gini ~ chg_gdpc)%>%
-as_flextable()
-```
-
 Our rural section is also not statistically significant, but the relationship flips to negative again.
 
 ### Workforce
