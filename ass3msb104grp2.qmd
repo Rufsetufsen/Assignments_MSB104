@@ -258,8 +258,7 @@ PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, kee
     lagged_capita = dplyr::lag(N2GDPCAP),
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
     chg_gdpc = 100 * chg_gdpc)%>%
-
-print(PanelData)
+  print()
 ```
 
 In the code chunk above we load the long format data containing summed GDP and population per NUTS2 from assignment 1, and join on the additional variables from earlier in assignment 3, in addition to the calculated Gini coefficient based on internal GDP variations per region. The dataset containing population density, unemployment rate and total workforce only includes data from 2013 on, so the resulting dataframe (PanelData) contains a few NA-values in the cases where we have GDP data and no additional variables.
@@ -267,8 +266,11 @@ In the code chunk above we load the long format data containing summed GDP and p
 ```{r}
 #Cleaning our data - NA/NaN/Inf-values will break our model.
 PanelData_clean <- PanelData %>% 
-  filter(!is.na(gini), !is.na(chg_gdpc), !is.nan(chg_gdpc))
+  na.omit() %>%
+  print()
 ```
+
+NA, NaN, and infinite values will break our panel estimation, so to be able to run this, we first have to clean up our data. We do this by telling R to drop NA-values. The output can be seen in the table above. Note that the table now only contains complete rows, so observations before 2013 have been dropped as we lack information about the additional variables here.
 
 ```{r}
 #turning our data frame into panel data based on assignment specs.
@@ -276,14 +278,62 @@ pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
 pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
 
 ```
-
+## Panel Estimates
 
 ```{r}
+#NUTS2 as fixed effect
 fe_nuts2 <- plm(
   gini ~ chg_gdpc,
   data  = pdata_nuts2,
   model = "within",
   effect = "individual"  # NUTS2 FE
+)
+print(fe_nuts2)
+
+```
+
+```{r}
+#Year as fixed effect
+fe_year <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "time"
+)
+
+```
+
+```{r}
+#Country as fixed effect
+fe_country <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_country,
+  model = "within",
+  effect = "individual"
+)
+
+```
+
+```{r}
+#Two-way effect
+fe_twoway <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "twoways"
+)
+
+```
+
+```{r}
+modelsummary(
+  models = list(
+    "Country FE"      = fe_country,
+    "Year FE"         = fe_year,
+    "NUTS2 FE"        = fe_nuts2,
+    "NUTS2 & Year FE" = fe_twoway
+  ),
+  output = "flextable"
 )
 
 ```
