@@ -478,6 +478,8 @@ ginigdp |>
   delete_part("footer")
 ```
 
+
+
 ```{r}
 #| label: tbl-ginigdp-HR
 #| tbl-cap: 'Change i gini-coefficients for the NUTS2 regions in Croatia. (N3 number of NUTS3 regions.)'
