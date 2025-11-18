@@ -36,7 +36,6 @@ library(psych)
 library(flextable)
 # define not in
 `%nin%` <- Negate(`%in%`)
-
 ```
 
 ## Data Acquisition
