@@ -578,6 +578,7 @@ Kvad_Unemp |>
   ylab("Gini")
 ```
 
+
 =======
 The model for the "high unemployment" section showed remarkable predictive power, with an R-squared of 1, but we have opted out of including this in our table due to the small amount of observations. The high unemployment section ony contained two observations which were statistical outliers, relative to the rest of the data. While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive. We have presented the results from the data.
 
