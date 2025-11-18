@@ -252,8 +252,40 @@ Overall, the subset analysis doesn’t point to a single, stable development–i
 ## Data Prep
 
 ```{r}
-PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, keep = FALSE, by = join_by(NUTS2, Time))
-  
+PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, keep = FALSE, by = join_by(NUTS2, Time)) %>%
+  left_join(y = readRDS("./data/ginigdp.rds"), by = join_by(NUTS2, Time)) %>%
+  mutate(
+    lagged_capita = dplyr::lag(N2GDPCAP),
+    chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
+    chg_gdpc = 100 * chg_gdpc)%>%
+
+print(PanelData)
+```
+
+In the code chunk above we load the long format data containing summed GDP and population per NUTS2 from assignment 1, and join on the additional variables from earlier in assignment 3, in addition to the calculated Gini coefficient based on internal GDP variations per region. The dataset containing population density, unemployment rate and total workforce only includes data from 2013 on, so the resulting dataframe (PanelData) contains a few NA-values in the cases where we have GDP data and no additional variables.
+
+```{r}
+#Cleaning our data - NA/NaN/Inf-values will break our model.
+PanelData_clean <- PanelData %>% 
+  filter(!is.na(gini), !is.na(chg_gdpc), !is.nan(chg_gdpc))
+```
+
+```{r}
+#turning our data frame into panel data based on assignment specs.
+pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
+pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
+
+```
+
+
+```{r}
+fe_nuts2 <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "individual"  # NUTS2 FE
+)
+
 ```
 
 
