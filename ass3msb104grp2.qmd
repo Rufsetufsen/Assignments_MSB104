@@ -38,7 +38,7 @@ library(psych)
 library(flextable)
 library(modelsummary)
 library(lmtest)
-
+library(plm)
 ```
 
 
@@ -248,5 +248,13 @@ Overall, the subset analysis doesn’t point to a single, stable development–i
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
 # Part D: Panel Estimates
+
+## Data Prep
+
+```{r}
+PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, keep = FALSE, by = join_by(NUTS2, Time))
+  
+```
+
 
 # Part E: Use of AI
