@@ -263,25 +263,26 @@ We will then justify our choice with theoretical or empirical reasoning.
 We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
 The theoretical reason for picking these models would be the
 
+
 ```{r}
-# Creating different functional forms for change in gdpc
+# Creating different functional forms with the variables regional development and labour force
 # Linear funksjon
-as_flextable (lm(gini ~ chg_gdpc, data = xsection2017
+as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-linear_chg_gdpc <- lm(gini ~ chg_gdpc, data = xsection2017)
+linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 
 # Logarithmic:
-as_flextable (lm(gini ~ log(chg_gdpc), data = xsection2017
+as_flextable (lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Log_chg_gdpc <- lm(gini ~ log(chg_gdpc), data = xsection2017)
+Log_Workforce <- lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017)
 
 #Quadratic:
-as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017
+as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Kvad_chg_gdpc <- lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017)
+Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
 
 Empirically, the logarithmic model outperforms the quadratic model on every key metric: coefficient significance, overall model significance, explanatory power and residual variation.
@@ -289,123 +290,49 @@ The results show the economic growth has a statistically robust, negative, and d
 In contrast the quadratic model does not provide statistically meaningful evidence of a non-linear relationship, and its low R-squared and non-significant F-test indicate that it fits the data poorly.
 For economic growth variable, the logarithmic model is more appropriate to use when showing the connection to regional inequality.
 
-```{r}
-# Creating different functional forms for Labour force 
-# Linear function
-as_flextable(lm(gini ~ Workforce, data = xsection2017))
-linear_Workforce <- lm(gini ~ Workforce, data = xsection2017)
+Bruk reset funksjonen sjekk elm test pakken
 
-# Logarithmic function:
-as_flextable (lm(gini ~ log(Workforce), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-Log_Workforce <- lm(gini ~ log(Workforce), data = xsection2017)
 
-#Quadratic function:
-as_flextable (lm(gini ~ Workforce + I(Workforce^2), data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
-Kvad_Workforce <- lm(gini ~ Workforce + I(Workforce^2), data = xsection2017)
-```
-
-Same as the model for economic growth variable, the logarithmic functions provides better.
-Although the labour force shows a weak but marginal evidence of a relationship with the
-
-Modell 1 og modell 2 er de jeg kan bruke men begge har en svært lav forklaringskraft på hvordan workforce påvirker den regional ulikeheten, kan dette være fordi det er der forskjeller i fra den lave til høy?
 
 ```{r}
-# Creating different functional forms for Population density 
+# Creating different functional forms with the variables regional development and population denisty
 # Linear function
-as_flextable(lm(gini ~ Pop_km2, data = xsection2017))
-linear_Pop_km2 <- (lm(gini ~ Pop_km2, data = xsection2017))
+as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
+linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 
 # Logarithmic function:
-as_flextable (lm(gini ~ log(Pop_km2), data = xsection2017
+as_flextable (lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Log_Pop_km2 <- lm(gini ~ log(Pop_km2), data = xsection2017)
+Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 
 #Quadratic function:
-as_flextable (lm(gini ~ Pop_km2 + I(Pop_km2^2), data = xsection2017
+as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Kvad_Pop_km2 <- lm(gini ~ Pop_km2 + I(Pop_km2^2), data = xsection2017)
+Kvad_Pop_km2 <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017)
 ```
 
 ```{r}
-# Creating different functional forms for Population density 
+# Creating different functional forms with the variables regional development and Unemployment rate
 # Linear function
-as_flextable(lm(gini ~ Unemp_prct, data = xsection2017))
-linear_Unemp <- (lm(gini ~ Unemp_prct, data = xsection2017))
+as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
+linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 
 # Logarithmic function:
-as_flextable (lm(gini ~ log(Unemp_prct), data = xsection2017
+as_flextable (lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Log_Unemp <- lm(gini ~ log(Unemp_prct), data = xsection2017)
+Log_Unemp <- lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017)
 
 #Quadratic function:
-as_flextable (lm(gini ~ Unemp_prct + I(Unemp_prct^2), data = xsection2017
+as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)
-Kvad_Unemp <- lm(gini ~ Unemp_prct + I(Unemp_prct^2), data = xsection2017)
+Kvad_Unemp <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017)
 ```
 
 ## modeller
-
-```{r}
-linear_chg_gdpc |> # creating a linear regression line 
-  ggplot(
-    mapping = aes(
-      x = linear_chg_gdpc$residuals, 
-      y = linear_chg_gdpc$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-
-Log_chg_gdpc |> # creating a logarithmic regression line 
-  ggplot(
-    mapping = aes(
-      x = Log_chg_gdpc$residuals,
-      y = Log_chg_gdpc$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-
-Kvad_chg_gdpc |>
-  ggplot(
-    mapping = aes(
-      x = Kvad_chg_gdpc$residuals,
-      y = Kvad_chg_gdpc$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(
-    linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-```
 
 ```{r}
 linear_Workforce |> # creating a linear regression line 
@@ -461,59 +388,6 @@ Kvad_Workforce |>
   ylab("Gini")
 ```
 
-```{r}
-linear_Pop_km2 |> # creating a linear regression line 
-  ggplot(
-    mapping = aes(
-      x = linear_Pop_km2$residuals, 
-      y = linear_Pop_km2$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-
-Log_Pop_km2 |> # creating a logarithmic regression line 
-  ggplot(
-    mapping = aes(
-      x = Log_Pop_km2$residuals,
-      y = Log_Pop_km2$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-
-Kvad_Pop_km2 |>
-  ggplot(
-    mapping = aes(
-      x = Kvad_Pop_km2$residuals,
-      y = Kvad_Pop_km2$fitted.values
-    )
-  ) +
-  geom_jitter(
-    size = 1,
-    alpha = 0.70
-  ) +
-  geom_smooth(
-    linewidth = 1, 
-    colour = "blue"
-    )+
-  xlab("Population density") +
-  ylab("Gini")
-```
 
 ```{r}
 linear_Pop_km2 |> # creating a linear regression line 
@@ -568,6 +442,7 @@ Kvad_Pop_km2 |>
   xlab("Population density") +
   ylab("Gini")
 ```
+
 
 ```{r}
 linear_Unemp |> # creating a linear regression line 
