@@ -663,7 +663,7 @@ Firstly, we face serious omitted variable issues. Many things that influence reg
 
 We also have the classic problem of reverse causality. Regions with rising inequality might experience slower growth later on, for example because of political tensions, social instability, or different investment patterns. If inequality affects growth and not just the other way around, our estimates will be biased in both directions.
 
-To improve causal interpretation, we would need either better identification strategies (like using instrument variables to adjust for confounders) or richer datasets Without that, the safest conclusion is that our results could describe correlations, not causal effects.
+We end up with a similar conclusion to the causality question to that of @lessmann2017. To improve causal interpretation, we would need either better identification strategies (like using instrument variables to adjust for confounders) or richer datasets Without that, the safest conclusion is that our results could describe correlations, not causal effects.
 
 # Part D: Panel Estimates
 
