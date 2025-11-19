@@ -260,8 +260,7 @@ Instead, we see small differences in coefficient size across population density,
 -Functional form exploration: Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit.
 We will then justify our choice with theoretical or empirical reasoning.
 
-We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
-The theoretical reason for picking these models would be the
+We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality. The focus will be on model two and three to test if they are , as the first model is the linear function, and not the alternative functional forms.
 
 
 ```{r}
@@ -284,18 +283,14 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection201
   colformat_double(j = 2, digits = 6)
 Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
+Model 2 stands out as it is the most empirically robust of them. The model shows a significant effect of the growth variable of regional development, and has a higer adjusted R-squared and a lower residual standard error then the other models. Model 2 as a whole has a more explanatory power then the others and can provide a stronger empirical support. 
 
-Empirically, the logarithmic model outperforms the quadratic model on every key metric: coefficient significance, overall model significance, explanatory power and residual variation.
-The results show the economic growth has a statistically robust, negative, and diminishing-returns effect on regional inequality, which aligns well with the logarithmic functional form.
-In contrast the quadratic model does not provide statistically meaningful evidence of a non-linear relationship, and its low R-squared and non-significant F-test indicate that it fits the data poorly.
-For economic growth variable, the logarithmic model is more appropriate to use when showing the connection to regional inequality.
-
-Bruk reset funksjonen sjekk elm test pakken
+The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2. Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
 
 
 
 ```{r}
-# Creating different functional forms with the variables regional development and population denisty
+# Creating different functional forms with the variables regional development and population density
 # Linear function
 as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
@@ -312,6 +307,9 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017
   colformat_double(j = 2, digits = 6)
 Kvad_Pop_km2 <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017)
 ```
+Model 2 gives the most clear empirical basis to use. It it both statistic significant and has a better explanatory ability then the other models. The F-test is highly significant and adjusted R-squared gives a moderate explanation of the variables. Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the quadratic term being significant, but with the low adjusted R-squared, it gives off a low explanatory power. 
+
+
 
 ```{r}
 # Creating different functional forms with the variables regional development and Unemployment rate
@@ -331,6 +329,9 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection20
   colformat_double(j = 2, digits = 6)
 Kvad_Unemp <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017)
 ```
+The Log-linear model preforms better here as well, in both statistically and empirically. As the other tests above, its shows that it has a higher explanatory power with its multiple R-squared of 0.27 and adjusted R-squared to be 0.23. It also has the lowest residual standard error and the variable log(chg_gdpc) is strongly significant, which in turn says that the model is statistically significant according to the F-test. 
+
+
 
 ## modeller
 
@@ -349,7 +350,7 @@ linear_Workforce |> # creating a linear regression line
   geom_smooth(linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
+  xlab("Labour Force") +
   ylab("Gini")
 
 Log_Workforce |> # creating a logarithmic regression line 
@@ -366,7 +367,7 @@ Log_Workforce |> # creating a logarithmic regression line
   geom_smooth(linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
+  xlab("Labour Force") +
   ylab("Gini")
 
 Kvad_Workforce |>
@@ -384,7 +385,7 @@ Kvad_Workforce |>
     linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
+  xlab("Labour Force") +
   ylab("Gini")
 ```
 
