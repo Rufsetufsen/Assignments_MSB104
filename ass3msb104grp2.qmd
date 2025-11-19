@@ -256,7 +256,7 @@ Instead, we see small differences in coefficient size across population density,
 
 # Part B Exploring Alternative Functional forms
 
--Functional form exploration: Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit.
+Functional form exploration: Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit.
 We will then justify our choice with theoretical or empirical reasoning.
 
 We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
@@ -283,12 +283,10 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection201
   colformat_double(j = 2, digits = 6)
 Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
-<<<<<<< HEAD
-=======
 Model 2 stands out as it is the most empirically robust of them. The model shows a significant effect of the growth variable of regional development, and has a higher adjusted R-squared and a lower residual standard error then the other models. Model 2 as a whole has a more explanatory power then the others and can provide a stronger empirical support. 
 
 The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2. Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
->>>>>>> Harald3
+
 
 Model 2 stands out as it is the most empirically robust of them.
 The model shows a significant effect of the growth variable of regional development, and has a higer adjusted R-squared and a lower residual standard error then the other models.
@@ -348,7 +346,7 @@ The Log-linear model preforms better here as well, in both statistically and emp
 As the other tests above, its shows that it has a higher explanatory power with its multiple R-squared of 0.27 and adjusted R-squared to be 0.23.
 It also has the lowest residual standard error and the variable log(chg_gdpc) is strongly significant, which in turn says that the model is statistically significant according to the F-test.
 
-## modeller
+## Visualising Alternative Models
 
 ```{r}
 linear_Workforce |> # creating a linear regression line 
