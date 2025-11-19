@@ -496,6 +496,46 @@ Kvad_Unemp |>
 
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
+```{r}
+#Running a BPtest of all regressions at once
+bp_results <- list(
+
+#Population density
+  
+"High Density"  = lmregHD,
+"Medium Density" = lmregMD,
+"Rural" = lmregRural,
+
+#Workforce
+
+"High Workforce" = lmregWF_High,
+"Medium Workforce" = lmregWF_Medium,
+"Low Workforce" = lmregWF_Low,
+
+#Unemployment
+
+"High Unemployment" = lmregUnemp_High,
+"Medium Unemployment" = lmregUnemp_Medium,
+"Low Unemployment" = lmregUnemp_Low
+  
+) |>
+  lapply(bptest) |>
+  lapply(broom::tidy) |>
+  bind_rows(.id = "Model") |>
+  mutate(
+    statistic = round(statistic, 3),
+    p.value  = round(p.value, 3)
+  )
+
+as_flextable(bp_results)%>%
+  colformat_double(j = 3, digits = 3)
+
+```
+
+Running a Breusch-Pagan test on our linear models, we test for heteroskedasticity in our datasets. Luckily for us, the linear models mostly seem to have P-values above 0,05, except for our "medium density"-subset , where the p-value (0,011) rejects the homoskedasticity assumption. 
+The low-unemployment subset shows weak evidence of heteroskedasticity (p = 0,074), while the remaining segments, including all workforce-based groups and the rural density subset, display no statistically significant deviation from constant variance. For the high-unemployment group, the BP test did not return a valid statistic, so we cannot draw any conclusion there.
+
+
 # Part D: Panel Estimates
 
 ## Data Prep
