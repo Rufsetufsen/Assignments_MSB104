@@ -654,8 +654,12 @@ PanelData_clean <- PanelData %>%
 #turning our data frame into panel data based on assignment specs.
 pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
 pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
-
 ```
+
+```{r}
+table(index(pdata_country), useNA = "ifany")
+```
+
 
 ```{r}
 fe_nuts2 <- plm(
@@ -664,6 +668,56 @@ fe_nuts2 <- plm(
   model = "within",
   effect = "individual"  # NUTS2 FE
 )
+
+fe_nuts2 %>% summary()
+```
+
+```{r}
+fe_year <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "time"
+)
+
+fe_year %>% summary()
+
+```
+
+```{r}
+fe_country <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_country,
+  model = "within",
+  effect = "individual"  # Country FE
+)
+
+fe_country %>% summary()
+```
+
+```{r}
+fe_twoway <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "twoways"     # NUTS2 + Year FE
+)
+
+```
+
+```{r}
+#Summarizing our panel estimates
+modelsummary(
+  models = list(
+    "Country FE"      = fe_country,
+    "Year FE"         = fe_year,
+    "NUTS2 FE"        = fe_nuts2,
+    "NUTS2 & Year FE" = fe_twoway
+  ),
+  output = "flextable",
+  fmt = 5
+) 
+
 ```
 
 # Part E: Use of AI
