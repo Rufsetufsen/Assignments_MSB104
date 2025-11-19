@@ -507,8 +507,7 @@ PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, kee
   mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
-    chg_gdpc = 100 * chg_gdpc)%>%
-head(10)
+    chg_gdpc = 100 * chg_gdpc)
 ```
 
 In the code chunk above we load the long format data containing summed GDP and population per NUTS2 from assignment 1, and join on the additional variables from earlier in assignment 3, in addition to the calculated Gini coefficient based on internal GDP variations per region.
@@ -524,10 +523,6 @@ PanelData_clean <- PanelData %>%
 #turning our data frame into panel data based on assignment specs.
 pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
 pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
-```
-
-```{r}
-table(index(pdata_country), useNA = "ifany")
 ```
 
 
