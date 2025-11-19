@@ -576,6 +576,18 @@ as_flextable(bp_results_alt)%>%
 
 ```
 
+For the alternative functional forms tested in @tbl-AltBPtest, none of the BP tests show significant heteroskedasticity. Both the quadratic and logarithmic models have p-values far above the 0.05 threshold, meaning the constant-variance assumption is not rejected.
+
+## Causality
+
+Neither our linear or alternative regression models can be taken as proof of causality between growth in GDP per capita and regional GDP inequality. All we can say is that there is little evidence of a clear relationship between GDP growth and regional inequality in this dataset. Whether growth actually affects inequality is a different question, and our models are not designed to answer it.
+
+Firstly, we face serious omitted variable issues. Many things that influence regional inequality also influence economic growth: industrial restructuring, migration flows, demographic shifts, regional policy interventions and local labour market shocks. These factors are not included in our models, so their effects end up buried in the error term.
+
+We also have the classic problem of reverse causality. Regions with rising inequality might experience slower growth later on, for example because of political tensions, social instability, or different investment patterns. If inequality affects growth and not just the other way around, our estimates will be biased in both directions.
+
+To improve causal interpretation, we would need either better identification strategies (like using instrument variables to adjust for confounders) or richer datasets Without that, the safest conclusion is that our results could describe correlations, not causal effects.
+
 # Part D: Panel Estimates
 
 ## Data Prep
