@@ -283,6 +283,12 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection201
   colformat_double(j = 2, digits = 6)
 Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
+<<<<<<< HEAD
+=======
+Model 2 stands out as it is the most empirically robust of them. The model shows a significant effect of the growth variable of regional development, and has a higher adjusted R-squared and a lower residual standard error then the other models. Model 2 as a whole has a more explanatory power then the others and can provide a stronger empirical support. 
+
+The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2. Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
+>>>>>>> Harald3
 
 Model 2 stands out as it is the most empirically robust of them.
 The model shows a significant effect of the growth variable of regional development, and has a higer adjusted R-squared and a lower residual standard error then the other models.
@@ -295,7 +301,8 @@ Using a cubic function would only give more variables and stretch the numbers ev
 #| warning: false
 # Creating different functional forms with the variables regional development and population density
 # Linear function
-as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
+as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))%>%
+  colformat_double(j = 2, digits = 6)
 linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 
 # Logarithmic function:
@@ -320,7 +327,8 @@ Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the
 #| warning: false
 # Creating different functional forms with the variables regional development and Unemployment rate
 # Linear function
-as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
+as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))%>%
+  colformat_double(j = 2, digits = 6)
 linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 
 # Logarithmic function:
@@ -358,7 +366,10 @@ linear_Workforce |> # creating a linear regression line
     colour = "blue"
     )+
   xlab("Labour Force") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Linear model of workforce"
+  )
 
 Log_Workforce |> # creating a logarithmic regression line 
   ggplot(
@@ -375,9 +386,12 @@ Log_Workforce |> # creating a logarithmic regression line
     colour = "blue"
     )+
   xlab("Labour Force") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Logarithmic model of workforce"
+  )
 
-Kvad_Workforce |>
+Kvad_Workforce |> # creating a quadratic regression line
   ggplot(
     mapping = aes(
       x = Kvad_Workforce$residuals,
@@ -393,7 +407,10 @@ Kvad_Workforce |>
     colour = "blue"
     )+
   xlab("Labour Force") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Quadratic model of workforce"
+  )
 ```
 
 ```{r}
@@ -412,7 +429,10 @@ linear_Pop_km2 |> # creating a linear regression line
     colour = "blue"
     )+
   xlab("Population density") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Linear model of Population density"
+  )
 
 Log_Pop_km2 |> # creating a logarithmic regression line 
   ggplot(
@@ -429,9 +449,12 @@ Log_Pop_km2 |> # creating a logarithmic regression line
     colour = "blue"
     )+
   xlab("Population density") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Logarithmic model of Population density"
+  )
 
-Kvad_Pop_km2 |>
+Kvad_Pop_km2 |> # creating a quadratic regression line
   ggplot(
     mapping = aes(
       x = Kvad_Pop_km2$residuals,
@@ -447,7 +470,10 @@ Kvad_Pop_km2 |>
     colour = "blue"
     )+
   xlab("Population density") +
-  ylab("Gini")
+  ylab("Gini")+
+  labs(
+    title = "Quadratic model of Population density"
+  )
 ```
 
 ```{r}
@@ -465,8 +491,10 @@ linear_Unemp |> # creating a linear regression line
   geom_smooth(linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
-  ylab("Gini")
+  xlab("Unemployment rate") +
+  ylab("Gini")+
+  labs(
+    title = "Linear model of Unemployment rate")
 
 Log_Unemp |> # creating a logarithmic regression line 
   ggplot(
@@ -482,10 +510,12 @@ Log_Unemp |> # creating a logarithmic regression line
   geom_smooth(linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
-  ylab("Gini")
+  xlab("Unemployment rate") +
+  ylab("Gini")+
+  labs(
+    title = "Logarithmic model of Population density")
 
-Kvad_Unemp |>
+Kvad_Unemp |> # creating a quadratic regression line
   ggplot(
     mapping = aes(
       x = Kvad_Unemp$residuals,
@@ -500,9 +530,21 @@ Kvad_Unemp |>
     linewidth = 1, 
     colour = "blue"
     )+
-  xlab("Population density") +
-  ylab("Gini")
+  xlab("Unemployment rate") +
+  ylab("Gini") +
+  labs(
+    title = "Quadratic model of Unemployment rate")
 ```
+
+### Interpretation of the results
+We begin with the analysis of workforce and regional development. The linear model offers very limited explanatory power, with an adjusted R-squared=0.03457 and an F-test indicating the model is not statistically significant. Neither workforce nor regional development emerges as a strong predictor. Workforce shows a small positive effect, but it is too weak to draw meaningful conclusions. In contrast, the logarithmic model performs much better. Regional development becomes highly significant, showing a clear negative association with the dependent variable, suggesting that proportional changes in growth have a robust impact. Workforce still shows a small positive effect, but its significance remains uncertain. The logarithmic model’s adjusted R-squared rises to 0.2521, the residual standard error decreases, and the F-test is highly significant, indicating the predictors collectively improve the model. The quadratic model, however, performs worse: the adjusted R-squared drops to 0.06199, residual error rises, and the F-test is not significant. Although the negative quadratic term hints at a potential curved relationship, the lack of significance prevents confident interpretation. Overall, the logarithmic specification provides the most reliable representation for workforce and regional development.
+
+Next, we examine population density and regional development. In the linear model, population density is significant p=0.0228, but GDP change is not p=0.6166. Adjusted R-squared is only 0.07234, and the overall F-test is not significant p=0.0668, indicating weak explanatory power. The logarithmic model performs considerably better: log-transformed GDP change shows a highly significant negative effect, while population density also contributes negatively. Adjusted R-squared increases to 0.3314, and the F-test is highly significant p=0.0001, demonstrating a stronger fit. The quadratic model captures some patterns adjusted R-adjusted=0.1606, F-test p=0.0123 but leaves much variation unexplained.
+
+Finally, we analyse unemployment rate and regional development. In the linear model, unemployment shows a small but significant negative effect, while regional development has no impact, resulting in limited predictive power. The logarithmic model highlights a small, significant negative effect of log-transformed GDP change, with unemployment insignificant. Adjusted R² rises to 0.2336, indicating better explanatory power than the linear model. The quadratic model performs worse, with coefficients and adjusted R-squared lowered to 0.09633 and limited significance.
+
+Across all analyses, the logarithmic functional form consistently provides the strongest explanatory power, offering the most reliable insights into the relationship between regional development and inequality, while linear and quadratic specifications are generally weaker.
+
 
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
