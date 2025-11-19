@@ -263,6 +263,7 @@ We have chosen the logarithmic and quadratic function forms for each variable th
 The focus will be on model two and three to test if they are , as the first model is the linear function, and not the alternative functional forms.
 
 ```{r}
+#| warning: false
 # Creating different functional forms with the variables regional development and labour force
 # Linear funksjon
 as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
@@ -291,6 +292,7 @@ The other models has a weaker empirical support, as none of the variables are si
 Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
 
 ```{r}
+#| warning: false
 # Creating different functional forms with the variables regional development and population density
 # Linear function
 as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
@@ -315,6 +317,7 @@ The F-test is highly significant and adjusted R-squared gives a moderate explana
 Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the quadratic term being significant, but with the low adjusted R-squared, it gives off a low explanatory power.
 
 ```{r}
+#| warning: false
 # Creating different functional forms with the variables regional development and Unemployment rate
 # Linear function
 as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
