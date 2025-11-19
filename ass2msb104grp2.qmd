@@ -69,7 +69,7 @@ Since 2015 has been filtered away, we see some NA-values in all the rows showing
 
 ```{r}
 #Getting data from Tidyjoined (GDP, Poupulation), summing by Nuts2. 
-GDPChange <- readRDS("./Data/Tidyjoined.rds") %>%
+NUTSUM <- readRDS("./Data/Tidyjoined.rds") %>%
   select(NUTS2, Country, Time, `GDP Million EUR`, Population) %>%
   group_by(NUTS2, Country, Time) %>%
   summarise(
@@ -83,7 +83,7 @@ write_rds("./data/TidyNUTS2.rds")
 
 ```{r}
 #Filtering by year 2016/2017 and mutating column for change in GDP.
-GDPChange %>%
+GDPChange <- NUTSUM %>%
   filter(Time > "2015" & Time < "2018")%>%
 mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
