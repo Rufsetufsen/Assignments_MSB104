@@ -255,10 +255,13 @@ Again, none of these are precise enough to draw conclusions, but the variation i
 Overall, the subset analysis doesn’t point to a single, stable development–inequality relationship across all our regional types.
 Instead, we see small differences in coefficient size across population density, unemployment, and workforce segments, with no segment showing a statistically significant effect.
 
-
 ## Part B Exploring Alternative Functional forms
 
 -Functional form exploration: Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit.
+We will then justify our choice with theoretical or empirical reasoning.
+
+We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
+The theoretical reason for picking these models would be the
 
 ```{r}
 # Creating different functional forms for change in gdpc
@@ -281,9 +284,10 @@ as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017
 Kvad_chg_gdpc <- lm(gini ~ chg_gdpc + I(chg_gdpc^2), data = xsection2017)
 ```
 
-Modell 1 og 2 passer best for denne variabelen, forklar For the employment rate we have chosen the logarithmic and the quadratic functions to see if they provide a better fit.
-Model one gives a p-verdi for hele modellen på en 0.0018 noe som viser at modellen forklarer en variasjon i repsonsvariablene.
-Så får vi en R²=0.27 som sier at modellen har en 27% forklaringskraft på den The first model is the logarithmic function which gives a estimated value of 0.233016 when all explanatory variables are 0
+Empirically, the logarithmic model outperforms the quadratic model on every key metric: coefficient significance, overall model significance, explanatory power and residual variation.
+The results show the economic growth has a statistically robust, negative, and diminishing-returns effect on regional inequality, which aligns well with the logarithmic functional form.
+In contrast the quadratic model does not provide statistically meaningful evidence of a non-linear relationship, and its low R-squared and non-significant F-test indicate that it fits the data poorly.
+For economic growth variable, the logarithmic model is more appropriate to use when showing the connection to regional inequality.
 
 ```{r}
 # Creating different functional forms for Labour force 
@@ -303,6 +307,9 @@ as_flextable (lm(gini ~ Workforce + I(Workforce^2), data = xsection2017
   colformat_double(j = 2, digits = 6)
 Kvad_Workforce <- lm(gini ~ Workforce + I(Workforce^2), data = xsection2017)
 ```
+
+Same as the model for economic growth variable, the logarithmic functions provides better.
+Although the labour force shows a weak but marginal evidence of a relationship with the
 
 Modell 1 og modell 2 er de jeg kan bruke men begge har en svært lav forklaringskraft på hvordan workforce påvirker den regional ulikeheten, kan dette være fordi det er der forskjeller i fra den lave til høy?
 
@@ -615,7 +622,6 @@ Kvad_Unemp |>
   xlab("Population density") +
   ylab("Gini")
 ```
-
 
 # Part B: Exploring Alternative Functional Forms
 
