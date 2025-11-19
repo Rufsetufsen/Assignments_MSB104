@@ -89,7 +89,7 @@ xsection2017 <- xsection2017 %>%
 
 ```{r}
 #| label: tbl-Reg
-#| fig-cap: "Effect of GDP change on regional inequality - Sectioned by population density "
+#| tbl-cap: "Effect of GDP change on regional inequality - Sectioned by population density "
 #| Title: "Effect of GDP change on regional inequality - Sectioned by population density "
 #Reg. Pop density
 lmregHD <- xsection2017 %>%
@@ -167,7 +167,8 @@ modelsummary(
 ```
 
 When applying our model on the "high available workforce"-subset, we see a positive relationship between GDP change and Gini, although it is not statistically significant.
-For our "medium workforce", the relationship inverts again, before it flips again for low available workforce. Both medium and low workforce are statistically insignificant.
+For our "medium workforce", the relationship inverts again, before it flips again for low available workforce.
+Both medium and low workforce are statistically insignificant.
 
 ### Unemployment Rate
 
@@ -207,7 +208,6 @@ lmregUnemp_Low <- xsection2017 %>%
 
 modelsummary(
   models = list(
-    "High Unemployment" = lmregUnemp_High,
     "Medium Unemployment" = lmregUnemp_Medium,
     "Low Unemployment" = lmregUnemp_Low
   ),
@@ -224,10 +224,14 @@ The high unemployment section ony contained two observations which were statisti
 While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive.
 We have presented the results from the data below.
 
+#### High Unemployment Summarized
 ```{r}
+#| warning = FALSE
+
 xsection2017 %>%
 filter(Unemp_Class == "High") %>%
-  summary(output = "Flextable")
+  datasummary_skim(output = "flextable", type = "numeric")
+
 ```
 
 In the "medium unemployment" subsection, we see that there is a small, negative, but statistically insignificant relationship between increasing GDP per capita and regional inequality.
@@ -262,17 +266,23 @@ We will then justify our choice with theoretical or empirical reasoning.
 We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
 The focus will be on model two and three to test if they are , as the first model is the linear function, and not the alternative functional forms.
 
+#### Linear regression statistics for labour force
+
 ```{r}
 #| warning: false
 # Creating different functional forms with the variables regional development and labour force
 # Linear function:
-#| label: "tbl-Linear regression"
-#| tbl-cap: "Linear regression statistics for labour force" 
+#| label: tbl-Linear regression
+#| tbl-cap: "Linear regression statistics for labour force"
+
 as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
 )) |>
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6)|>
+set_caption(caption = "Linear regression statistics for labour force")
 linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 ```
+
+#### Logarithmic regression statistics for labour force
 
 ```{r}
 # Logarithmic function:
@@ -280,25 +290,31 @@ linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 #| tbl-cap: "Logarithmic regression statistics for labour force" 
 as_flextable (lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6)%>%
+  set_caption(caption = "Logarithmic regression statistics for labour force")
 Log_Workforce <- lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017)
 ```
+
+#### Quadratic regression statistics for labour force
 
 ```{r}
 #Quadratic function:
 #| label: "tbl-Quadratic regression"
 #| tbl-cap: "Quadratic regression statistics for labour force" 
+#| title: "Quadratic regression statistics for labour force" 
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+set_caption(caption = "Quadratic regression statistics for labour force")
 Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
 
+Model 2 stands out as it is the most empirically robust of them.
+The model shows a significant effect of the growth variable of regional development, and has a higher adjusted R-squared and a lower residual standard error then the other models.
+Model 2 as a whole has a more explanatory power then the others and can provide a stronger empirical support.
 
-Model 2 stands out as it is the most empirically robust of them. The model shows a significant effect of the growth variable of regional development, and has a higher adjusted R-squared and a lower residual standard error then the other models. Model 2 as a whole has a more explanatory power then the others and can provide a stronger empirical support. 
-
-The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2. Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
-
+The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2.
+Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
 
 Model 2 stands out as it is the most empirically robust of them.
 The model shows a significant effect of the growth variable of regional development, and has a higer adjusted R-squared and a lower residual standard error then the other models.
@@ -307,17 +323,23 @@ Model 2 as a whole has a more explanatory power then the others and can provide 
 The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2.
 Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
 
+#### Linear regression statistics for population density
+
 ```{r}
 #| warning: false
 # Creating different functional forms with the variables regional development and population density
 # Linear function
 #| label: "tbl-Linear regression"
 #| tbl-cap: "Linear regression statistics for population density" 
+
 as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption(caption = "Linear regression statistics for population density")
 linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 ```
+
+#### Logarithmic regression statistics for population density
 
 ```{r}
 # Logarithmic function:
@@ -325,9 +347,12 @@ linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 #| tbl-cap: "Logarithmic regression statistics for population density" 
 as_flextable (lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption(caption = "Logarithmic regression statistics for population density")
 Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 ```
+
+#### Quadratic regression statistics for population density
 
 ```{r}
 #Quadratic function:
@@ -335,7 +360,8 @@ Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 #| tbl-cap: "Quadratic regression statistics for population density" 
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption(caption = "Quadratic regression statistics for population density")
 Kvad_Pop_km2 <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017)
 ```
 
@@ -344,37 +370,47 @@ It it both statistic significant and has a better explanatory ability then the o
 The F-test is highly significant and adjusted R-squared gives a moderate explanation of the variables.
 Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the quadratic term being significant, but with the low adjusted R-squared, it gives off a low explanatory power.
 
+#### Linear regression statistics for Unemployment rate
+
 ```{r}
 #| warning: false
 # Creating different functional forms with the variables regional development and Unemployment rate
 # Linear function
 #| label: "tbl-Linear regression"
-#| tbl-cap: "Linear regression statistics for Unemployment rate" 
+#| tbl-cap: "Linear regression statistics for Unemployment rate"
 as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption("Linear regression statistics for Unemployment rate")
 linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 ```
 
+#### Logarithmic regression statistics for Unemployment rate
 ```{r}
 # Logarithmic function:
-#| label: "tbl-Logarithmic regression"
-#| tbl-cap: "Logarithmic regression statistics for Unemployment rate" 
+#|label: "tbl-Logarithmic regression"
+#|tbl-cap: "Logarithmic regression statistics for Unemployment rate" 
 as_flextable (lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017
-))%>%
-  colformat_double(j = 2, digits = 6)
+)) %>%
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption(caption = "Logarithmic regression statistics for Unemployment rate" 
+)
 Log_Unemp <- lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017)
 ```
 
+#### Quadratic regression statistics for Unemployment rate
+
 ```{r}
 #Quadratic function:
-#| label: "tbl-Quadratic regression"
-#| tbl-cap: "Quadratic regression statistics for Unemployment rate" 
+#|label: tbl-Quadratic regression
+#|tbl-cap: "Quadratic regression statistics for Unemployment rate"
+#|warning: FALSE
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6) %>%
+  set_caption(caption = "Quadratic regression statistics for Unemployment rate"
+)
 Kvad_Unemp <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017)
 ```
-
 
 The Log-linear model preforms better here as well, in both statistically and empirically.
 As the other tests above, its shows that it has a higher explanatory power with its multiple R-squared of 0.27 and adjusted R-squared to be 0.23.
@@ -569,14 +605,33 @@ Kvad_Unemp |> # creating a quadratic regression line
 ```
 
 ### Interpretation of the results
-We begin with the analysis of workforce and regional development. The linear model offers very limited explanatory power, with an adjusted R-squared=0.03457 and an F-test indicating the model is not statistically significant. Neither workforce nor regional development emerges as a strong predictor. Workforce shows a small positive effect, but it is too weak to draw meaningful conclusions. In contrast, the logarithmic model performs much better. Regional development becomes highly significant, showing a clear negative association with the dependent variable, suggesting that proportional changes in growth have a robust impact. Workforce still shows a small positive effect, but its significance remains uncertain. The logarithmic model’s adjusted R-squared rises to 0.2521, the residual standard error decreases, and the F-test is highly significant, indicating the predictors collectively improve the model. The quadratic model, however, performs worse: the adjusted R-squared drops to 0.06199, residual error rises, and the F-test is not significant. Although the negative quadratic term hints at a potential curved relationship, the lack of significance prevents confident interpretation. Overall, the logarithmic specification provides the most reliable representation for workforce and regional development.
 
-Next, we examine population density and regional development. In the linear model, population density is significant p=0.0228, but GDP change is not p=0.6166. Adjusted R-squared is only 0.07234, and the overall F-test is not significant p=0.0668, indicating weak explanatory power. The logarithmic model performs considerably better: log-transformed GDP change shows a highly significant negative effect, while population density also contributes negatively. Adjusted R-squared increases to 0.3314, and the F-test is highly significant p=0.0001, demonstrating a stronger fit. The quadratic model captures some patterns adjusted R-adjusted=0.1606, F-test p=0.0123 but leaves much variation unexplained.
+We begin with the analysis of workforce and regional development.
+The linear model offers very limited explanatory power, with an adjusted R-squared=0.03457 and an F-test indicating the model is not statistically significant.
+Neither workforce nor regional development emerges as a strong predictor.
+Workforce shows a small positive effect, but it is too weak to draw meaningful conclusions.
+In contrast, the logarithmic model performs much better.
+Regional development becomes highly significant, showing a clear negative association with the dependent variable, suggesting that proportional changes in growth have a robust impact.
+Workforce still shows a small positive effect, but its significance remains uncertain.
+The logarithmic model’s adjusted R-squared rises to 0.2521, the residual standard error decreases, and the F-test is highly significant, indicating the predictors collectively improve the model.
+The quadratic model, however, performs worse: the adjusted R-squared drops to 0.06199, residual error rises, and the F-test is not significant.
+Although the negative quadratic term hints at a potential curved relationship, the lack of significance prevents confident interpretation.
+Overall, the logarithmic specification provides the most reliable representation for workforce and regional development.
 
-Finally, we analyse unemployment rate and regional development. In the linear model, unemployment shows a small but significant negative effect, while regional development has no impact, resulting in limited predictive power. The logarithmic model highlights a small, significant negative effect of log-transformed GDP change, with unemployment insignificant. Adjusted R² rises to 0.2336, indicating better explanatory power than the linear model. The quadratic model performs worse, with coefficients and adjusted R-squared lowered to 0.09633 and limited significance.
+Next, we examine population density and regional development.
+In the linear model, population density is significant p=0.0228, but GDP change is not p=0.6166.
+Adjusted R-squared is only 0.07234, and the overall F-test is not significant p=0.0668, indicating weak explanatory power.
+The logarithmic model performs considerably better: log-transformed GDP change shows a highly significant negative effect, while population density also contributes negatively.
+Adjusted R-squared increases to 0.3314, and the F-test is highly significant p=0.0001, demonstrating a stronger fit.
+The quadratic model captures some patterns adjusted R-adjusted=0.1606, F-test p=0.0123 but leaves much variation unexplained.
+
+Finally, we analyse unemployment rate and regional development.
+In the linear model, unemployment shows a small but significant negative effect, while regional development has no impact, resulting in limited predictive power.
+The logarithmic model highlights a small, significant negative effect of log-transformed GDP change, with unemployment insignificant.
+Adjusted R² rises to 0.2336, indicating better explanatory power than the linear model.
+The quadratic model performs worse, with coefficients and adjusted R-squared lowered to 0.09633 and limited significance.
 
 Across all analyses, the logarithmic functional form consistently provides the strongest explanatory power, offering the most reliable insights into the relationship between regional development and inequality, while linear and quadratic specifications are generally weaker.
-
 
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
@@ -653,17 +708,25 @@ as_flextable(bp_results_alt)%>%
 
 ```
 
-For the alternative functional forms tested in @tbl-AltBPtest, none of the BP tests show significant heteroskedasticity. Both the quadratic and logarithmic models have p-values far above the 0.05 threshold, meaning the constant-variance assumption is not rejected.
+For the alternative functional forms tested in @tbl-AltBPtest, none of the BP tests show significant heteroskedasticity.
+Both the quadratic and logarithmic models have p-values far above the 0.05 threshold, meaning the constant-variance assumption is not rejected.
 
 ## Causality
 
-Neither our linear or alternative regression models can be taken as proof of causality between growth in GDP per capita and regional GDP inequality. All we can say is that there is little evidence of a clear relationship between GDP growth and regional inequality in this dataset. Whether growth actually affects inequality is a different question, and our models are not designed to answer it.
+Neither our linear or alternative regression models can be taken as proof of causality between growth in GDP per capita and regional GDP inequality.
+All we can say is that there is little evidence of a clear relationship between GDP growth and regional inequality in this dataset.
+Whether growth actually affects inequality is a different question, and our models are not designed to answer it.
 
-Firstly, we face serious omitted variable issues. Many things that influence regional inequality also influence economic growth: industrial restructuring, migration flows, demographic shifts, regional policy interventions and local labour market shocks. These factors are not included in our models, so their effects end up buried in the error term.
+Firstly, we face serious omitted variable issues.
+Many things that influence regional inequality also influence economic growth: industrial restructuring, migration flows, demographic shifts, regional policy interventions and local labour market shocks.
+These factors are not included in our models, so their effects end up buried in the error term.
 
-We also have the classic problem of reverse causality. Regions with rising inequality might experience slower growth later on, for example because of political tensions, social instability, or different investment patterns. If inequality affects growth and not just the other way around, our estimates will be biased in both directions.
+We also have the classic problem of reverse causality.
+Regions with rising inequality might experience slower growth later on, for example because of political tensions, social instability, or different investment patterns.
+If inequality affects growth and not just the other way around, our estimates will be biased in both directions.
 
-We end up with a similar conclusion to the causality question to that of @lessmann2017. To improve causal interpretation, we would need either better identification strategies (like using instrument variables to adjust for confounders) or richer datasets Without that, the safest conclusion is that our results could describe correlations, not causal effects.
+We end up with a similar conclusion to the causality question to that of @lessmann2017.
+To improve causal interpretation, we would need either better identification strategies (like using instrument variables to adjust for confounders) or richer datasets Without that, the safest conclusion is that our results could describe correlations, not causal effects.
 
 # Part D: Panel Estimates
 
