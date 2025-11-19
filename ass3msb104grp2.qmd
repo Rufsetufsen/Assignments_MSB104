@@ -249,7 +249,7 @@ Again, none of these are precise enough to draw conclusions, but the variation i
 Overall, the subset analysis doesn’t point to a single, stable development–inequality relationship across all our regional types.
 Instead, we see small differences in coefficient size across population density, unemployment, and workforce segments, with no segment showing a statistically significant effect.
 
-## Part B Exploring Alternative Functional forms
+# Part B Exploring Alternative Functional forms
 
 -Functional form exploration: Here we are chosing two of three alternative functional forms logarithmic, quadratic and cubic, to see which is a better fit.
 We will then justify our choice with theoretical or empirical reasoning.
@@ -493,7 +493,6 @@ Kvad_Unemp |>
   ylab("Gini")
 ```
 
-# Part B: Exploring Alternative Functional Forms
 
 # Part C: Testing for Heteroskedacity and Discussing Causality
 
