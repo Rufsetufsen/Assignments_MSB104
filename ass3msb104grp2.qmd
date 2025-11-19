@@ -522,7 +522,7 @@ The dataset containing population density, unemployment rate and total workforce
 ```{r}
 #Cleaning our data - NA/NaN/Inf-values will break our model.
 PanelData_clean <- PanelData %>% 
-  filter(!is.na(gini), !is.na(chg_gdpc), !is.nan(chg_gdpc))
+  na.omit()
 ```
 
 ```{r}
