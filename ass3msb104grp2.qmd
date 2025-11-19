@@ -217,13 +217,7 @@ modelsummary(
 The model for the "high unemployment" section showed remarkable predictive power, with an R-squared of 1, but we have opted out of including this in our table due to the small amount of observations.
 The high unemployment section ony contained two observations which were statistical outliers, relative to the rest of the data.
 While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive.
-We have presented the results from the data.
-
-```{r}
-xsection2017 %>%
-    lm(formula = gini ~ chg_gdpc + Density_class) %>%
-  as_flextable()
-```
+We have presented the results from the data below.
 
 ```{r}
 xsection2017 %>%
@@ -513,7 +507,7 @@ PanelData <- left_join(x =readRDS("./data/TidyNUTS2.rds"), y = full_dataset, kee
     lagged_capita = dplyr::lag(N2GDPCAP),
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
     chg_gdpc = 100 * chg_gdpc)%>%
-print()
+head(10)
 ```
 
 In the code chunk above we load the long format data containing summed GDP and population per NUTS2 from assignment 1, and join on the additional variables from earlier in assignment 3, in addition to the calculated Gini coefficient based on internal GDP variations per region.
@@ -529,8 +523,12 @@ PanelData_clean <- PanelData %>%
 #turning our data frame into panel data based on assignment specs.
 pdata_nuts2 <- pdata.frame(PanelData_clean, index = c("NUTS2", "Time"))
 pdata_country <- pdata.frame(PanelData_clean, index = c("Country", "Time"))
-
 ```
+
+```{r}
+table(index(pdata_country), useNA = "ifany")
+```
+
 
 ```{r}
 fe_nuts2 <- plm(
@@ -539,6 +537,80 @@ fe_nuts2 <- plm(
   model = "within",
   effect = "individual"  # NUTS2 FE
 )
+
 ```
 
+```{r}
+fe_year <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "time"
+)
+```
+
+```{r}
+fe_country <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_country,
+  model = "within",
+  effect = "individual"  # Country FE
+)
+```
+
+```{r}
+fe_twoway <- plm(
+  gini ~ chg_gdpc,
+  data  = pdata_nuts2,
+  model = "within",
+  effect = "twoways"     # NUTS2 + Year FE
+)
+
+```
+
+## Panel Estimation Analysis
+
+```{r}
+#Summarizing our panel estimates
+modelsummary(
+  models = list(
+    "Country FE"      = fe_country,
+    "Year FE"         = fe_year,
+    "NUTS2 FE"        = fe_nuts2,
+    "NUTS2 & Year FE" = fe_twoway
+  ),
+  output = "flextable",
+  fmt = 5
+) 
+
+```
+
+Across all four specifications the estimated effect of GDP per capita-change on our calculated Gini-coefficient remains extremely small, ranging from 0,00017 to 0,00024, and none of the models show statistical significance. This means that once we exploit the time dimension and control for stable characteristics of regions and years, year-over-year-development does not display a strong empirical association with changes in regional inequality, at least in our sample.
+
+The most notable difference across all specifications can be seen in the fit of the models. The country-FE and year-FE models produce very low R-squared values (0,005 and 0,009), not unlike what we observed in the cross-sectional results in part A. These models only remove average differences across countries or across years, and the remaining variation is still affected by structural regional differences. Once we move to NUTS2 fixed effects, the within-R-squared jumps to 0,102, and with two-way fixed effects to 0,109. This indicates that permanent regional characteristics and economic shocks that affect the whole continent explain a large share of the variation in inequality, while short-term growth in GDP itself explains very little. The RMSE (root mean squared error) also drops substantially under these specifications, reflecting the fact that controlling for region and year effects dramatically improves model fit.
+
+Compared to the cross-sectional estimates from Part A, the panel coefficients are much smaller in magnitude and far more stable across specifications. This shrinking of the effect was expected. Our cross-sectional regression mixes together fundamentally different regions, urban vs rural, east vs. west, which can exaggerate the estimated relationship. Panel fixed effects remove these traits and forces the model to rely only on intra-regional variation over time. 
+
+To conclude, the panel results suggest that annual GDP growth is not a strong predictor of movements in regional GDP inequality in our selected countries.
+
+## Panel Estimation Discussion
+
+Overall: the panel results are good at examining whether regional inequality is affected by growth in GDP per capita.
+The fixed-effects approach is better at comparing "apples to apples", and "Berlin to Berlin" (instead of "Berlin to rural Croatia") than our initial cross-section was.
+
+Firstly: the model is trying to explain changes in inequality inside each region over time. But inequality barely moves from year to year in most European regions. Our calculated Gini-coefficient is a slow, structural variable. Meanwhile, growth in GDP can jump around from one year to the next. When one variable barely moves and the other jumps up and down, it may be difficult for a model to find any stable relationship between them. The tiny coefficients we get are not very surprising, as the model just doesn’t have much to work with.
+
+The jump in RMSE when switching from country FE to NUTS2 FE mostly reflects the model learning the characteristics of each region. Once we give each region its own baseline level of inequality, the model can fit the data much better. This means the fixed effects clean up the part of the variation that GDP never had anything to do with in the first place.
+Data gaps also affect our results. Because we had to remove a lot of NA, NaN, and Inf values, some regions and some years end up with fewer observations, which can skew the results.
+
+Overall: the panel results are good at examining whether regional inequality is affected by growth in GDP per capita.
+The fixed-effects approach is better at comparing "apples to apples", and "Berlin to Berlin" (instead of "Berlin to rural Croatia") than our initial cross-section was.
+Still, while the results are useful, the fixed-effects approach also removes other variables that barely move around year-over-year, like population density, available workforce and unemployment rates. We should not treat our panel estimation as stronger evidence for one hypothesis or the other, just as a different angle of viewing things, with it's own set of limitations.
+
 # Part E: Use of AI
+
+In this assignment we have used AI to ask controlling questions and constructive judging of the text and the codes used, including interpreting the results from our models.
+The language models used were ChatGPT 3.5 and ChatGPT 5.1.
+Our prompt strategy revolved around describing the assignment to chatGPT, and asking it for feedback underways. For model interpretation, we uploaded our rendered html-documents, which included the results from our models, and asked for assistance in interpretation. 
+It was immportant for us to actually learn, and not just outsource the thinking to an AI, so where ChatGPT presented us with new concepts or R-functions, we asked it to educate us and explain, step by step, what each new concept/function was and how it could be used.
+All code has been verified by humans, ethically sourced, and has not been tested on animals.
