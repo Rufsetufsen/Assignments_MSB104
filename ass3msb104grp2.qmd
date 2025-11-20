@@ -222,7 +222,7 @@ modelsummary(
 The model for the "high unemployment" section showed remarkable predictive power, with an R-squared of 1, but we have opted out of including this in our table due to the small amount of observations.
 The high unemployment section ony contained two observations which were statistical outliers, relative to the rest of the data.
 While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive.
-We have presented the results from the data below.
+For the sake of transparency, we have presented a summary of the sectioned data below.
 
 ```{r}
 #| label: tbl-Summary
@@ -267,28 +267,28 @@ We will then justify our choice with theoretical or empirical reasoning.
 We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
 The focus will be on model two and three to test if they are , as the first model is the linear function, and not the alternative functional forms.
 
-#### Linear regression statistics for labour force
+## Alternative Models - Labour Force
 
 ```{r}
 #| warning: false
+#| label: tbl-linreg1
+#| tbl-cap: "Linear regression statistics for labour force"
+
 # Creating different functional forms with the variables regional development and labour force
 # Linear function:
-#| label: tbl-Linear regression
-#| tbl-cap: "Linear regression statistics for labour force"
 
 as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
 )) |>
-  colformat_double(j = 2, digits = 6)|>
-set_caption(caption = "Linear regression statistics for labour force")
+  colformat_double(j = 2, digits = 6)
 linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 ```
 
-#### Logarithmic regression statistics for labour force
 
 ```{r}
-# Logarithmic function:
-#| label: "tbl-Logarithhmic regression"
+#| warning: false
+#| label: tbl-logreg1
 #| tbl-cap: "Logarithmic regression statistics for labour force" 
+# Logarithmic function:
 as_flextable (lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6)%>%
@@ -296,13 +296,12 @@ as_flextable (lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017
 Log_Workforce <- lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017)
 ```
 
-#### Quadratic regression statistics for labour force
 
 ```{r}
-#Quadratic function:
-#| label: "tbl-Quadratic regression"
+#| warning: false
+#| label: tbl-quadreg1
 #| tbl-cap: "Quadratic regression statistics for labour force" 
-#| title: "Quadratic regression statistics for labour force" 
+#Quadratic function:
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
@@ -324,14 +323,12 @@ Model 2 as a whole has a more explanatory power then the others and can provide 
 The other models has a weaker empirical support, as none of the variables are significant, has any better explanatory power and has a lower prediction error then model 2.
 Using a cubic function would only give more variables and stretch the numbers even more, giving it a even weaker model.
 
-#### Linear regression statistics for population density
-
+## Alternative Models - Population Density
 ```{r}
 #| warning: false
-# Creating different functional forms with the variables regional development and population density
-# Linear function
-#| label: "tbl-Linear regression"
+#| label: tbl-linreg2
 #| tbl-cap: "Linear regression statistics for population density" 
+# Creating different functional forms with the variables regional development and population density
 
 as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017
 ))%>%
@@ -340,12 +337,12 @@ as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017
 linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 ```
 
-#### Logarithmic regression statistics for population density
 
 ```{r}
-# Logarithmic function:
-#| label: "tbl-Logarithmic regression"
+#| warning: false
+#| label: tbl-logreg2
 #| tbl-cap: "Logarithmic regression statistics for population density" 
+# Logarithmic function:
 as_flextable (lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
@@ -353,12 +350,12 @@ as_flextable (lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017
 Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 ```
 
-#### Quadratic regression statistics for population density
 
 ```{r}
-#Quadratic function:
-#| label: "tbl-Quadratic regression"
+#| warning: false
+#| label: tbl-quadreg2
 #| tbl-cap: "Quadratic regression statistics for population density" 
+#Quadratic function:
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
@@ -371,26 +368,26 @@ It it both statistic significant and has a better explanatory ability then the o
 The F-test is highly significant and adjusted R-squared gives a moderate explanation of the variables.
 Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the quadratic term being significant, but with the low adjusted R-squared, it gives off a low explanatory power.
 
-#### Linear regression statistics for Unemployment rate
+## Alternative Models - Unemployment 
 
 ```{r}
 #| warning: false
+#| label: tbl-linreg3
+#| tbl-cap: "Linear regression statistics for Unemployment rate"
 # Creating different functional forms with the variables regional development and Unemployment rate
 # Linear function
-#| label: "tbl-Linear regression"
-#| tbl-cap: "Linear regression statistics for Unemployment rate"
 as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))%>%
   colformat_double(j = 2, digits = 6) %>%
   set_caption("Linear regression statistics for Unemployment rate")
 linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 ```
 
-#### Logarithmic regression statistics for Unemployment rate
 
 ```{r}
-# Logarithmic function:
-#|label: "tbl-Logarithmic regression"
+#| warning: false
+#|label: tbl-logreg3
 #|tbl-cap: "Logarithmic regression statistics for Unemployment rate" 
+# Logarithmic function:
 as_flextable (lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017
 )) %>%
   colformat_double(j = 2, digits = 6) %>%
@@ -399,13 +396,12 @@ as_flextable (lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017
 Log_Unemp <- lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017)
 ```
 
-#### Quadratic regression statistics for Unemployment rate
 
 ```{r}
-#Quadratic function:
-#|label: tbl-Quadratic regression
+#|label: tbl-quadreg3
 #|tbl-cap: "Quadratic regression statistics for Unemployment rate"
 #|warning: FALSE
+#Quadratic function:
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
