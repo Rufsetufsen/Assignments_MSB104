@@ -434,7 +434,8 @@ ginigdp <- gdp_pop %>%
     Count = n(),
     gini = gini.wtd(GDP_Capita, weights = pop),
     .groups = "drop"
-    )
+    ) %>%
+    saveRDS(ginigdp, "data/ginigdp.rds")
 ```
 
 ```{r}
