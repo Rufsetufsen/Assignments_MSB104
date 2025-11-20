@@ -105,7 +105,7 @@ gdp_wide  |>
   ) |> 
   filter(str_sub(NUTS3, 1, 2) == "DE") |> 
   arrange(year, NUTS3) |> 
-  rename(`GDP (mill. €)` = gdp) |> 
+  rename("GDP (mill. €)" = gdp) |> 
   head(n = 15) |> 
   as_flextable(
     show_coltype = FALSE,
