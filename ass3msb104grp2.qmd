@@ -1,6 +1,6 @@
 ---
 title: "Assignment 3:"
-subtitle:  "Regional GDP Inequality in 4 Selected European Economies - "
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Segmented Data and Alternative Models."
 author: "Kristoffer Tufta and Harald Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
@@ -125,13 +125,19 @@ Our rural section is also not statistically significant, but the relationship fl
 Our data on available workforce is much more linear than for population density, so here we will simply be doing a quantile split into three equally sized classifications: "low", "medium" and "high" workforce.
 
 ```{r}
+library(magrittr)
+# Nonfunctioning code block as of 21/11
+# Magefølelse - la til "group by NUTS2" på den lagga gdp-utrekninga i assignment 2. Har det laga følgefeil?
 #Workforce
 xsection2017 <- xsection2017 %>%
-  mutate(Workforce_Class = cut(Workforce,
-                           breaks = quantile(Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
-                           include.lowest = TRUE,
-                           labels = c("Low", "Medium", "High")))
+  mutate(Workforce_Class = cut_width(
+    Workforce,
+    breaks = quantile(.$Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE), 
+    labels = c("Low", "Medium", "High")
+    )
+    )
 
+quantile(xsection2017$Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE)
 ```
 
 ```{r}

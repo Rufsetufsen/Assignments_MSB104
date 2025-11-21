@@ -85,6 +85,7 @@ write_rds("./data/TidyNUTS2.rds")
 #Filtering by year 2016/2017 and mutating column for change in GDP.
 GDPChange <- NUTSUM %>%
   filter(Time > "2015" & Time < "2018")%>%
+  group_by(NUTS2) %>%
 mutate(
     lagged_capita = dplyr::lag(N2GDPCAP),
     chg_gdpc = (N2GDPCAP - lagged_capita)/lagged_capita,
