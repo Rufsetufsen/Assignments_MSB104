@@ -1,6 +1,6 @@
 ---
 title: "Assignment 3:"
-subtitle:  "Regional GDP Inequality in 4 Selected European Economies - "
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Segmented Data and Alternative Models."
 author: "Kristoffer Tufta and Harald Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
@@ -46,7 +46,8 @@ library(plm)
 ```{r}
 #Reading prewritten datasets
 full_dataset <- readRDS("./data/tidyjoined2.rds")
-xsection2017<- readRDS("./data/Gini_EUdata_full.rds") 
+xsection2017<- readRDS("./data/Gini_EUdata_full.rds") %>%
+  ungroup()
 ```
 
 ## Segmenting our cross-sectional data
@@ -127,11 +128,12 @@ Our data on available workforce is much more linear than for population density,
 ```{r}
 #Workforce
 xsection2017 <- xsection2017 %>%
-  mutate(Workforce_Class = cut(Workforce,
-                           breaks = quantile(Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
-                           include.lowest = TRUE,
-                           labels = c("Low", "Medium", "High")))
-
+  mutate(Workforce_Class = cut(
+    Workforce,
+    breaks = quantile(Workforce, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE), 
+    labels = c("Low", "Medium", "High")
+    )
+    )
 ```
 
 ```{r}
