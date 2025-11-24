@@ -1,0 +1,92 @@
+---
+title: "Assignment 4:"
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Synthesised Results."
+author: "Kristoffer Tufta and Harald Vika"
+date: last-modified
+date-format: "dddd D MMM, YYYY"
+csl: apa7.csl
+lang: en-GB
+format:
+  html: default
+  typst:
+    papersize: a4
+  pdf: 
+    documentclass: article
+    number-sections: true
+    keep-tex: true
+    papersize: A4
+    fig-pos: "H"
+abstract: ""
+editor: 
+  markdown: 
+    wrap: sentence
+echo: false
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| include: FALSE
+#| message: false
+#| warning: false
+library (tidyverse)
+library (PxWebApiData)
+library(readxl)
+library(purrr)
+library(dineq)
+library(psych)
+library(flextable)
+library(modelsummary)
+library(lmtest)
+library(plm)
+```
+
+# Assignment 4 Consolidation of Key findings
+
+## Abstract
+
+## Introduction
+
+### Background
+
+### Objetives
+
+### Sinificance
+
+## Literature Review - Kristoffer
+
+### Previous Work
+
+### Research Gap
+
+## Data and Methodology
+
+### Data Sources - Harald
+
+### Methodological approach - Kristoffer
+
+## Empirical Findings - Harald
+
+### Cross- sectionoal Estimates
+
+### Alternative functional forms and panel estimates
+
+## Discussion - Begynner kvar for oss, samskriver etterpå
+
+### Key insights
+
+### Policy Implications
+
+## Limitations and Future Research - Harald
+
+### Reasearch limitations
+
+## Conclusion
+
+### Summary
+
+### Final Reflection
+
+## References
+
+## Appendix
