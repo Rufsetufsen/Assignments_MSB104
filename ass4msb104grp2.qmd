@@ -1,6 +1,6 @@
 ---
-title: "Assignment 3:"
-subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Segmented Data and Alternative Models."
+title: "Assignment 4:"
+subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Synthesised Results."
 author: "Kristoffer Tufta and Harald Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
@@ -41,9 +41,9 @@ library(lmtest)
 library(plm)
 ```
 
-# Assignemt 4 Consolidation of Key findings
+# Assignment 4 Consolidation of Key findings
 
-## A short abstract
+## Abstract
 
 ## Introduction
 
@@ -51,9 +51,9 @@ library(plm)
 
 ### Objetives
 
-### Sinificance 
+### Sinificance
 
-## Literature Review
+## Literature Review - Kristoffer
 
 ### Previous Work
 
@@ -61,23 +61,23 @@ library(plm)
 
 ## Data and Methodology
 
-### Data Sources
+### Data Sources - Harald
 
-### Methodological approach
+### Methodological approach - Kristoffer
 
-## Empirical Findings
+## Empirical Findings - Harald
 
 ### Cross- sectionoal Estimates
 
 ### Alternative functional forms and panel estimates
 
-## Discussion
+## Discussion - Begynner kvar for oss, samskriver etterpå
 
 ### Key insights
 
 ### Policy Implications
 
-## Limitations and Future Research
+## Limitations and Future Research - Harald
 
 ### Reasearch limitations
 
@@ -85,9 +85,8 @@ library(plm)
 
 ### Summary
 
-### Final Reflection 
+### Final Reflection
 
-## References 
+## References
 
 ## Appendix
-
