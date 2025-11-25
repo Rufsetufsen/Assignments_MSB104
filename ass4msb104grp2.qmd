@@ -57,7 +57,7 @@ library(plm)
 
 ### Previous Work
 
-A central reference point for our work is @lessmann2017, who show that the link between economic development and regional inequality is not linear.
+A central reference point for our work is @lessmann2017, who shows that the link between economic development and regional inequality is not linear.
 Their results suggest something closer to an inverted-U (and in some cases N-shaped) pattern, where inequality tends to rise in the middle stages of development before falling again in high-income settings.
 This gives a natural expectation that fast-growing regions may show lower inequality if they are already relatively advanced, while poorer or developing regions might move in the opposite direction.
 Their work is also relevant because they rely on both traditional data and satellite-based luminosity data, which shows that inequality can be meaningfully captured even when official data is patchy — a recurring issue even in Eurostat datasets, as we experienced directly.
