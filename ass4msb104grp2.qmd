@@ -47,6 +47,11 @@ library(plm)
 
 ## Introduction
 
+```{r}
+Gini_EUdata_full <- readRDS("./data/Gini_EUdata_Full.rds")
+```
+
+
 ### Background
 
 ### Objetives
@@ -79,22 +84,38 @@ Our assignments aim to examine exactly that: to see whether any of these structu
 ## Data and Methodology
 
 ### Data Sources - Harald
-Primary data refers to information collected firsthand by the researcher directly from original source. It is raw and unprocessed, typically gathered through methods such as surveys, interviews and observations. The data provided by Eurostat ccan be considered primary data because it is originally collected through official surveys and processed following established methodological standards for gathering information on specific topic within defined time periods. 
 
-In the first assignment, we used Eurostat to extract datasets on gross domestic product (GDP) at current market prices by NUTS 3 regions. From these datasets, we collected data for Germany, Ireland, Croatia annd Switzerland covering the years 2000 to 2023.
+Primary data refers to information collected firsthand by the researcher directly from original source.
+It is raw and unprocessed, typically gathered through methods such as surveys, interviews and observations.
+The data provided by Eurostat ccan be considered primary data because it is originally collected through official surveys and processed following established methodological standards for gathering information on specific topic within defined time periods.
 
-In the second assignment, we retrieved data from three additional datasets that could potentially influence regional inequality in 2017. These datasets included labour force by NUTS 2 region, unemployment rate by Nuts 2 region, and population density by NUTS 2 region. Each country collects its own data and reports it to Eurostat in accordance with ESA 2010, a global framework for national accounting. This ensures that the resulting statistics are consistent, reliable, and comparable across countries. 
+In the first assignment, we used Eurostat to extract datasets on gross domestic product (GDP) at current market prices by NUTS 3 regions.
+From these datasets, we collected data for Germany, Ireland, Croatia annd Switzerland covering the years 2000 to 2023.
 
-However, the data also comes with certain limitations. For example, Switzerland is not en EU member but an EFTA country (European Free Trade Association), which promotes free trade and economic cooperation. Because Switzerland did not have a formal datasharing agreement with Eurostate before 2008, some data for earlier years or specific topics may be missing [@informat]. 
+In the second assignment, we retrieved data from three additional datasets that could potentially influence regional inequality in 2017.
+These datasets included labour force by NUTS 2 region, unemployment rate by Nuts 2 region, and population density by NUTS 2 region.
+Each country collects its own data and reports it to Eurostat in accordance with ESA 2010, a global framework for national accounting.
+This ensures that the resulting statistics are consistent, reliable, and comparable across countries.
 
-Another limitation relates to confidentiality. Ireland, for instance, lacks GDP data for 2015-2017 in the Mid-West and South-West regions due to confidentiality restrictions imposed by Ireland's Central Statistics Office. These restrictions are linked to changes in the national accounts in 2015 that significantly affected the measurement of Ireland's productive capacity [@countyi2018]. 
+However, the data also comes with certain limitations.
+For example, Switzerland is not en EU member but an EFTA country (European Free Trade Association), which promotes free trade and economic cooperation.
+Because Switzerland did not have a formal datasharing agreement with Eurostate before 2008, some data for earlier years or specific topics may be missing [@informat].
 
-Some counters also choose to delay the publication of certain statistics to ensure accuracy. As a result, data for the most recent years of 2022 and 2023, may still be incomplete due to its unavailability. 
+Another limitation relates to confidentiality.
+Ireland, for instance, lacks GDP data for 2015-2017 in the Mid-West and South-West regions due to confidentiality restrictions imposed by Ireland's Central Statistics Office.
+These restrictions are linked to changes in the national accounts in 2015 that significantly affected the measurement of Ireland's productive capacity [@countyi2018].
 
-A common limitation across several datasets concerns changes in regional boundaries. Regions may merge to form larger areas or split into smaller units, affecting how data is collected, aggregated and updated. This issue is particularly relevant in Germany, where regional reforms occur more frequntly due to regional policy. Coratia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level. 
+Some counters also choose to delay the publication of certain statistics to ensure accuracy.
+As a result, data for the most recent years of 2022 and 2023, may still be incomplete due to its unavailability.
 
-Finally, there were limitations related to the time coverage of the datasets. Althought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023. Consequently, when including these variables, we were restricted to using data from 2013 to 2023 to maintain consistency across datasets.
+A common limitation across several datasets concerns changes in regional boundaries.
+Regions may merge to form larger areas or split into smaller units, affecting how data is collected, aggregated and updated.
+This issue is particularly relevant in Germany, where regional reforms occur more frequntly due to regional policy.
+Coratia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level.
 
+Finally, there were limitations related to the time coverage of the datasets.
+Althought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023.
+Consequently, when including these variables, we were restricted to using data from 2013 to 2023 to maintain consistency across datasets.
 
 ### Methodological approach - Kristoffer
 
@@ -150,8 +171,10 @@ Blir som å undersøke kvantitiv data, altså eksisterende statistikk.
 Lage en frekvenstabell for de forskjellige svarene vi har fått?
 
 ### Cross- sectional Estimates
-In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017. The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita. The regression can be written as:
- $$
+
+In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017.
+The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita.
+The regression can be written as: $$
 \text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i
 $$ This specification allows us to ecamine whether regions experiencing faster economic growth tend to converge or diverge in terms of inequality.
 
@@ -166,19 +189,20 @@ Explanation of th variables:
 THe regression was estimated in the following table:
 
 ```{r}
-#| label: tbl-Regdev-Gini
-#| fig-cap: "Regression - Regional GDP Inequality as a function of GDP"
-as_flextable(
-lm(gini ~ chg_gdpc, data = ineqgdpcjoined),
-title = "OLS regression of inequality on GDP per capita growth, 2017"
-)
+read_rds("./data/Regdev-Gini.rds")
 ```
 
-The results hwo an estimated intercept of ($\hat{\alpha}=0.1336$), represetning the average level of nequality in regions with zero GDP-per-capita growth. The coefficient for GDP-per-capita growth is negative ($\hat{\beta}=-0.0024$), which indicates a slight negative relationship between economic growth and inequality. However, the model's explanatory power is extremely low, with ($R^2=0.012$), meaning that changes in GDP-per-capita account for only 1.2% of the variation in inequality.
-Thus, although the coefficient suggests a negative relationship, the effect is statistically insignificant and not substantively meaningful. We can conclude that the short-term GDP-per-capita growth does has a small to none explanatory power for regional inequality in this analyse.
 
-We then went on to collect three more variables to determine whether they serve as strong predictor of regional inequality then GDP-per-capita growth. These variables were labour force, unemployment rate, and population density. After cleaning and tiding the data, we estimated a multiple regression model to analyse their cross-sectional relationship with inequality: 
- $$
+
+The results hwo an estimated intercept of ($\hat{\alpha}=0.1336$), represetning the average level of nequality in regions with zero GDP-per-capita growth.
+The coefficient for GDP-per-capita growth is negative ($\hat{\beta}=-0.0024$), which indicates a slight negative relationship between economic growth and inequality.
+However, the model's explanatory power is extremely low, with ($R^2=0.012$), meaning that changes in GDP-per-capita account for only 1.2% of the variation in inequality.
+Thus, although the coefficient suggests a negative relationship, the effect is statistically insignificant and not substantively meaningful.
+We can conclude that the short-term GDP-per-capita growth does has a small to none explanatory power for regional inequality in this analyse.
+
+We then went on to collect three more variables to determine whether they serve as strong predictor of regional inequality then GDP-per-capita growth.
+These variables were labour force, unemployment rate, and population density.
+After cleaning and tiding the data, we estimated a multiple regression model to analyse their cross-sectional relationship with inequality: $$
 \text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i
 $$
 
@@ -188,34 +212,31 @@ Each variable explained:
 -   $\Delta \text{Workforce}_{i}$ — Total labour force in region i, including both employed and unemployed individuals
 -   $\Delta \text{PopDensity}_{i}$ — Population density of region i, indicating how densely populated the region is
 -   $\Delta \text{Unemployment}_{i}$ — Unemployment rate in region i, representing presons withouth work who are available and is seeking work.
-- $\alpha$ — intercept term (baseline inequality when the variables change is zero)
--   $\beta_1, \beta_2, \beta_3$ —  Coefficient showing how inequality changes with a one-percentage-point change in each variable
+-   $\alpha$ — intercept term (baseline inequality when the variables change is zero)
+-   $\beta_1, \beta_2, \beta_3$ — Coefficient showing how inequality changes with a one-percentage-point change in each variable
 -   $u_i$ — error term capturing unobserved regional factors
 
-Running the regression model gave us the table: 
+Running the regression model gave us the table:
+
 ```{r}
-#| label: tbl-MLR
-#| fig-cap: "Multiple Regression - Regional GDP Inequality as a function of labour, unemploment and population density."
-as_flextable (lm(gini ~ Workforce + Pop_km2 + Unemp_prct, data = filter(ineqgdpcjoined2, Time > "2015" & Time < "2018") 
-))%>%
-  colformat_double(j = 2, digits = 6)
+read_rds("./data/tbl-MLR-All.rds")
 ```
 
-This model gives us a R² of 0,283 and an adjusted R² of 0,235 meaning that the these three variables together has a 28% explanatory power of the variation in regional inequality, which is higher then the change in GDP-per-capita. Below we discuss each predictor individually.
+This model gives us a R² of 0,283 and an adjusted R² of 0,235 meaning that the these three variables together has a 28% explanatory power of the variation in regional inequality, which is higher then the change in GDP-per-capita.
+Below we discuss each predictor individually.
 
-Workforce:
-The workforce variable is statistically significant at the 5% level (p = 0.0216). Its coefficient, $\beta = 0.000043$, implies that regional inequality increases slightly as the labour force grows by one thousand workers. This may reflect that regions with larger or more active labour markets experience greater occupational and wage diversity, leading to somewhat higher inequality.
+Workforce: The workforce variable is statistically significant at the 5% level (p = 0.0216).
+Its coefficient, $\beta = 0.000043$, implies that regional inequality increases slightly as the labour force grows by one thousand workers.
+This may reflect that regions with larger or more active labour markets experience greater occupational and wage diversity, leading to somewhat higher inequality.
 
-Population density:
-Population density is statistically significant at the 1% level (p = 0.0083) and has a negative coefficient ($\beta = -0.000041$). This suggests that more densely populated—typically more urbanized—regions tend to have lower inequality, possibly due to better access to education, more specialized employment opportunities, and a broader labour market.
+Population density: Population density is statistically significant at the 1% level (p = 0.0083) and has a negative coefficient ($\beta = -0.000041$).
+This suggests that more densely populated—typically more urbanized—regions tend to have lower inequality, possibly due to better access to education, more specialized employment opportunities, and a broader labour market.
 
-Unemployment rate:
-The unemployment variable has a coefficient of $\beta = -0.0114$ and is marginally significant at the 10% level (p = 0.0613). The negative sign indicates that regions with higher unemployment rates appear to have lower inequality, although the weak significance prevents us from drawing a firm conclusion.
+Unemployment rate: The unemployment variable has a coefficient of $\beta = -0.0114$ and is marginally significant at the 10% level (p = 0.0613).
+The negative sign indicates that regions with higher unemployment rates appear to have lower inequality, although the weak significance prevents us from drawing a firm conclusion.
 
-Overall assessment:
-Both labour force size and population density are stronger predictors of regional inequality than short-term GDP-per-capita growth. These structural variables appear to better capture regional economic differences than year-to-year changes in output.
-
-
+Overall assessment: Both labour force size and population density are stronger predictors of regional inequality than short-term GDP-per-capita growth.
+These structural variables appear to better capture regional economic differences than year-to-year changes in output.
 
 ### Alternative functional forms and panel estimates
 
