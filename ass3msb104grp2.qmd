@@ -284,7 +284,8 @@ The focus will be on model two and three to test if they are , as the first mode
 
 as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
 )) |>
-  colformat_double(j = 2, digits = 6)
+  colformat_double(j = 2, digits = 6)%>%
+  colformat_double(j = 3, digits = 6)
 linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 ```
 
@@ -296,7 +297,8 @@ linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 # Logarithmic function:
 as_flextable (lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6)%>%
+  colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 3, digits = 6) %>%
   set_caption(caption = "Logarithmic regression statistics for labour force")
 Log_Workforce <- lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017)
 ```
@@ -310,6 +312,7 @@ Log_Workforce <- lm(gini ~ log(chg_gdpc) + Workforce, data = xsection2017)
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 3, digits = 6) %>%
 set_caption(caption = "Quadratic regression statistics for labour force")
 Kvad_Workforce <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Workforce, data = xsection2017)
 ```
@@ -338,6 +341,7 @@ Using a cubic function would only give more variables and stretch the numbers ev
 as_flextable(lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 3, digits = 6) %>% 
   set_caption(caption = "Linear regression statistics for population density")
 linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 ```
@@ -351,6 +355,7 @@ linear_Pop_km2 <- (lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017))
 as_flextable (lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017
 ))%>%
   colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 3, digits = 6) %>% 
   set_caption(caption = "Logarithmic regression statistics for population density")
 Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 ```
@@ -363,7 +368,8 @@ Log_Pop_km2 <- lm(gini ~ log(chg_gdpc) + Pop_km2, data = xsection2017)
 #Quadratic function:
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 2, digits = 6)%>%
+  colformat_double(j = 3, digits = 6)%>%
   set_caption(caption = "Quadratic regression statistics for population density")
 Kvad_Pop_km2 <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Pop_km2, data = xsection2017)
 ```
@@ -383,6 +389,7 @@ Model 3 gives a insight into a potential non-linear effect of chg_gdpc, with the
 # Linear function
 as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))%>%
   colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 3, digits = 6) %>%
   set_caption("Linear regression statistics for Unemployment rate")
 linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 ```
@@ -397,7 +404,8 @@ linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 # Logarithmic function:
 as_flextable (lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017
 )) %>%
-  colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 2, digits = 6)%>%
+  colformat_double(j = 3, digits = 6)%>%
   set_caption(caption = "Logarithmic regression statistics for Unemployment rate" 
 )
 Log_Unemp <- lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017)
@@ -411,7 +419,8 @@ Log_Unemp <- lm(gini ~ log(chg_gdpc) + Unemp_prct, data = xsection2017)
 #Quadratic function:
 as_flextable (lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017
 ))%>%
-  colformat_double(j = 2, digits = 6) %>%
+  colformat_double(j = 2, digits = 6)%>%
+  colformat_double(j = 3, digits = 6) %>%
   set_caption(caption = "Quadratic regression statistics for Unemployment rate"
 )
 Kvad_Unemp <- lm(gini ~ chg_gdpc + I(chg_gdpc^2) + Unemp_prct, data = xsection2017)
