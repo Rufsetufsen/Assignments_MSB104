@@ -226,11 +226,9 @@ The high unemployment section ony contained two observations which were statisti
 While isolating these outliers from the rest of the data could help produce a better linear model, using the linear model on the isolated "high" set proved unproductive.
 For the sake of transparency, we have presented a summary of the sectioned data below.
 
-<<<<<<< HEAD
+
 #### High Unemployment Summarized
 
-=======
->>>>>>> main
 ```{r}
 #| label: tbl-Summary
 #| tbl-cap: "High Unemployment Summarized"
@@ -274,26 +272,11 @@ We will then justify our choice with theoretical or empirical reasoning.
 We have chosen the logarithmic and quadratic function forms for each variable that will be tested up to regional inequality.
 The focus will be on model two and three to test if they are , as the first model is the linear function, and not the alternative functional forms.
 
-<<<<<<< HEAD
-```{r}
-#| label: "tbl-linear-regression"
-#| echo: false
-
-as_flextable(
-  lm(gini ~ Pop_km2 + chg_gdpc, data = xsection2017)
-) |>
-  colformat_double(j = 2, digits = 6) |>
-  set_caption(
-    caption = "Linear regression statistics for population density",
-    html_escape = FALSE
-  )
-
-```
 
 #### Linear regression statistics for labour force
-=======
+
 ## Alternative Models - Labour Force
->>>>>>> main
+
 
 ```{r}
 #| warning: false
@@ -308,7 +291,6 @@ as_flextable (lm(gini ~ chg_gdpc + Workforce, data = xsection2017
   colformat_double(j = 2, digits = 6)
 linear_Workforce <- lm(gini ~ chg_gdpc + Workforce, data = xsection2017)
 ```
-
 
 ```{r}
 #| warning: false
@@ -408,10 +390,8 @@ as_flextable(lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))%>%
 linear_Unemp <- (lm(gini ~ chg_gdpc + Unemp_prct, data = xsection2017))
 ```
 
-<<<<<<< HEAD
 #### Logarithmic regression statistics for Unemployment rate
-=======
->>>>>>> main
+
 
 ```{r}
 #| warning: false
