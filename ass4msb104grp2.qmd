@@ -144,11 +144,6 @@ Where alternative functional forms were required, we introduced quadratic and lo
 
 ## Empirical Findings - Harald
 
-Finne svar på spørsmål vi har hatt underveis i oppgave og analyser svarene vi har fått ut fra datainnsamlingen, altså et tolkningsarbeid.
-Hver selvkritisk, arbeide frem en presis problemstilling og finne gode spørsmål som undersøker den.
-Blir som å undersøke kvantitiv data, altså eksisterende statistikk.
-Lage en frekvenstabell for de forskjellige svarene vi har fått?
-
 ### Cross- sectional Estimates
 In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017. The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita. The regression can be written as:
  $$
@@ -214,7 +209,6 @@ The unemployment variable has a coefficient of $\beta = -0.0114$ and is marginal
 
 Overall assessment:
 Both labour force size and population density are stronger predictors of regional inequality than short-term GDP-per-capita growth. These structural variables appear to better capture regional economic differences than year-to-year changes in output.
-
 
 
 ### Alternative functional forms and panel estimates
