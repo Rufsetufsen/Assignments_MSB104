@@ -165,11 +165,6 @@ Where alternative functional forms were required, we introduced quadratic and lo
 
 ## Empirical Findings - Harald
 
-Finne svar på spørsmål vi har hatt underveis i oppgave og analyser svarene vi har fått ut fra datainnsamlingen, altså et tolkningsarbeid.
-Hver selvkritisk, arbeide frem en presis problemstilling og finne gode spørsmål som undersøker den.
-Blir som å undersøke kvantitiv data, altså eksisterende statistikk.
-Lage en frekvenstabell for de forskjellige svarene vi har fått?
-
 ### Cross- sectional Estimates
 
 In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017.
