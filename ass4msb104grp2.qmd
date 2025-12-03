@@ -156,8 +156,7 @@ $$ Where:
 
 We then experimented with other determinants of inequality by making a new OLS model with a set of new variables: population density (persons per square kilometer), unemployment rate and total workforce, also fetched from Eurostat.
 We specified the MLR as follows: $$
-\text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i
-$$
+\text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i$$
 
 where $\alpha$ is the intercept, $\beta_1$, $\beta_2$, and $\beta_3$ are the slope coefficients for each explanatory variable, and $u_i$ is the error term capturing unobserved factors affecting inequality.
 
@@ -188,53 +187,29 @@ Where alternative functional forms were required, we introduced quadratic and lo
 ### Cross- sectional Estimates
 
 In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017.
-The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita.
-This produced the following estimates:
+The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita:  $$
+\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i$$ 
 
-```{r}
-read_rds("./data/Regdev-Gini.rds")
-```
+From the linear regression model we get the results:
 
-The results shows an estimated intercept of $\hat{\alpha}=0.1336$, representing the average level of inequality in regions with zero GDP-per-capita growth.
-The coefficient for GDP-per-capita growth is negative $\hat{\beta}=-0.0024$, which indicates a slight negative relationship between economic growth and inequality.
-However, the model's explanatory power is extremely low, with $R^2=0.012$, meaning that changes in GDP-per-capita account for only 1.2% of the variation in inequality.
+-   When change gdp per capita growth is zero, the regional inequality coefficient is estimated $\hat{\alpha}=0.134$.
+-   Change in GDP per capita growth has a coefficient of $\hat{\beta}=-0.002$ (p=0.435), indicating it is not statistically significant.
+-   Overall, the model’s explanatory power is very low: $R^2 = 0.012$, adjusted $R^2 = -0.008$, and the F-test (F = 0.619, p = 0.435) suggests the model is not statistically significant.
+
 Thus, although the coefficient suggests a negative relationship, the effect is statistically insignificant and not substantively meaningful.
 
 We then went on to collect three more variables to determine whether they serve as strong predictor of regional inequality then GDP-per-capita growth.
 These variables were labour force, unemployment rate, and population density.
 After cleaning and tiding the data, we estimated a multiple regression model to analyse their cross-sectional relationship with inequality: $$
-\text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i
-$$
-
-Where:
-
--   $\text{Gini}_{i,2017}$ — Calculated Gini coefficient of region *i* in 2017 (regional GDP per capita inequality)
--   $\Delta \text{Workforce}_{i}$ — Total labour force in region i, including both employed and unemployed individuals
--   $\Delta \text{PopDensity}_{i}$ — Population density of region i, indicating how densely populated the region is
--   $\Delta \text{Unemployment}_{i}$ — Unemployment rate in region i, representing presons withouth work who are available and is seeking work.
--   $\alpha$ — intercept term (baseline inequality when the variables change is zero)
--   $\beta_1, \beta_2, \beta_3$ — Coefficient showing how inequality changes with a one-percentage-point change in each variable
--   $u_i$ — error term capturing unobserved regional factors
+\text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i$$
 
 Running the regression model gave us the following estimates:
 
-```{r}
-read_rds("./data/tbl-MLR-All.rds")
-```
-
-This model gives us a R² of 0,283 and an adjusted R² of 0,235 meaning that the these three variables together has a 28% explanatory power of the variation in regional inequality, which is higher then the change in GDP-per-capita.
-The *workforce* variable is statistically significant at the 5% level (p = 0.0216).
-It's coefficient, $\beta = 0.000043$, implies that regional inequality increases slightly as the labour force grows by one thousand workers.
-This may reflect that regions with larger or more active labour markets experience greater occupational and wage diversity, leading to somewhat higher inequality.
-
-*Population density* is statistically significant at the 1% level (p = 0.0083) and has a negative coefficient ($\beta = -0.000041$).
-This suggests that more densely populated—typically more urbanized—regions tend to have lower inequality, possibly due to better access to education, more specialized employment opportunities, and a broader labour market.
-
-The *unemployment* variable has a coefficient of $\beta = -0.0114$ and is marginally significant at the 10% level (p = 0.0613).
-The negative sign indicates that regions with higher unemployment rates appear to have lower inequality, although the weak significance prevents us from drawing a firm conclusion.
-
-*Overall assessment*: Both labour force size and population density are stronger predictors of regional inequality than short-term GDP-per-capita growth.
-These structural variables appear to better capture regional economic differences than year-to-year changes in output.
+-   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.150$ (p \< 0.001).
+-   Workforce has a coefficient of $\beta = 0.000043$ (p = 0.0216), statistically significant at the 5% level, indicating that regional inequality increases slightly as the labour force grows by one thousand workers.
+-   Population density (Pop_km²) has a coefficient of $\beta = -0.000041$ (p = 0.0083), statistically significant at the 1% level, suggesting that more densely populated regions tend to have lower inequality.
+-   Unemployment (Unemp_prct) has a coefficient of $\beta = -0.0114$ (p = 0.0613), marginally significant at the 10% level, indicating a weak negative relationship with inequality.
+-   Overall, the model’s explanatory power is moderate: $R^2 = 0.283$, adjusted $R^2 = 0.235$, and the F-test (F = 5.908, p = 0.0017) indicates the model is statistically significant. Structural variables such as workforce size and population density better capture regional economic differences than short-term GDP-per-capita growth.
 
 ### Alternative functional forms and panel estimates
 
@@ -344,7 +319,7 @@ Models with country only or year only fixed effects explain very little variatio
 These findings highlight the importance of accounting for subnational regional characteristics, which capture significant variation in the outcome variable.
 Overall, the results suggest that regional-level factors are key drivers of the dependent variable, while the positive effect of change in GDP per capita remains robust across specifications.
 
-## Discussion 
+## Discussion
 
 The initial model examining the effect of change in GDP per capita on regional inequality shows very weak explanatory capacity.
 The model’s F-test yields a p-value of 0.435, indicating that the relationship is statistically insignificant, and the multiple R² of 1.2% demonstrates that GDP per capita growth accounts for almost none of the variation in inequality.
