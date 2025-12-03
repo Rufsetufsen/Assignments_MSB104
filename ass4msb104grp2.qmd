@@ -53,9 +53,9 @@ Gini_EUdata_full <- readRDS("./data/Gini_EUdata_Full.rds")
 
 ### Background
 
-### Objetives
+### Objectives
 
-### Sinificance
+### Significance
 
 ## Literature Review - Kristoffer
 
@@ -240,29 +240,17 @@ Linear model:
 Logarithmic model:
 
 -   Transforming change in GDP per capita using a log transformation improves model performance.
-
-<!-- -->
-
 -   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.0.2292$.
-
 -   The coefficient for GDP per capita becomes $\beta = -0.059611$ and is highly significant (p = 0.0008), showing a negative relationship with the Gini coefficient.
-
 -   Workforce remains largely unchanged at $\beta = 0.000033$ (p = 0.0604, marginally significant).
-
 -   Explanatory power improves: $R^2 = 0.288$, adjusted $R^2 = 0.0251$, and the F-test is highly significant (F = 8.078, p = 0.0011).
 
 Quadratic model:
 
 -   The quadratic specification produces less significant results than the logarithmic model.
-
-<!-- -->
-
 -   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.1379$.
-
 -   GDP per capita: linear term $\beta = 0.004327$ (p = 0.4066), quadratic term $\beta = -0.000468$ (p = 0.1302), both insignificant.
-
 -   Workforce: $\beta = 0.000029$ (p = 0.1480), effect is weak.
-
 -   $R^2 = 0.1194$, adjusted $R^2 = 0.06199$, and the model is not statistically significant overall (p = 0.116).
 
 Summary: The logarithmic model best captures the relationship between workforce, GDP growth, and inequality, mainly due to the strong significance of log-transformed GDP per capita.
@@ -272,41 +260,24 @@ Summary: The logarithmic model best captures the relationship between workforce,
 Linear model:
 
 -   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.1506$.
-
-<!-- -->
-
 -   Population density has a coefficient of $\beta = -0.000037$ with a p-value of 0.0228, indicating statistical significance at the 5% level.
-
 -   Change in GDP per capita has a coefficient of $\beta = 0.000054$ (p = 0.6166), which is not significant.
-
 -   Model performance is limited: $R^2 = 0.111$, adjusted $R^2 = 0.072$, and the F-test is 7.36 with a p-value of 0.00668, suggesting marginal overall significance.
 
 Logarithmic model:
 
 -   Applying a log transformation to change in GDP per capita improves model fit and significance.
-
-<!-- -->
-
 -   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.229228$.
-
 -   GDP per capita becomes $\beta = -0.05793$, p = 0.0007, showing a strong negative relationship with inequality.
-
 -   Population density remains similar: $\beta = -0.000039$, p = 0.0047, still significant.
-
 -   Overall explanatory power increases substantially: $R^2 = 0.364$, adjusted $R^2 = 0.331$, and the F-test p-value is 0.0001, indicating a highly significant model.
 
 Quadratic model:
 
 -   Including a quadratic term for GDP per capita allows for a non-linear relationship with inequality.
-
-<!-- -->
-
 -   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.137873$.
-
 -   GDP per capita: linear term $\beta = 0.0077$ (p = 0.1136, not significant), quadratic term $\beta = -0.000682$ (p = 0.0198, significant), indicating a slight non-linear effect.
-
 -   Population density: $\beta = -0.000041$, p = 0.0091, remains significant.
-
 -   Model fit is moderate: $R^2 = 0.213$, adjusted $R^2 = 0.161$, with overall model p = 0.0123, showing statistical significance.
 
 Summary: The logarithmic model provides the best explanatory power for population density, with both GDP growth and population density showing significant impacts on regional inequality.
@@ -317,34 +288,21 @@ The quadratic model captures a slight non-linear effect but has lower overall ex
 Linear model:
 
 -   The regional inequality coefficient is $\beta = 0.1758$ when GDP per capita growth and unemployment are zero.
-
-<!-- -->
-
 -   Unemployment rate: $\beta = -0.001039$, p = 0.03, statistically significant, suggesting higher unemployment is associated with slightly lower inequality.
-
 -   Change in GDP per capita: $\beta = -0.0000248$, p = 0.936, not significant.
-
 -   Model fit is weak: $R^2 = 0.10$, adjusted $R^2 = 0.062$, and the F-test p-value is 0.083, indicating borderline overall significance.
 
 Logarithmic model:
 
--    Transforming GDP per capita using a log improves model performance.
-
-<!-- -->
-
+-   Transforming GDP per capita using a log improves model performance.
 -   The regional inequality coefficient is $\beta = 0.233016$ when GDP per capita growth and unemployment are zero.
-
 -   GDP per capita: $\beta = -0.051$, p = 0.005, now highly significant with a negative effect on inequality.
-
 -   Unemployment rate: $\beta = -0.00707$, p = 0.1096, not significant, though the effect remains negative.
-
 -   Explanatory power increases: $R^2 = 0.27$, adjusted $R^2 = 0.2336$, F-test p = 0.0018, highly significant overall.
 
 Quadratic model:
 
 -   Including a quadratic term for GDP per capita allows for a potential non-linear effect.
-
-<!-- -->
 
 -   The regional inequality coefficient is $\beta = 0.160671$ when GDP per capita growth and unemployment are zero.
 
