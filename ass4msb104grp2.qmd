@@ -386,11 +386,21 @@ Overall, the results suggest that regional-level factors are key drivers of the 
 
 ## Discussion - Begynner kvar for oss, samskriver etterpå
 
+-   Key insight:
+
+The logarithmic models gives the best results for the alternative functions.
+
 ### Key insights
 
 ### Policy Implications
 
 ## Limitations and Future Research - Harald
+
+-   lack of data
+-   What variable to use
+-   lack of information on what variables that may have a bigger impact on regional inequalities.
+-   Different countries, different ways of collecting data
+-   Gain more insight in each country and gain a more understanding on collecting data.
 
 ### Reasearch limitations
 
