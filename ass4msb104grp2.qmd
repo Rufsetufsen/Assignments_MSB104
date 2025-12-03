@@ -323,10 +323,6 @@ Logarithmic model:
 Quadratic model:
 
 -   Including a quadratic term for GDP per capita allows for a potential non-linear effect.
-<<<<<<< HEAD
-
-=======
->>>>>>> Harald3
 -   The regional inequality coefficient is $\beta = 0.160671$ when GDP per capita growth and unemployment are zero.
 -   GDP per capita: linear term $\beta = 0.0062$ (p = 0.2114, not significant), quadratic term $\beta = -0.000488$ (p = 0.0102, borderline significant).
 -   Unemployment rate: $\beta = -0.009216$, p = 0.0516, borderline significant.
