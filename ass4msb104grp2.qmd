@@ -232,51 +232,157 @@ These structural variables appear to better capture regional economic difference
 
 ### Alternative functional forms and panel estimates
 
-In the Alternative functional forms part of the assignment we used the different variables from the second assignment, workforce, population density and unemployment rate, with the change in GDP, to explore other forms like logarithmic, quadratic and cubic.
-We went for the logarithmic and quadratic functions, as the cubic gave more estimates but with less effect.
-We would make a table for each functional form: linear, logarithmic and quadratic, and compare which of them is the most compatible.
-Here we would then present the key findings in these regression analyses and explain the effect it has on its dependable variable, which is the gini-coefficient.
+In this section, we explored alternative functional forms of the regression models using the variables from the second assignment workforce, population density, and unemployment rate to examine their effects on regional inequality, measured by the Gini coefficient.
+Specifically, we considered linear, logarithmic, and quadratic functional forms.
+While cubic specifications were also tested, they produced more estimates without providing meaningful improvements in explanatory power, so they were not pursued further.
 
-Workforce: Lets start off with workforce.
-We start off with the linear model, and it gave the regional inequality coefficent a estimated value of $\beta = 0.177303$ when both the independent variables are at zero. Workforce gave a  estimated of $\beta = 0.000036$ and change in GDP-per-capita gave a $\beta = -0.002122$, however both the explanatory variables has no clear significant as the workforce has a p value of 0.0665 which is under the 10% and is a marginal significant but change GDP-per-capita we got a p value of 0.4931 which tells us its not significant.
-Even with the combined f-test gives us a 1.877 and a p value of 0.163 which tells us that the model in its total is not significant The ($R^2=0.07397$) gives us a low percent of 7.4% and the adjusted ($R^2=0.00347$) gives us a even lower percent of 3.5 % which also tells us the model has a too low explanatory power.
-The logarithmic model however gives off a stronger performers then the linear one.
-Here we transform the variable change GDP-per-capita with a log-transformation, which helps with the realtionship with the dependable variable.
-The estimates of change GDP-per-capita went to ($\beta = -0.059611$) which is a swap from positive to negative effect on the gini-coefficient, while the workforce only reduced to ($\beta = 0.000033$) which is hardly any change.
-The most important effect of this model however is the change in p-value for change GDP-per-capita with a value of 0.0008.
-This means its highly statistically significant.
-The workforce variable continues to have the same p value of 0.0604 which gives a marginally significant.
-The overall model has a ($R^2=0.2877$) and a adjusted ($R^2=0.0251$), which tells us that this model gives a better improvment in explanatory power then the linear one.
-At last the F-test gives a 8.078 and the overall p-value of the model is 0.0011, meaning the model as a whole is statistically significant.
-The last alternative functional form is the quadratic model.
-This form however gave us a higher p-value then the logarithmic one on all of the coefficients.
-While the change in GDP-per-capita got a positive growth of ($\beta = 0.004327$) on the linear term and a negative of ($\beta = -0.000468$) on the quadratic term, we still got a p value of 0.4066 and a 0.1302, which is both not statistically significant.
-The workforce coefficient estimate is reduced to a ($\beta = 0.000029$) and the p-value increased to 0.1480 which means the effect is statistically weak.
-The Multiple R is ($R^2=0.1194$) and the adjusted R is ($R^2=0.06199$) which is worse then the logarithmic model.
-The model as a whole has a p-value of 0.1160 which again tells us its not statistically significant.
+We constructed separate regression tables for each functional form linear, logarithmic, and quadraticand compared their performance in terms of coefficient significance, explanatory power, and overall model fit.
+Below, we summarize the key findings and interpret the effects of each independent variable.
 
-Population density: We will then take a look at the population density.
-In the linear model we got when change in GDP-per-capita and population density is zero, regional inequality has a estimated value of ($\beta = 0.1506$) and is highly significant.
-Will they cant actually be zero, the population density coefficient gives a estimate negative value of ($\beta = -0.000037$) and a p-value of 0.0228, telling us its statistically significant at the 5% level, even if its only marginal.
-Change in GDP-per-capita however is not significant with a p-value of 0.6166.
-The model got a multiple ($R^2=0.111$) and a adjusted ($R^2=0.072$) which gives a suggestion that the model lacks important factors cause of the low procent.
-The f-statistic p-value gives a 0.00668 which it barely passes as a significant model.
-In the logarithmic model for population density, the estimated value for the gini-coefficient haves a rise to ($\beta = 0.2292$) when the others are at zero.
-When the change in GDP-per-capita gets log-transformation, it changes its estimates to a negative value of ($\beta = -0.05793$) and the p-value changes to 0.0007, meaning its highly significant.
-The population density is almost at the same estimated value at ($\beta = -0.000039$) and at p-value of 0.0047 which means its still statistically significant.
-The model gives a multiple $R^2=0.364$ and a adjusted $R^2=0.331$ which is an improvement from the linear model and gives it a stronger explanatory power.
-The total p-value of the model is 0.0001 which tells us its highly significant overall.
-We then used the quadratic regression model for population density where the GDP-per-capita growth has a nonlinear effect on regional inequality.
-The estimated value for the gini-coefficient had fallen to $\beta = 0.1379$ when others are at zero. Here the linear change in GDP-per-capita has a estimated value of $\beta = 0.0077$ and a p-value of 0.1136 which means its not statistically significant, and the quadratic term for GDP-per-capita har a $\beta = -0.000682$ and a p-value of 0.0198 which means its statistically significant.
-The population density coefficient gains a estimated value of $\beta = -0.000041$ and a p-value of 0.0091, meaning this one is also statistically significant.
-It has a multiple $R^2=0.0.213$ and a adjusted $R^2=0.161$, which gives it a explanatory power between 21.3% and 16.1%.
-The overall model gains a p-value of 0.0123 which means its statistically significant.
+Workforce
 
-Unemployment rate: The linear model with the variable unemployment rate gives the gini-coeffisient a estimated value of $\beta = 0.175826$ when the other independent variables are equal zero. While the estimated value for change in GDP-per-capita is $\beta = -0.0000248$ and the p-value is of 0.936, which tells us its not statistically significant. The unemployment rate however gives a $\beta = -0.0010389$ and a p-value of 0.03 which tell us the coefficient is statistically significant. The model picks up a multiple $R^2=0.10$ and a adjusted $R^2=0.062$ which gives the model a small explanatory power. F-test gives a p-value of 0.083 which is at the borderline for 10% and the model is overall not statistically significant.
-The logarithmic model gives the gini-coefficient a new estimate value of $\beta = 0.233016$ when the independent variables are zero. Here the change in GDP-per-capita gains a negative value of $\beta = 0.-0.051$ and a p-value of 0.005 which makes it statistically significant. The unemployment estimated value is still negative at $\beta = -0.00707$ and a p-value of 0.1096 which tells us it is not statistically significant. They have change from the linear model. The model's multiple $R^2=0.27$ and the adjusted $R^2=0.2336$ has increased, which have increased the explanatory power of the independent variables. The last F-test for the overall model gives a p-value of 0.0018 which means its highhly statistically significant. 
-The last test as the others is the quadratic regression model. Here the dependent variable regional inequality gains a estimated value of $\beta = 0.1607$ when the independent variables are zero. The linear change in GDP-per-capita gains a positive estimate at $\beta = 0.0062$ but is not statistically significant at the p-value of 0.2114. The quadratic change in GDP-per-capita turns negative with the $\beta = -0.000488$ and is at the borderline significant with a p-value of 0.0102. Unemployment rate still have a estimated negative value of $\beta = -0.009216$ and the p-value of 0.0516 makes it also at the borderline of statistically significant. Overall model explanatory power is reduced as the multiple R is $R^2=0.1517$ and the adjusted R is $R^2=0.09633$. In the end the F-test gives it a p-value of 0.0539 which tells us the model is borderline significant overall. 
+Linear model:
 
-The panel regression results reveal a consistently positive association between chg_gdpc and the dependent variable across all specifications. The magnitude of the effect is small (0.00017–0.00024), but precision improves substantially when controlling for regional heterogeneity using NUTS2 fixed effects, as reflected in markedly lower standard errors and RMSE. Models with country-only or year-only fixed effects explain very little variation (R² = 0.005–0.009), whereas NUTS2 and NUTS2 & Year fixed effects substantially improve model fit (R² = 0.102–0.109) and are preferred according to AIC and BIC. These findings highlight the importance of accounting for subnational regional characteristics, which capture significant variation in the outcome variable. Overall, the results suggest that regional-level factors are key drivers of the dependent variable, while the positive effect of chg_gdpc remains robust across specifications.
+-   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.1773$.
+
+-   Workforce has a coefficient of $\beta = 0.000036$ (p = 0.0665), which is marginally significant at the 10% level.
+
+-   Change in GDP per capita has a coefficient of $\beta = -0.002122$ (p = 0.4931), indicating it is not statistically significant.
+
+-   Overall, the model’s explanatory power is low: $R^2 = 0.074$, adjusted $R^2 = 0.035$, and the F-test (F = 1.877, p = 0.163) suggests the model is not statistically significant.
+
+Logarithmic model:
+
+-   Transforming change in GDP per capita using a log transformation improves model performance.
+
+<!-- -->
+
+-   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.0.2292$.
+
+-   The coefficient for GDP per capita becomes $\beta = -0.059611$ and is highly significant (p = 0.0008), showing a negative relationship with the Gini coefficient.
+
+-   Workforce remains largely unchanged at $\beta = 0.000033$ (p = 0.0604, marginally significant).
+
+-   Explanatory power improves: $R^2 = 0.288$, adjusted $R^2 = 0.0251$, and the F-test is highly significant (F = 8.078, p = 0.0011).
+
+Quadratic model:
+
+-   The quadratic specification produces less significant results than the logarithmic model.
+
+<!-- -->
+
+-   When all independent variables are zero, the regional inequality coefficient is estimated at $\beta = 0.1379$.
+
+-   GDP per capita: linear term $\beta = 0.004327$ (p = 0.4066), quadratic term $\beta = -0.000468$ (p = 0.1302), both insignificant.
+
+-   Workforce: $\beta = 0.000029$ (p = 0.1480), effect is weak.
+
+-   $R^2 = 0.1194$, adjusted $R^2 = 0.06199$, and the model is not statistically significant overall (p = 0.116).
+
+Summary: The logarithmic model best captures the relationship between workforce, GDP growth, and inequality, mainly due to the strong significance of log-transformed GDP per capita.
+
+2.  Population Density
+
+Linear model:
+
+-   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.1506$.
+
+<!-- -->
+
+-   Population density has a coefficient of $\beta = -0.000037$ with a p-value of 0.0228, indicating statistical significance at the 5% level.
+
+-   Change in GDP per capita has a coefficient of $\beta = 0.000054$ (p = 0.6166), which is not significant.
+
+-   Model performance is limited: $R^2 = 0.111$, adjusted $R^2 = 0.072$, and the F-test is 7.36 with a p-value of 0.00668, suggesting marginal overall significance.
+
+Logarithmic model:
+
+-   Applying a log transformation to change in GDP per capita improves model fit and significance.
+
+<!-- -->
+
+-   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.229228$.
+
+-   GDP per capita becomes $\beta = -0.05793$, p = 0.0007, showing a strong negative relationship with inequality.
+
+-   Population density remains similar: $\beta = -0.000039$, p = 0.0047, still significant.
+
+-   Overall explanatory power increases substantially: $R^2 = 0.364$, adjusted $R^2 = 0.331$, and the F-test p-value is 0.0001, indicating a highly significant model.
+
+Quadratic model:
+
+-   Including a quadratic term for GDP per capita allows for a non-linear relationship with inequality.
+
+<!-- -->
+
+-   When change in GDP per capita and population density are zero, the regional inequality coefficient is estimated at $\beta = 0.137873$.
+
+-   GDP per capita: linear term $\beta = 0.0077$ (p = 0.1136, not significant), quadratic term $\beta = -0.000682$ (p = 0.0198, significant), indicating a slight non-linear effect.
+
+-   Population density: $\beta = -0.000041$, p = 0.0091, remains significant.
+
+-   Model fit is moderate: $R^2 = 0.213$, adjusted $R^2 = 0.161$, with overall model p = 0.0123, showing statistical significance.
+
+Summary: The logarithmic model provides the best explanatory power for population density, with both GDP growth and population density showing significant impacts on regional inequality.
+The quadratic model captures a slight non-linear effect but has lower overall explanatory power.
+
+3.  Unemployment Rate
+
+Linear model:
+
+-   The regional inequality coefficient is $\beta = 0.1758$ when GDP per capita growth and unemployment are zero.
+
+<!-- -->
+
+-   Unemployment rate: $\beta = -0.001039$, p = 0.03, statistically significant, suggesting higher unemployment is associated with slightly lower inequality.
+
+-   Change in GDP per capita: $\beta = -0.0000248$, p = 0.936, not significant.
+
+-   Model fit is weak: $R^2 = 0.10$, adjusted $R^2 = 0.062$, and the F-test p-value is 0.083, indicating borderline overall significance.
+
+Logarithmic model:
+
+-    Transforming GDP per capita using a log improves model performance.
+
+<!-- -->
+
+-   The regional inequality coefficient is $\beta = 0.233016$ when GDP per capita growth and unemployment are zero.
+
+-   GDP per capita: $\beta = -0.051$, p = 0.005, now highly significant with a negative effect on inequality.
+
+-   Unemployment rate: $\beta = -0.00707$, p = 0.1096, not significant, though the effect remains negative.
+
+-   Explanatory power increases: $R^2 = 0.27$, adjusted $R^2 = 0.2336$, F-test p = 0.0018, highly significant overall.
+
+Quadratic model:
+
+-   Including a quadratic term for GDP per capita allows for a potential non-linear effect.
+
+<!-- -->
+
+-   The regional inequality coefficient is $\beta = 0.160671$ when GDP per capita growth and unemployment are zero.
+
+-   GDP per capita: linear term $\beta = 0.0062$ (p = 0.2114, not significant), quadratic term $\beta = -0.000488$ (p = 0.0102, borderline significant).
+
+-   Unemployment rate: $\beta = -0.009216$, p = 0.0516, borderline significant.
+
+-   Model fit is lower than the log model: $R^2 = 0.1517$, adjusted $R^2 = 0.09633$, with F-test p = 0.0539, borderline significant overall.
+
+Summary: The logarithmic transformation of GDP per capita produces the strongest model for unemployment, improving both explanatory power and overall significance.
+Unemployment shows a weak but negative relationship with inequality, while quadratic effects of GDP per capita are borderline significant.
+
+Overall Conclusion for the alternative functional forms:
+
+Across all variables, logarithmic models generally provide the best explanatory power and statistical significance, particularly through the transformation of GDP per capita.
+Quadratic models capture some non-linear effects but often at the cost of reduced overall significance.
+Linear models are generally the weakest in explaining regional inequality.
+The key takeaway is that GDP per capita growth consistently shows a negative relationship with inequality when appropriately transformed, while workforce, population density, and unemployment rate exhibit more nuanced, context-dependent effects.
+
+The panel regression results reveal a consistently positive association between change in GDP per capita and the dependent variable across all specifications.
+The magnitude of the effect is small (0.00017–0.00024), but precision improves substantially when controlling for regional heterogeneity using NUTS2 fixed effects, as reflected in markedly lower standard errors and RMSE.
+Models with country only or year only fixed effects explain very little variation (R² = 0.005–0.009), whereas NUTS2 and NUTS2 & Year fixed effects substantially improve model fit (R² = 0.102–0.109) and are preferred according to AIC and BIC.
+These findings highlight the importance of accounting for subnational regional characteristics, which capture significant variation in the outcome variable.
+Overall, the results suggest that regional-level factors are key drivers of the dependent variable, while the positive effect of change in GDP per capita remains robust across specifications.
 
 ## Discussion - Begynner kvar for oss, samskriver etterpå
 
