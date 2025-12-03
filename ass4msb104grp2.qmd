@@ -51,7 +51,6 @@ library(plm)
 Gini_EUdata_full <- readRDS("./data/Gini_EUdata_Full.rds")
 ```
 
-
 ### Background
 
 ### Objetives
@@ -87,7 +86,7 @@ Our assignments aim to examine exactly that: to see whether any of these structu
 
 Primary data refers to information collected firsthand by the researcher directly from original source.
 It is raw and unprocessed, typically gathered through methods such as surveys, interviews and observations.
-The data provided by Eurostat ccan be considered primary data because it is originally collected through official surveys and processed following established methodological standards for gathering information on specific topic within defined time periods.
+The data provided by Eurostat can be considered primary data because it is originally collected through official surveys and processed following established methodological standards for gathering information on specific topic within defined time periods.
 
 In the first assignment, we used Eurostat to extract datasets on gross domestic product (GDP) at current market prices by NUTS 3 regions.
 From these datasets, we collected data for Germany, Ireland, Croatia annd Switzerland covering the years 2000 to 2023.
@@ -187,9 +186,7 @@ THe regression was estimated in the following table:
 read_rds("./data/Regdev-Gini.rds")
 ```
 
-
-
-The results hwo an estimated intercept of ($\hat{\alpha}=0.1336$), represetning the average level of nequality in regions with zero GDP-per-capita growth.
+The results shows an estimated intercept of ($\hat{\alpha}=0.1336$), representing the average level of inequality in regions with zero GDP-per-capita growth.
 The coefficient for GDP-per-capita growth is negative ($\hat{\beta}=-0.0024$), which indicates a slight negative relationship between economic growth and inequality.
 However, the model's explanatory power is extremely low, with ($R^2=0.012$), meaning that changes in GDP-per-capita account for only 1.2% of the variation in inequality.
 Thus, although the coefficient suggests a negative relationship, the effect is statistically insignificant and not substantively meaningful.
@@ -235,7 +232,51 @@ These structural variables appear to better capture regional economic difference
 
 ### Alternative functional forms and panel estimates
 
-Les gjennom assginment 3 og prøv å forstå panel estimates og det jeg har gjort i part B.
+In the Alternative functional forms part of the assignment we used the different variables from the second assignment, workforce, population density and unemployment rate, with the change in GDP, to explore other forms like logarithmic, quadratic and cubic.
+We went for the logarithmic and quadratic functions, as the cubic gave more estimates but with less effect.
+We would make a table for each functional form: linear, logarithmic and quadratic, and compare which of them is the most compatible.
+Here we would then present the key findings in these regression analyses and explain the effect it has on its dependable variable, which is the gini-coefficient.
+
+Workforce: Lets start off with workforce.
+We start off with the linear model, and it gave the regional inequality coefficent a estimated value of $\beta = 0.177303$ when both the independent variables are at zero. Workforce gave a  estimated of $\beta = 0.000036$ and change in GDP-per-capita gave a $\beta = -0.002122$, however both the explanatory variables has no clear significant as the workforce has a p value of 0.0665 which is under the 10% and is a marginal significant but change GDP-per-capita we got a p value of 0.4931 which tells us its not significant.
+Even with the combined f-test gives us a 1.877 and a p value of 0.163 which tells us that the model in its total is not significant The ($R^2=0.07397$) gives us a low percent of 7.4% and the adjusted ($R^2=0.00347$) gives us a even lower percent of 3.5 % which also tells us the model has a too low explanatory power.
+The logarithmic model however gives off a stronger performers then the linear one.
+Here we transform the variable change GDP-per-capita with a log-transformation, which helps with the realtionship with the dependable variable.
+The estimates of change GDP-per-capita went to ($\beta = -0.059611$) which is a swap from positive to negative effect on the gini-coefficient, while the workforce only reduced to ($\beta = 0.000033$) which is hardly any change.
+The most important effect of this model however is the change in p-value for change GDP-per-capita with a value of 0.0008.
+This means its highly statistically significant.
+The workforce variable continues to have the same p value of 0.0604 which gives a marginally significant.
+The overall model has a ($R^2=0.2877$) and a adjusted ($R^2=0.0251$), which tells us that this model gives a better improvment in explanatory power then the linear one.
+At last the F-test gives a 8.078 and the overall p-value of the model is 0.0011, meaning the model as a whole is statistically significant.
+The last alternative functional form is the quadratic model.
+This form however gave us a higher p-value then the logarithmic one on all of the coefficients.
+While the change in GDP-per-capita got a positive growth of ($\beta = 0.004327$) on the linear term and a negative of ($\beta = -0.000468$) on the quadratic term, we still got a p value of 0.4066 and a 0.1302, which is both not statistically significant.
+The workforce coefficient estimate is reduced to a ($\beta = 0.000029$) and the p-value increased to 0.1480 which means the effect is statistically weak.
+The Multiple R is ($R^2=0.1194$) and the adjusted R is ($R^2=0.06199$) which is worse then the logarithmic model.
+The model as a whole has a p-value of 0.1160 which again tells us its not statistically significant.
+
+Population density: We will then take a look at the population density.
+In the linear model we got when change in GDP-per-capita and population density is zero, regional inequality has a estimated value of ($\beta = 0.1506$) and is highly significant.
+Will they cant actually be zero, the population density coefficient gives a estimate negative value of ($\beta = -0.000037$) and a p-value of 0.0228, telling us its statistically significant at the 5% level, even if its only marginal.
+Change in GDP-per-capita however is not significant with a p-value of 0.6166.
+The model got a multiple ($R^2=0.111$) and a adjusted ($R^2=0.072$) which gives a suggestion that the model lacks important factors cause of the low procent.
+The f-statistic p-value gives a 0.00668 which it barely passes as a significant model.
+In the logarithmic model for population density, the estimated value for the gini-coefficient haves a rise to ($\beta = 0.2292$) when the others are at zero.
+When the change in GDP-per-capita gets log-transformation, it changes its estimates to a negative value of ($\beta = -0.05793$) and the p-value changes to 0.0007, meaning its highly significant.
+The population density is almost at the same estimated value at ($\beta = -0.000039$) and at p-value of 0.0047 which means its still statistically significant.
+The model gives a multiple $R^2=0.364$ and a adjusted $R^2=0.331$ which is an improvement from the linear model and gives it a stronger explanatory power.
+The total p-value of the model is 0.0001 which tells us its highly significant overall.
+We then used the quadratic regression model for population density where the GDP-per-capita growth has a nonlinear effect on regional inequality.
+The estimated value for the gini-coefficient had fallen to $\beta = 0.1379$ when others are at zero. Here the linear change in GDP-per-capita has a estimated value of $\beta = 0.0077$ and a p-value of 0.1136 which means its not statistically significant, and the quadratic term for GDP-per-capita har a $\beta = -0.000682$ and a p-value of 0.0198 which means its statistically significant.
+The population density coefficient gains a estimated value of $\beta = -0.000041$ and a p-value of 0.0091, meaning this one is also statistically significant.
+It has a multiple $R^2=0.0.213$ and a adjusted $R^2=0.161$, which gives it a explanatory power between 21.3% and 16.1%.
+The overall model gains a p-value of 0.0123 which means its statistically significant.
+
+Unemployment rate: The linear model with the variable unemployment rate gives the gini-coeffisient a estimated value of $\beta = 0.175826$ when the other independent variables are equal zero. While the estimated value for change in GDP-per-capita is $\beta = -0.0000248$ and the p-value is of 0.936, which tells us its not statistically significant. The unemployment rate however gives a $\beta = -0.0010389$ and a p-value of 0.03 which tell us the coefficient is statistically significant. The model picks up a multiple $R^2=0.10$ and a adjusted $R^2=0.062$ which gives the model a small explanatory power. F-test gives a p-value of 0.083 which is at the borderline for 10% and the model is overall not statistically significant.
+The logarithmic model gives the gini-coefficient a new estimate value of $\beta = 0.233016$ when the independent variables are zero. Here the change in GDP-per-capita gains a negative value of $\beta = 0.-0.051$ and a p-value of 0.005 which makes it statistically significant. The unemployment estimated value is still negative at $\beta = -0.00707$ and a p-value of 0.1096 which tells us it is not statistically significant. They have change from the linear model. The model's multiple $R^2=0.27$ and the adjusted $R^2=0.2336$ has increased, which have increased the explanatory power of the independent variables. The last F-test for the overall model gives a p-value of 0.0018 which means its highhly statistically significant. 
+The last test as the others is the quadratic regression model. Here the dependent variable regional inequality gains a estimated value of $\beta = 0.1607$ when the independent variables are zero. The linear change in GDP-per-capita gains a positive estimate at $\beta = 0.0062$ but is not statistically significant at the p-value of 0.2114. The quadratic change in GDP-per-capita turns negative with the $\beta = -0.000488$ and is at the borderline significant with a p-value of 0.0102. Unemployment rate still have a estimated negative value of $\beta = -0.009216$ and the p-value of 0.0516 makes it also at the borderline of statistically significant. Overall model explanatory power is reduced as the multiple R is $R^2=0.1517$ and the adjusted R is $R^2=0.09633$. In the end the F-test gives it a p-value of 0.0539 which tells us the model is borderline significant overall. 
+
+The panel regression results reveal a consistently positive association between chg_gdpc and the dependent variable across all specifications. The magnitude of the effect is small (0.00017–0.00024), but precision improves substantially when controlling for regional heterogeneity using NUTS2 fixed effects, as reflected in markedly lower standard errors and RMSE. Models with country-only or year-only fixed effects explain very little variation (R² = 0.005–0.009), whereas NUTS2 and NUTS2 & Year fixed effects substantially improve model fit (R² = 0.102–0.109) and are preferred according to AIC and BIC. These findings highlight the importance of accounting for subnational regional characteristics, which capture significant variation in the outcome variable. Overall, the results suggest that regional-level factors are key drivers of the dependent variable, while the positive effect of chg_gdpc remains robust across specifications.
 
 ## Discussion - Begynner kvar for oss, samskriver etterpå
 
