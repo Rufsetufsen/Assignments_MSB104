@@ -45,6 +45,22 @@ library(plm)
 
 ## Abstract
 
+This paper looks at what drives internal economic disparities within European NUTS2 regions.
+Using Eurostat data for Germany, Ireland, Croatia, and Switzerland from 2000–2023, we measure how regional GDP per capita growth relates to the spread of GDP across NUTS3-regions inside each NUTS2-region.
+The analysis combines cross-sectional models, structural segmentation (population density, workforce size, unemployment), alternative functional forms, and fixed-effects panel estimation.
+
+The results point in one direction: short-term regional growth does not meaningfully reduce internal GDP inequality.
+Cross-sectional regressions show weak and unstable effects, and segmentation reveals that structural characteristics matter far more than growth itself.
+High-density regions are generally more balanced internally, while rural and low-density regions show larger internal gaps.
+Workforce size and unemployment conditions influence inequality patterns, but their effects vary across models.
+
+The panel estimates settle the picture.
+Once we control for region-specific characteristics and common yearly shocks, the growth–inequality relationship remains small.
+Internal disparities are largely shaped by long-term structural factors, not short-term performance.
+
+Overall, the findings suggest that regional GDP inequality is a structural issue.
+Broad growth policies alone are insufficient; more targeted, place-based strategies are needed if the goal is to create more balanced development inside regions.
+
 ## Introduction
 
 ```{r}
@@ -136,7 +152,8 @@ As a result, data for the most recent years of 2022 and 2023, may still be incom
 
 A common limitation across several datasets concerns changes in regional boundaries.
 Regions may merge to form larger areas or split into smaller units, affecting how data is collected, aggregated and updated.
-This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy. Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level \[@thenuts\].
+This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy.
+Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level [@thenuts].
 
 Finally, there were limitations related to the time coverage of the datasets.
 Allthought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023.
@@ -195,7 +212,7 @@ In assignment 2, we began with a cross-sectional analysis examining the relation
 The dependent variable in our model was regional inequality, measured by the Gini coefficient, and the independent variable was the change in GDP per capita: $$
 \text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i$$
 
-![OLS Estimate of Regional Inequality as a function of GDP per Capita Growth (%).](ass2msb104grp2_files/figure-html/fig-RegDev-Gini-1.png){alt="OLS Estimate of Regional Inequality as a function of GDP per Capita Growth (%)." fig-align="center"}
+![OLS Estimate of Regional Inequality as a function of GDP per Capita Growth (%).](ass2msb104grp2_files/figure-html/fig-RegDev-Gini-1.png){fig-align="center"}
 
 From the linear regression model we get the following results:
 
