@@ -136,8 +136,7 @@ As a result, data for the most recent years of 2022 and 2023, may still be incom
 
 A common limitation across several datasets concerns changes in regional boundaries.
 Regions may merge to form larger areas or split into smaller units, affecting how data is collected, aggregated and updated.
-This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy [@countyi2018].
-Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level [@thenuts].
+This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy. Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level \[@thenuts\].
 
 Finally, there were limitations related to the time coverage of the datasets.
 Allthought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023.
