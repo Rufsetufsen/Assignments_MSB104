@@ -422,7 +422,15 @@ This could help with future analyses and enhance the ability to explain the vari
 
 ### Summary
 
+Across all assignments, the core finding is straightforward: short-term GDP per capita growth does not explain much of the internal GDP spread within NUTS2 regions. The initial cross-sectional models showed almost no relationship between growth and inequality. Once we introduced workforce size, population density, and unemployment, the models improved, but the effects were still small and varied across specifications. Density consistently pointed toward slightly lower inequality, while larger workforces tended to be linked with slightly higher inequality. Unemployment effects were weak and context dependent.
+
+The alternative functional forms reinforced this picture. Log-transforming GDP per capita produced the clearest and most stable relationships, but even then, the general message stayed the same: proportional growth has some association with inequality, but the effect is limited. Quadratic models captured small non-linearities but did not change the overall interpretation.
+
+The panel models helped settle the question. Once we control for regional characteristics with fixed effects, most of the variation in inequality is tied to long-lasting structural factors inside each region, not year-to-year economic performance. Growth barely shifts the needle. NUTS2 fixed effects improved the model fit dramatically, which shows how important these structural differences are.
+
 ### Final Reflection
+
+What this means is that internal regional inequality is not a simple function of annual economic growth. Like Newton said: "an object in motion, stays in motion." The same goes here: the regions that start out unequal tend to stay unequal, regardless of short-term swings in GDP per capita. Regions with structural disadvantages, especially rural or low-density areas, carry these disadvantages from year to year. Growth helps, but it does not rebalance a region on its own. The implication for future research is clear: to understand why some regions have wide internal GDP spreads, we need richer variables that capture long-term spatial, institutional, and historical differences, not just economic snapshots.
 
 ## References
 
