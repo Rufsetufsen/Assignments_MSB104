@@ -419,6 +419,7 @@ By gaining a deeper insight into the context of each country we have been given 
 For a more accuracy and improved analyse of regional dynamics, a more in-depth understanding of data practices and how these variables affects the countries would likely improve the workflow and understanding of the results.
 This could help with future analyses and enhance the ability to explain the variations in regional inequalities.
 
+
 ## Conclusion
 
 ### Summary
