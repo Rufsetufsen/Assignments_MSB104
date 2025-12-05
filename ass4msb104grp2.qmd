@@ -187,8 +187,8 @@ Where alternative functional forms were required, we introduced quadratic and lo
 ### Cross- sectional Estimates
 
 In assignment 2, we began with a cross-sectional analysis examining the relationship between regional inequality and short-term ecnonmic development, measured as the change in GDP per capita from 2016 to 2017.
-The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita:  $$
-\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i$$ 
+The dependent variable in our model was regional inequality, measured by the Gini coefficent, and the independent variable was the change in GDP per capita: $$
+\text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i$$
 
 From the linear regression model we get the results:
 
@@ -400,12 +400,21 @@ Effective policies therefore need to focus on durable place-based strategies—s
 
 ## Limitations and Future Research - Harald
 
-Through the analyse of the datasets from the three assignments, several limitations emerged. These most be acknowledged when one shall interpreting the results. The first limitation and the most crucial one is the limited data across the different Eurostat datasets which we used. Some variables were not consistently reported for each country as mentioned. These missing values gave us Na in our coding and was challenging to form a fully comparable and comprehensive dataset. This also crated uncertainty regarding which variables were most suitable for capturing the specific characteristics of the countries included in the study.
+Through the analyse of the datasets from the three assignments, several limitations emerged.
+These most be acknowledged when one shall interpreting the results.
+The first limitation and the most crucial one is the limited data across the different Eurostat datasets which we used.
+Some variables were not consistently reported for each country as mentioned.
+These missing values gave us Na in our coding and was challenging to form a fully comparable and comprehensive dataset.
+This also crated uncertainty regarding which variables were most suitable for capturing the specific characteristics of the countries included in the study.
 
-Another limitations is the knowledge of which variable would have the greatest influence on regional inequalities, and how they will shape the analysis. Without stronger evidence one variable impact, some assumptions had to be made when selecting and interpreting the data. Each countries followed a universe dictation on how to collect data for Eurostat, but how the methods would be interpreted and executed across each countries would further complicated comparisons, as each nation may decipher the definitions, or reporting practices differently. These inconsistencies can affect the reliability of cross-country analyses. 
+Another limitations is the knowledge of which variable would have the greatest influence on regional inequalities, and how they will shape the analysis.
+Without stronger evidence one variable impact, some assumptions had to be made when selecting and interpreting the data.
+Each countries followed a universe dictation on how to collect data for Eurostat, but how the methods would be interpreted and executed across each countries would further complicated comparisons, as each nation may decipher the definitions, or reporting practices differently.
+These inconsistencies can affect the reliability of cross-country analyses.
 
-By gaining a deeper insight into the context of each country we have been given and how they processes their collected data, we would have a stronger interpretation of our results from the analyse. For a more accuracy and improved analyse of regional dynamics, a more in-depth understanding of data practices and how these variables affects the countries would likely improve the workflow and understanding of the results. This could help with future analyses and enhance the ability to explain the variations in regional inequalities. 
-
+By gaining a deeper insight into the context of each country we have been given and how they processes their collected data, we would have a stronger interpretation of our results from the analyse.
+For a more accuracy and improved analyse of regional dynamics, a more in-depth understanding of data practices and how these variables affects the countries would likely improve the workflow and understanding of the results.
+This could help with future analyses and enhance the ability to explain the variations in regional inequalities.
 
 ### Reasearch limitations
 
