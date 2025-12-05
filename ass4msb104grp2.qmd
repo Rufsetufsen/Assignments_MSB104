@@ -464,4 +464,10 @@ The implication for future research is clear: to understand why some regions hav
 
 ## Appendix
 
+In this assignment we have used AI to ask controlling questions and constructive judging of the text and the codes used, including interpreting the results from our models.
+The language models used were ChatGPT 3.5 and ChatGPT 5.1.
+Our prompt strategy revolved around describing the assignment to chatGPT, and asking it for feedback underways.
+For model interpretation, we uploaded our rendered html-documents, which included the results from our models, and asked for assistance in interpretation.
+It was important for us to actually learn, and not just outsource the thinking to an AI, so where ChatGPT presented us with new concepts or R-functions, we asked it to educate us and explain, step by step, what each new concept/function was and how it could be used.
+
 ## References
