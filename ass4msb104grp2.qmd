@@ -67,7 +67,7 @@ Assignments 1, 2, and 3 focused on different parts of this problem.
 -   **Assignment 2** analysed a cross-section of the year 2017 to see whether regional development, measured as GDP per capita growth, is linked to internal GDP inequality. Then find suitable variables for the same purpose.
 -   **Assignment 3**looked at whether this relationship differs across different segments of population density, workforce size, and unemployment rates. We also extended the analysis to a full panel, estimating fixed-effects models to test whether the development–inequality relationship holds once we control for time-invariant regional characteristics and common yearly shocks. We also evaluated alternative functional forms and ran diagnostic tests to check model robustness.
 
-Across all three assignments, the overarching research question has been the same: ***Does economic  development lead to more balanced regional GDP distribution?***
+Across all three assignments, the overarching research question has been the same: ***Does economic development lead to more balanced regional GDP distribution?***
 
 ### Significance
 
@@ -119,7 +119,8 @@ In the second assignment, we retrieved data from three additional datasets that 
 These datasets included labour force by NUTS 2 region with the datacode: lfst_r_lfp2act, unemployment rate by Nuts 2 region with the data code: tgs00010, and population density by NUTS 2 region with the data code: tgs00024 .
 Each country collects its own data and reports it to Eurostat in accordance with ESA 2010, a global framework for national accounting.
 This ensures that the resulting statistics are consistent, reliable, and comparable across countries [@informat].
-The dataset labour force consists of all available workforce in the region, and is a sum of both employed and unemployed individuals, in thousand persons. We referes to this as both workforce and labour force in the assignments. 
+The dataset labour force consists of all available workforce in the region, and is a sum of both employed and unemployed individuals, in thousand persons.
+We referes to this as both workforce and labour force in the assignments.
 
 However, the data also comes with certain limitations.
 For example, Switzerland is not en EU member but an EFTA country (European Free Trade Association), which promotes free trade and economic cooperation.
@@ -134,8 +135,7 @@ As a result, data for the most recent years of 2022 and 2023, may still be incom
 
 A common limitation across several datasets concerns changes in regional boundaries.
 Regions may merge to form larger areas or split into smaller units, affecting how data is collected, aggregated and updated.
-This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy [@countyi2018].
-Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level [@thenuts].
+This issue is particularly relevant in Germany, where regional reforms occur more frequently due to regional policy. Croatia and Ireland face similar challenges, as changes to their NUTS regions have affected population data availability at the NUTS 3 level \[@thenuts\].
 
 Finally, there were limitations related to the time coverage of the datasets.
 Allthought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023.
@@ -183,7 +183,7 @@ The panel models allowed us to control for all time-invariant regional character
 After joining the datasets onto eachother, including the new variables used for segmenting, we ended up with a few obvious gaps in our data and some NA/Inf rows.
 These were removed to keep the panel consistent, but a side effect of this is that we only have panel data from 2013 onwards.
 
-We also ran Breusch–Pagan tests to check for heteroskedasticity across all models and found no statistically significant signs of heteroskedasticity.  
+We also ran Breusch–Pagan tests to check for heteroskedasticity across all models and found no statistically significant signs of heteroskedasticity.\
 Where alternative functional forms were required, we introduced quadratic and logarithmic transformations of the key variables and evaluated their residual behavior the same way.
 
 ## Empirical Findings - Harald
@@ -320,6 +320,7 @@ Overall, the results suggest that regional-level factors are key drivers of the 
 ## Discussion
 
 ### Key insights
+
 We will here take our key values from earlier in the project and discuss their effect on regional inequality.
 The initial model examining the effect of change in GDP per capita on regional inequality shows very weak explanatory capacity.
 The model’s F-test yields a p-value of 0.435, indicating that the relationship is statistically insignificant, and the multiple R² of 1.2% demonstrates that GDP per capita growth accounts for almost none of the variation in inequality.
@@ -333,8 +334,7 @@ The coefficients indicate a small positive association for workforce (β = 0.000
 These patterns suggest that regions with larger labour forces may experience slightly higher inequality, whereas denser regions tend to show lower inequality, and higher unemployment appears to compress income distribution.
 The estimated value of regional inequality (β = 0.150168) cannot be meaningfully interpreted, as no region can give a zero value for any of the three predictors.
 
-
-Using alternative functional form would give a new insight into how the independent variables has a effect on the dependent variable of regional inequality. 
+Using alternative functional form would give a new insight into how the independent variables has a effect on the dependent variable of regional inequality.
 In the workforce models, the linear specification estimates the intercept at β = 0.1773, indicating the baseline level of inequality when all predictors are zero.
 Workforce has a small positive coefficient (β = 0.000036, p = 0.0665), marginally significant at the 10% level.
 This suggests that for every additional unit of workforce, such as an extra thousand workers, the regional Gini coefficient increases by 0.000036, representing a very slight rise in inequality.
@@ -376,7 +376,8 @@ Transformations applied to GDP per capita growth consistently produce stronger, 
 ### Policy Implications
 
 Across all the cross-sectional and panel models, the effect of GDP per capita growth on inequality is small, unstable, and mostly insignificant.
-For policymakers, this means that betting on regional inequality improvements through “more growth” alone would be a sub-optimal approach. The differences between regions appear to be driven far more by long-term structural characteristics than by year-to-year economic performance.
+For policymakers, this means that betting on regional inequality improvements through “more growth” alone would be a sub-optimal approach.
+The differences between regions appear to be driven far more by long-term structural characteristics than by year-to-year economic performance.
 
 The segmentation exercises support this interpretation, although with a small asterisk attached.
 Regions with higher population density tend to show slightly lower inequality, while rural regions display more variation and, in some cases, higher inequality.
@@ -400,7 +401,8 @@ Effective policies therefore need to focus on durable place-based strategies—s
 
 Through the analyse of the datasets from the three assignments, several limitations emerged.
 These must be acknowledged when one shall interpreting the results.
-The first limitation and the most crucial one is the limited data across the different Eurostat datasets. Some variables were not consistently reported for each country as mentioned.
+The first limitation and the most crucial one is the limited data across the different Eurostat datasets.
+Some variables were not consistently reported for each country as mentioned.
 These missing values gave us NA's in our coding and was challenging to form a fully comparable and comprehensive dataset.
 This also crated uncertainty regarding which variables were most suitable for capturing the specific characteristics of the countries included in the study.
 
@@ -413,21 +415,32 @@ By gaining a deeper insight into the context of each country and how they proces
 For a more accurate and improved analysis of regional dynamics, a more in-depth understanding of data practices and how these variables affects the countries would likely improve the workflow and understanding of the results.
 This could help with future analyses and enhance the ability to explain the variations in regional inequalities.
 
-
 ## Conclusion
 
 ### Summary
 
-Across all assignments, the core finding is straightforward: short-term GDP per capita growth does not explain much of the internal GDP spread within NUTS2 regions. The initial cross-sectional models showed almost no relationship between growth and inequality. Once we introduced workforce size, population density, and unemployment, the models improved, but the effects were still small and varied across specifications. Density consistently pointed toward slightly lower inequality, while larger workforces tended to be linked with slightly higher inequality. Unemployment effects were weak and context dependent.
+Across all assignments, the core finding is straightforward: short-term GDP per capita growth does not explain much of the internal GDP spread within NUTS2 regions.
+The initial cross-sectional models showed almost no relationship between growth and inequality.
+Once we introduced workforce size, population density, and unemployment, the models improved, but the effects were still small and varied across specifications.
+Density consistently pointed toward slightly lower inequality, while larger workforces tended to be linked with slightly higher inequality.
+Unemployment effects were weak and context dependent.
 
-The alternative functional forms reinforced this picture. Log-transforming GDP per capita produced the clearest and most stable relationships, but even then, the general message stayed the same: proportional growth has some association with inequality, but the effect is limited. Quadratic models captured small non-linearities but did not change the overall interpretation.
+The alternative functional forms reinforced this picture.
+Log-transforming GDP per capita produced the clearest and most stable relationships, but even then, the general message stayed the same: proportional growth has some association with inequality, but the effect is limited.
+Quadratic models captured small non-linearities but did not change the overall interpretation.
 
-The panel models helped settle the question. Once we control for regional characteristics with fixed effects, most of the variation in inequality is tied to long-lasting structural factors inside each region, not year-to-year economic performance. Growth barely shifts the needle. NUTS2 fixed effects improved the model fit dramatically, which shows how important these structural differences are.
+The panel models helped settle the question.
+Once we control for regional characteristics with fixed effects, most of the variation in inequality is tied to long-lasting structural factors inside each region, not year-to-year economic performance.
+Growth barely shifts the needle.
+NUTS2 fixed effects improved the model fit dramatically, which shows how important these structural differences are.
 
 ### Final Reflection
 
-What this means is that internal regional inequality is not a simple function of annual economic growth. Like Newton said: "an object in motion, stays in motion." The same goes here: the regions that start out unequal tend to stay unequal, regardless of short-term swings in GDP per capita. Regions with structural disadvantages, especially rural or low-density areas, carry these disadvantages from year to year. Growth helps, but it does not rebalance a region on its own. The implication for future research is clear: to understand why some regions have wide internal GDP spreads, we need richer variables that capture long-term spatial, institutional, and historical differences, not just economic snapshots.
-
+What this means is that internal regional inequality is not a simple function of annual economic growth.
+Like Newton said: "an object in motion, stays in motion." The same goes here: the regions that start out unequal tend to stay unequal, regardless of short-term swings in GDP per capita.
+Regions with structural disadvantages, especially rural or low-density areas, carry these disadvantages from year to year.
+Growth helps, but it does not rebalance a region on its own.
+The implication for future research is clear: to understand why some regions have wide internal GDP spreads, we need richer variables that capture long-term spatial, institutional, and historical differences, not just economic snapshots.
 
 ## Appendix
 
