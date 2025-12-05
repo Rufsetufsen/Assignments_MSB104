@@ -57,7 +57,7 @@ Regional development in Europe is uneven, not just between the different nationa
 Many NUTS2 regions contain both strong and weak local economies, and the internal spread of GDP can be wide.
 These internal differences influence local labour markets, municipal finances, service provision, and long-term opportunities for residents.
 At the same time, regional inequality is often discussed at the national level, even though the more practical challenges, uneven access to jobs, productivity gaps, and infrastructure differences, play out inside regions.
-Understanding what drives internal regional GDP disparities is therefore important for anyone trying to make territorial development more balanced.
+Understanding what drives internal regional GDP disparities is therefore important for anyone trying to make regional development more balanced.
 
 ### Objectives
 
@@ -73,7 +73,8 @@ Across all three assignments, the overarching research question has been the sam
 
 This topic is relevant because internal regional disparities affect everyday economic conditions more directly than national averages.
 When only a few municipalities drive most of a region’s GDP, the surrounding areas may face weaker labour markets, lower tax bases, and fewer opportunities due to the "economic field of gravity" of the dominating region centralizing economic activity towards itself, even if the region as a whole looks like it performs well.\
-Policymakers may then assume that economic growth alone may "spill over" (or "trickle down", if you will) and reduce these gaps.
+Policymakers may then assume that economic growth alone may "spill over" (or "trickle down", if you will) and reduce these gaps, but this may not always be the case.
+
 Our work tests that assumption with comparable data across four European countries.
 By combining cross-sectional, segmented, and fixed-effects panel approaches, the study provides a clearer view of whether short-term development actually improves internal regional balance, or whether structural characteristics dominate the pattern.
 This helps clarify where growth policies are sufficient, and where more targeted, place-based strategies are needed.
