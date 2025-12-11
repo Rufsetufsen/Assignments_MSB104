@@ -1,7 +1,7 @@
 ---
 title: "Assignment 3:"
 subtitle:  "Regional GDP Inequality in 4 Selected European Economies - Segmented Data and Alternative Models."
-author: "Kristoffer Tufta and Harald Vika"
+author: "Kristoffer Tufta and Harald Bjarne Vika"
 date: last-modified
 date-format: "dddd D MMM, YYYY"
 csl: apa7.csl
