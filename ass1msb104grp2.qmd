@@ -27,6 +27,9 @@ bibliography: references.bib
 
 ```{r}
 #| label: setup
+#| include: FALSE
+#| message: false
+#| warning: false
 library (tidyverse)
 library (PxWebApiData)
 library(readxl)
