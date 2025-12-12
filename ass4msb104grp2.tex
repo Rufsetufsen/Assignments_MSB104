@@ -196,7 +196,7 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Assignment 4:},
-  pdfauthor={Kristoffer Tufta and Harald Vika},
+  pdfauthor={Kristoffer Tufta and Harald Bjarne Vika},
   pdflang={en-GB},
   colorlinks=true,
   linkcolor={blue},
@@ -215,8 +215,8 @@
 \makeatother
 \subtitle{Regional GDP Inequality in 4 Selected European Economies -
 Synthesised Results.}
-\author{Kristoffer Tufta and Harald Vika}
-\date{Friday 5 Dec, 2025}
+\author{Kristoffer Tufta and Harald Bjarne Vika}
+\date{Friday 12 Dec, 2025}
 \begin{document}
 \maketitle
 
@@ -225,6 +225,35 @@ Synthesised Results.}
 findings}\label{assignment-4-consolidation-of-key-findings}
 
 \subsection{Abstract}\label{abstract}
+
+This paper looks at what drives internal economic disparities within
+European NUTS2 regions. Using Eurostat data for Germany, Ireland,
+Croatia, and Switzerland from 2000--2023, we measure how regional GDP
+per capita growth relates to the spread of GDP across NUTS3-regions
+inside each NUTS2-region. The analysis combines cross-sectional models,
+structural segmentation (population density, workforce size,
+unemployment), alternative functional forms, and fixed-effects panel
+estimation.
+
+The results point in one direction: short-term regional growth does not
+meaningfully reduce internal GDP inequality. Cross-sectional regressions
+show weak and unstable effects, and segmentation reveals that structural
+characteristics matter far more than growth itself. High-density regions
+are generally more balanced internally, while rural and low-density
+regions show larger internal gaps. Workforce size and unemployment
+conditions influence inequality patterns, but their effects vary across
+models.
+
+The panel estimates settle the picture. Once we control for
+region-specific characteristics and common yearly shocks, the
+growth--inequality relationship remains small. Internal disparities are
+largely shaped by long-term structural factors, not short-term
+performance.
+
+Overall, the findings suggest that regional GDP inequality is a
+structural issue. Broad growth policies alone are insufficient; more
+targeted, place-based strategies are needed if the goal is to create
+more balanced development inside regions.
 
 \subsection{Introduction}\label{introduction}
 
@@ -240,7 +269,7 @@ often discussed at the national level, even though the more practical
 challenges, uneven access to jobs, productivity gaps, and infrastructure
 differences, play out inside regions. Understanding what drives internal
 regional GDP disparities is therefore important for anyone trying to
-make territorial development more balanced.
+make regional development more balanced.
 
 \subsubsection{Objectives}\label{objectives}
 
@@ -249,18 +278,18 @@ Assignments 1, 2, and 3 focused on different parts of this problem.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Assignment 1} built the dataset: collecting GDP, population,
-  unemployment, and information at the NUTS2 level, and calculated the
-  intra-regional GDP inequality using a population-weighted Gini
-  coefficient.
+  \textbf{Assignment 1} built the dataset: collecting GDP, population
+  and information at the NUTS2 level, and calculated the intra-regional
+  GDP inequality using a population-weighted Gini coefficient.
 \item
   \textbf{Assignment 2} analysed a cross-section of the year 2017 to see
   whether regional development, measured as GDP per capita growth, is
-  linked to internal GDP inequality. It also looked at whether this
-  relationship differs across different segments of population density,
-  workforce size, and unemployment rates.
+  linked to internal GDP inequality. Then find suitable variables for
+  the same purpose.
 \item
-  \textbf{Assignment 3} extended the analysis to a full panel,
+  \textbf{Assignment 3}looked at whether this relationship differs
+  across different segments of population density, workforce size, and
+  unemployment rates. We also extended the analysis to a full panel,
   estimating fixed-effects models to test whether the
   development--inequality relationship holds once we control for
   time-invariant regional characteristics and common yearly shocks. We
@@ -269,8 +298,8 @@ Assignments 1, 2, and 3 focused on different parts of this problem.
 \end{itemize}
 
 Across all three assignments, the overarching research question has been
-the same: \textbf{\emph{Does faster regional development lead to more
-balanced internal GDP distribution?}}
+the same: \textbf{\emph{Does economic development lead to more balanced
+regional GDP distribution?}}
 
 \subsubsection{Significance}\label{significance}
 
@@ -282,8 +311,10 @@ opportunities due to the ``economic field of gravity'' of the dominating
 region centralizing economic activity towards itself, even if the region
 as a whole looks like it performs well.\\
 Policymakers may then assume that economic growth alone may ``spill
-over'' (or ``trickle down'', if you will) and reduce these gaps. Our
-work tests that assumption with comparable data across four European
+over'' (or ``trickle down'', if you will) and reduce these gaps, but
+this may not always be the case.
+
+Our work tests that assumption with comparable data across four European
 countries. By combining cross-sectional, segmented, and fixed-effects
 panel approaches, the study provides a clearer view of whether
 short-term development actually improves internal regional balance, or
@@ -291,8 +322,7 @@ whether structural characteristics dominate the pattern. This helps
 clarify where growth policies are sufficient, and where more targeted,
 place-based strategies are needed.
 
-\subsection{Literature Review -
-Kristoffer}\label{literature-review---kristoffer}
+\subsection{Literature Review}\label{literature-review}
 
 \subsubsection{Previous Work}\label{previous-work}
 
@@ -339,7 +369,13 @@ degree.
 
 \subsection{Data and Methodology}\label{data-and-methodology}
 
-\subsubsection{Data Sources - Harald}\label{data-sources---harald}
+Before we present our analyse and values from our data, we must first
+see where our source data came from, their codes and any explanation on
+why some of the datasets a missing data. Then we will go through the
+approach on our assignments and how we analysed the data we collected
+and transformed.
+
+\subsubsection{Data Sources}\label{data-sources}
 
 Primary data refers to information collected firsthand by the researcher
 directly from original source. It is raw and unprocessed, typically
@@ -351,10 +387,10 @@ specific topic within defined time periods.
 
 In the first assignment, we used Eurostat to extract datasets on gross
 domestic product (GDP) at current market prices by NUTS 3 regions, with
-the datacode: nama\_10r\_3gdp and population on 1 january by broard age
+the datacode: nama\_10r\_3gdp and population on 1 January by broad age
 group, sex and NUTS 3 region, with the datacode: demo\_r\_pjanaggr3.
-From these datasets, we collected data for Germany, Ireland, Croatia
-annd Switzerland covering the years 2000 to 2023.
+From these datasets, we collected data for Germany, Ireland, Croatia and
+Switzerland covering the years 2000 to 2023.
 
 In the second assignment, we retrieved data from three additional
 datasets that could potentially influence regional inequality in 2017.
@@ -364,15 +400,19 @@ tgs00010, and population density by NUTS 2 region with the data code:
 tgs00024 . Each country collects its own data and reports it to Eurostat
 in accordance with ESA 2010, a global framework for national accounting.
 This ensures that the resulting statistics are consistent, reliable, and
-comparable across countries.
+comparable across countries (\emph{Information on Data - National
+Accounts - Eurostat}, n.d.). The dataset labour force consists of all
+available workforce in the region, and is a sum of both employed and
+unemployed individuals, in thousand persons. We referes to this as both
+workforce and labour force in the assignments.
 
 However, the data also comes with certain limitations. For example,
 Switzerland is not en EU member but an EFTA country (European Free Trade
 Association), which promotes free trade and economic cooperation.
 Because Switzerland did not have a formal datasharing agreement with
-Eurostate before 2008, some data for earlier years or specific topics
-may be missing (\emph{Information on Data - National Accounts -
-Eurostat}, n.d.).
+Eurostat before 2008, some data for earlier years or specific topics may
+be missing (\emph{Information on Data - National Accounts - Eurostat},
+n.d.).
 
 Another limitation relates to confidentiality. Ireland, for instance,
 lacks GDP data for 2015-2017 in the Mid-West and South-West regions due
@@ -382,27 +422,28 @@ accounts in 2015 that significantly affected the measurement of
 Ireland's productive capacity (\emph{County Incomes and Regional GDP
 2015 - CSO - Central Statistics Office}, 2018).
 
-Some counters also choose to delay the publication of certain statistics
-to ensure accuracy. As a result, data for the most recent years of 2022
-and 2023, may still be incomplete due to its unavailability.
+Some countries also choose to delay the publication of certain
+statistics to ensure accuracy. As a result, data for the most recent
+years of 2022 and 2023, may still be incomplete due to its
+unavailability.
 
 A common limitation across several datasets concerns changes in regional
 boundaries. Regions may merge to form larger areas or split into smaller
 units, affecting how data is collected, aggregated and updated. This
 issue is particularly relevant in Germany, where regional reforms occur
-more frequntly due to regional policy. Coratia and Ireland face similar
+more frequently due to regional policy. Croatia and Ireland face similar
 challenges, as changes to their NUTS regions have affected population
-data availability at the NUTS 3 level.
+data availability at the NUTS 3 level ({`The NUTS Classification in
+Croatia'}, n.d.).
 
 Finally, there were limitations related to the time coverage of the
-datasets. Althought the assignments aimed to examine data from 2000 to
+datasets. Allthought the assignments aimed to examine data from 2000 to
 2023, the population density dataset for NUTS 2 regions only covers
 2012-2023, and the unemployment rate dataset covers 2013-2023.
 Consequently, when including these variables, we were restricted to
 using data from 2013 to 2023 to maintain consistency across datasets.
 
-\subsubsection{Methodological approach -
-Kristoffer}\label{methodological-approach---kristoffer}
+\subsubsection{Methodological approach}\label{methodological-approach}
 
 \paragraph{Cross-Sectional Estimation}\label{cross-sectional-estimation}
 
@@ -452,11 +493,12 @@ We also segmented regions into categories to examine if the
 development--inequality relationship differed across different
 structural environments. Population density was split into ``Rural'',
 ``Medium Density'', and ``High Density'' using Eurostat-inspired
-breakpoints (0--300, 300--1500, 1500+). For workforce size, we used
-quantile-based grouping (Low, Medium, High). Unemployment rate was also
-split into Low-High segments, but here we set the breakpoints manually
-at 0\%-5\%, 5\%-10\% and 10+\%. These subsets were used to run separate
-regressions for each group.
+breakpoints on population per km² (0--300, 300--1500, 1500+). For
+workforce size, we used quantile-based grouping (Low, Medium, High) that
+split our data into three equally populated groups. Unemployment rate
+was also split into Low-High segments, but here we set the breakpoints
+manually at 0\%-5\%, 5\%-10\% and 10+\%. These subsets were used to run
+separate regressions for each group.
 
 \paragraph{Panel Estimation}\label{panel-estimation}
 
@@ -477,25 +519,37 @@ some NA/Inf rows. These were removed to keep the panel consistent, but a
 side effect of this is that we only have panel data from 2013 onwards.
 
 We also ran Breusch--Pagan tests to check for heteroskedasticity across
-all regressions. Where alternative functional forms were required, we
-introduced quadratic and logarithmic transformations of the key
-variables and evaluated their residual behaviour the same way.
+all models and found no statistically significant signs of
+heteroskedasticity.\\
+Where alternative functional forms were required, we introduced
+quadratic and logarithmic transformations of the key variables and
+evaluated their residual behavior the same way.
 
-\subsection{Empirical Findings -
-Harald}\label{empirical-findings---harald}
+\subsection{Empirical Findings}\label{empirical-findings}
 
 \subsubsection{Cross- sectional
 Estimates}\label{cross--sectional-estimates}
 
 In assignment 2, we began with a cross-sectional analysis examining the
-relationship between regional inequality and short-term ecnonmic
+relationship between regional inequality and short-term economic
 development, measured as the change in GDP per capita from 2016 to 2017.
 The dependent variable in our model was regional inequality, measured by
-the Gini coefficent, and the independent variable was the change in GDP
+the Gini coefficient, and the independent variable was the change in GDP
 per capita: \[
 \text{Gini}_{i,2017} = \alpha + \beta \, \Delta \text{GDPpc}_{i,2016 \to 2017} + u_i\]
 
-From the linear regression model we get the results:
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{ass2msb104grp2_files/figure-html/fig-RegDev-Gini-1.png}}
+
+}
+
+\caption{OLS Estimate of Regional Inequality as a function of GDP per
+Capita Growth (\%).}
+
+\end{figure}%
+
+From the linear regression model we get the following results:
 
 \begin{itemize}
 \tightlist
@@ -503,7 +557,7 @@ From the linear regression model we get the results:
   When change gdp per capita growth is zero, the regional inequality
   coefficient is estimated \(\hat{\alpha}=0.134\).
 \item
-  Change in GDP per capita growth has a coefficient of
+  Change in in GDP per capita growth has a coefficient of
   \(\hat{\beta}=-0.002\) (p=0.435), indicating it is not statistically
   significant.
 \item
@@ -515,12 +569,12 @@ From the linear regression model we get the results:
 Thus, although the coefficient suggests a negative relationship, the
 effect is statistically insignificant and not substantively meaningful.
 
-We then went on to collect three more variables to determine whether
-they serve as strong predictor of regional inequality then
-GDP-per-capita growth. These variables were labour force, unemployment
-rate, and population density. After cleaning and tiding the data, we
-estimated a multiple regression model to analyse their cross-sectional
-relationship with inequality: \[
+We then went to test the three other variables, labour force,
+unemployment rate and population density, to determine whether they
+serve as strong predictor of regional inequality then GDP-per-capita
+growth. After cleaning and tidying the data, we created a multiple
+regression model to analyse their cross-sectional relationship with
+inequality: \[
 \text{Gini}_{i,2017} = \alpha + \beta_1\,\text{Workforce}_i + \beta_2\,\text{PopDensity}_i + \beta_3\,\text{Unemployment}_i + u_i\]
 
 Running the regression model gave us the following estimates:
@@ -565,16 +619,17 @@ produced more estimates without providing meaningful improvements in
 explanatory power, so they were not pursued further.
 
 We constructed separate regression tables for each functional form
-linear, logarithmic, and quadraticand compared their performance in
-terms of coefficient significance, explanatory power, and overall model
-fit. Below, we summarize the key findings and interpret the effects of
-each independent variable.
+linear, logarithmic, quadratic and compared their performance in terms
+of coefficient significance, explanatory power, and overall model fit.
+Below, we summarize the key findings and interpret the effects of each
+independent variable.
 
-Workforce
+\paragraph{Labour force}\label{labour-force}
 
 Linear model:
 
 \begin{itemize}
+\tightlist
 \item
   When all independent variables are zero, the regional inequality
   coefficient is estimated at \(\beta = 0.1773\).
@@ -637,13 +692,7 @@ Summary: The logarithmic model best captures the relationship between
 workforce, GDP growth, and inequality, mainly due to the strong
 significance of log-transformed GDP per capita.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  Population Density
-\end{enumerate}
+\paragraph{Population Density}\label{population-density}
 
 Linear model:
 
@@ -714,13 +763,7 @@ population density, with both GDP growth and population density showing
 significant impacts on regional inequality. The quadratic model captures
 a slight non-linear effect but has lower overall explanatory power.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Unemployment Rate
-\end{enumerate}
+\paragraph{Unemployment Rate}\label{unemployment-rate}
 
 Linear model:
 
@@ -790,8 +833,6 @@ overall significance. Unemployment shows a weak but negative
 relationship with inequality, while quadratic effects of GDP per capita
 are borderline significant.
 
-Overall Conclusion for the alternative functional forms:
-
 Across all variables, logarithmic models generally provide the best
 explanatory power and statistical significance, particularly through the
 transformation of GDP per capita. Quadratic models capture some
@@ -819,15 +860,19 @@ change in GDP per capita remains robust across specifications.
 
 \subsection{Discussion}\label{discussion}
 
-The initial model examining the effect of change in GDP per capita on
-regional inequality shows very weak explanatory capacity. The model's
-F-test yields a p-value of 0.435, indicating that the relationship is
-statistically insignificant, and the multiple R² of 1.2\% demonstrates
-that GDP per capita growth accounts for almost none of the variation in
-inequality. The estimated coefficient is negative (β = --0.002), but its
-magnitude is negligible, and it fails to reach significance. This
-suggests that short-term economic growth on its own does not
-meaningfully explain differences in regional inequality.
+\subsubsection{Key insights}\label{key-insights}
+
+We will here take our key values from earlier in the project and discuss
+their effect on regional inequality. The initial model examining the
+effect of change in GDP per capita on regional inequality shows very
+weak explanatory capacity. The model's F-test yields a p-value of 0.435,
+indicating that the relationship is statistically insignificant, and the
+multiple R² of 1.2\% demonstrates that GDP per capita growth accounts
+for almost none of the variation in inequality. The estimated
+coefficient is negative (β = --0.002), but its magnitude is negligible,
+and it fails to reach significance. This suggests that short-term
+economic growth on its own does not meaningfully explain differences in
+regional inequality.
 
 When additional variables such as labour force, population density, and
 unemployment rate are included, the explanatory power improves
@@ -847,12 +892,10 @@ estimated value of regional inequality (β = 0.150168) cannot be
 meaningfully interpreted, as no region can give a zero value for any of
 the three predictors.
 
-Exploring alternative functional forms provides insight into how
-workforce size, population density, and unemployment rate affect
-regional inequality, measured by the Gini coefficient.
-
-In the workforce models, the linear specification estimates the
-intercept at β = 0.1773, indicating the baseline level of inequality
+Using alternative functional form would give a new insight into how the
+independent variables has a effect on the dependent variable of regional
+inequality. In the workforce models, the linear specification estimates
+the intercept at β = 0.1773, indicating the baseline level of inequality
 when all predictors are zero. Workforce has a small positive coefficient
 (β = 0.000036, p = 0.0665), marginally significant at the 10\% level.
 This suggests that for every additional unit of workforce, such as an
@@ -940,17 +983,15 @@ produce stronger, clearer relationships with inequality, while the
 effects of workforce size, population density, and unemployment vary
 considerably depending on the specification used.
 
-\subsubsection{Key insights}\label{key-insights}
-
 \subsubsection{Policy Implications}\label{policy-implications}
 
 Across all the cross-sectional and panel models, the effect of GDP per
 capita growth on inequality is small, unstable, and mostly
 insignificant. For policymakers, this means that betting on regional
 inequality improvements through ``more growth'' alone would be a
-sub-optimal approach The differences between regions appear to be driven
-far more by long-term structural characteristics than by year-to-year
-economic performance.
+sub-optimal approach. The differences between regions appear to be
+driven far more by long-term structural characteristics than by
+year-to-year economic performance.
 
 The segmentation exercises support this interpretation, although with a
 small asterisk attached. Regions with higher population density tend to
@@ -991,19 +1032,18 @@ connectivity, and reducing structural disadvantages---rather than
 relying on general growth policies to equalise development inside
 regions.
 
-\subsection{Limitations and Future Research -
-Harald}\label{limitations-and-future-research---harald}
+\subsection{Limitations and Future
+Research}\label{limitations-and-future-research}
 
 Through the analyse of the datasets from the three assignments, several
-limitations emerged. These most be acknowledged when one shall
+limitations emerged. These must be acknowledged when one shall
 interpreting the results. The first limitation and the most crucial one
-is the limited data across the different Eurostat datasets which we
-used. Some variables were not consistently reported for each country as
-mentioned. These missing values gave us Na in our coding and was
-challenging to form a fully comparable and comprehensive dataset. This
-also crated uncertainty regarding which variables were most suitable for
-capturing the specific characteristics of the countries included in the
-study.
+is the limited data across the different Eurostat datasets. Some
+variables were not consistently reported for each country as mentioned.
+These missing values gave us NA's in our coding and was challenging to
+form a fully comparable and comprehensive dataset. This also crated
+uncertainty regarding which variables were most suitable for capturing
+the specific characteristics of the countries included in the study.
 
 Another limitations is the knowledge of which variable would have the
 greatest influence on regional inequalities, and how they will shape the
@@ -1011,48 +1051,186 @@ analysis. Without stronger evidence one variable impact, some
 assumptions had to be made when selecting and interpreting the data.
 Each countries followed a universe dictation on how to collect data for
 Eurostat, but how the methods would be interpreted and executed across
-each countries would further complicated comparisons, as each nation may
+each countries would further complicate comparisons, as each nation may
 decipher the definitions, or reporting practices differently. These
 inconsistencies can affect the reliability of cross-country analyses.
 
-By gaining a deeper insight into the context of each country we have
-been given and how they processes their collected data, we would have a
-stronger interpretation of our results from the analyse. For a more
-accuracy and improved analyse of regional dynamics, a more in-depth
-understanding of data practices and how these variables affects the
-countries would likely improve the workflow and understanding of the
-results. This could help with future analyses and enhance the ability to
-explain the variations in regional inequalities.
-
-\subsubsection{Reasearch limitations}\label{reasearch-limitations}
+By gaining a deeper insight into the context of each country and how
+they processes their collected data, we would have a stronger
+interpretation of our results from the analyse. For a more accurate and
+improved analysis of regional dynamics, a more in-depth understanding of
+data practices and how these variables affects the countries would
+likely improve the workflow and understanding of the results. This could
+help with future analyses and enhance the ability to explain the
+variations in regional inequalities.
 
 \subsection{Conclusion}\label{conclusion}
 
 \subsubsection{Summary}\label{summary}
 
+Across all assignments, the core finding is straightforward: short-term
+GDP per capita growth does not explain much of the internal GDP spread
+within NUTS2 regions. The initial cross-sectional models showed almost
+no relationship between growth and inequality. Once we introduced
+workforce size, population density, and unemployment, the models
+improved, but the effects were still small and varied across
+specifications. Density consistently pointed toward slightly lower
+inequality, while larger workforces tended to be linked with slightly
+higher inequality. Unemployment effects were weak and context dependent.
+
+The alternative functional forms reinforced this picture.
+Log-transforming GDP per capita produced the clearest and most stable
+relationships, but even then, the general message stayed the same:
+proportional growth has some association with inequality, but the effect
+is limited. Quadratic models captured small non-linearities but did not
+change the overall interpretation.
+
+The panel models helped settle the question. Once we control for
+regional characteristics with fixed effects, most of the variation in
+inequality is tied to long-lasting structural factors inside each
+region, not year-to-year economic performance. Growth barely shifts the
+needle. NUTS2 fixed effects improved the model fit dramatically, which
+shows how important these structural differences are.
+
 \subsubsection{Final Reflection}\label{final-reflection}
 
-\subsection{References}\label{references}
+What this means is that internal regional inequality is not a simple
+function of annual economic growth. Like Newton said: ``an object in
+motion, stays in motion.'' The same goes here: the regions that start
+out unequal tend to stay unequal, regardless of short-term swings in GDP
+per capita. Regions with structural disadvantages, especially rural or
+low-density areas, carry these disadvantages from year to year. Growth
+helps, but it does not rebalance a region on its own. The implication
+for future research is clear: to understand why some regions have wide
+internal GDP spreads, we need richer variables that capture long-term
+spatial, institutional, and historical differences, not just economic
+snapshots.
 
-\subsection*{Appendix}\label{appendix}
-\addcontentsline{toc}{subsection}{Appendix}
+\subsection{Appendix}\label{appendix}
+
+In this assignment we have used AI to ask controlling questions and
+constructive judging of the text and the codes used, including
+interpreting the results from our models. The language models used were
+ChatGPT 3.5 and ChatGPT 5.1. Our prompt strategy revolved around
+describing the assignment to chatGPT, and asking it for feedback
+underways. For model interpretation, we uploaded our rendered
+html-documents, which included the results from our models, and asked
+for assistance in interpretation. It was important for us to actually
+learn, and not just outsource the thinking to an AI, so where ChatGPT
+presented us with new concepts or R-functions, we asked it to educate us
+and explain, step by step, what each new concept/function was and how it
+could be used.
+
+\subsection{Package Citations}\label{package-citations}
+
+We used R v. 4.5.1 (R Core Team, 2025) and the following R packages:
+dineq v. 0.1.0 (Schulenberg, 2018), flextable v. 0.9.10 (Gohel \&
+Skintzos, 2025), lmtest v. 0.9.40 (Zeileis \& Hothorn, 2002),
+modelsummary v. 2.5.0 (Arel-Bundock, 2022), officer v. 0.7.0 (Gohel et
+al., 2025), plm v. 2.6.7 (Croissant \& Millo, 2008, 2018; Millo, 2017),
+psych v. 2.5.6 (William Revelle, 2025), PxWebApiData v. 1.1.0 (Langsrud
+\& Bruusgaard, 2025), rmarkdown v. 2.29 (Allaire et al., 2024; Xie et
+al., 2018, 2020), tidyverse v. 2.0.0 (Wickham et al., 2019).
+
+\subsection*{References}\label{references}
+\addcontentsline{toc}{subsection}{References}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-rmarkdown2024}
+Allaire, J., Xie, Y., Dervieux, C., McPherson, J., Luraschi, J., Ushey,
+K., Atkins, A., Wickham, H., Cheng, J., Chang, W., \& Iannone, R.
+(2024). \emph{{rmarkdown}: Dynamic documents for r}.
+\url{https://github.com/rstudio/rmarkdown}
+
+\bibitem[\citeproctext]{ref-modelsummary}
+Arel-Bundock, V. (2022). {modelsummary}: Data and model summaries in
+{R}. \emph{Journal of Statistical Software}, \emph{103}(1), 1--23.
+\url{https://doi.org/10.18637/jss.v103.i01}
+
 \bibitem[\citeproctext]{ref-countyi2018}
 \emph{County incomes and regional GDP 2015 - CSO - central statistics
 office}. (2018). CSO.
 \url{https://www.cso.ie/en/releasesandpublications/er/cirgdp/countyincomesandregionalgdp2015/}
 
+\bibitem[\citeproctext]{ref-plm2008}
+Croissant, Y., \& Millo, G. (2008). Panel data econometrics in {R}: The
+{plm} package. \emph{Journal of Statistical Software}, \emph{27}(2),
+1--43. \url{https://doi.org/10.18637/jss.v027.i02}
+
+\bibitem[\citeproctext]{ref-plm2018}
+Croissant, Y., \& Millo, G. (2018). \emph{Panel data econometrics with
+{R}}. Wiley.
+
+\bibitem[\citeproctext]{ref-officer}
+Gohel, D., Moog, S., \& Heckmann, M. (2025). \emph{{officer}:
+Manipulation of microsoft word and PowerPoint documents}.
+\url{https://doi.org/10.32614/CRAN.package.officer}
+
+\bibitem[\citeproctext]{ref-flextable}
+Gohel, D., \& Skintzos, P. (2025). \emph{{flextable}: Functions for
+tabular reporting}.
+\url{https://doi.org/10.32614/CRAN.package.flextable}
+
 \bibitem[\citeproctext]{ref-informat}
 \emph{Information on data - national accounts - eurostat}. (n.d.).
 \url{https://ec.europa.eu/eurostat/web/national-accounts/information-data}
+
+\bibitem[\citeproctext]{ref-PxWebApiData}
+Langsrud, Ø., \& Bruusgaard, J. (2025). \emph{{PxWebApiData}: PX-web
+data by API}. \url{https://doi.org/10.32614/CRAN.package.PxWebApiData}
 
 \bibitem[\citeproctext]{ref-lessmann2017}
 Lessmann, C., \& Seidel, A. (2017). Regional inequality, convergence,
 and its determinants -- a view from outer space. \emph{European Economic
 Review}, \emph{92}, 110--132.
 \url{https://doi.org/10.1016/j.euroecorev.2016.11.009}
+
+\bibitem[\citeproctext]{ref-plm2017}
+Millo, G. (2017). Robust standard error estimators for panel models: A
+unifying approach. \emph{Journal of Statistical Software}, \emph{82}(3),
+1--27. \url{https://doi.org/10.18637/jss.v082.i03}
+
+\bibitem[\citeproctext]{ref-base}
+R Core Team. (2025). \emph{{R}: A language and environment for
+statistical computing}. R Foundation for Statistical Computing.
+\url{https://www.R-project.org/}
+
+\bibitem[\citeproctext]{ref-dineq}
+Schulenberg, R. (2018). \emph{{dineq}: Decomposition of (income)
+inequality}. \url{https://doi.org/10.32614/CRAN.package.dineq}
+
+\bibitem[\citeproctext]{ref-thenuts}
+The NUTS classification in croatia. (n.d.). In \emph{dzs.gov.hr}.
+\url{https://dzs.gov.hr/highlighted-themes/prostorne-klasifikacije-i-subnacionalne-statistike-2-694/the-nuts-classification-in-croatia/699}
+
+\bibitem[\citeproctext]{ref-tidyverse}
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D.,
+François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M.,
+Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J.,
+Robinson, D., Seidel, D. P., Spinu, V., \ldots{} Yutani, H. (2019).
+Welcome to the {tidyverse}. \emph{Journal of Open Source Software},
+\emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
+
+\bibitem[\citeproctext]{ref-psych}
+William Revelle. (2025). \emph{{psych}: Procedures for psychological,
+psychometric, and personality research}. Northwestern University.
+\url{https://CRAN.R-project.org/package=psych}
+
+\bibitem[\citeproctext]{ref-rmarkdown2018}
+Xie, Y., Allaire, J. J., \& Grolemund, G. (2018). \emph{R markdown: The
+definitive guide}. Chapman; Hall/CRC.
+\url{https://bookdown.org/yihui/rmarkdown}
+
+\bibitem[\citeproctext]{ref-rmarkdown2020}
+Xie, Y., Dervieux, C., \& Riederer, E. (2020). \emph{R markdown
+cookbook}. Chapman; Hall/CRC.
+\url{https://bookdown.org/yihui/rmarkdown-cookbook}
+
+\bibitem[\citeproctext]{ref-lmtest}
+Zeileis, A., \& Hothorn, T. (2002). Diagnostic checking in regression
+relationships. \emph{R News}, \emph{2}(3), 7--10.
+\url{https://CRAN.R-project.org/doc/Rnews/}
 
 \end{CSLReferences}
 

@@ -21,7 +21,9 @@ editor:
   markdown: 
     wrap: sentence
 echo: false
-bibliography: references.bib
+bibliography: 
+- references.bib
+- grateful-refs.bib
 ---
 
 ```{r}
@@ -39,6 +41,7 @@ library(flextable)
 library(modelsummary)
 library(lmtest)
 library(plm)
+library(grateful)
 ```
 
 # Assignment 4 Consolidation of Key findings
@@ -95,7 +98,7 @@ Our work tests that assumption with comparable data across four European countri
 By combining cross-sectional, segmented, and fixed-effects panel approaches, the study provides a clearer view of whether short-term development actually improves internal regional balance, or whether structural characteristics dominate the pattern.
 This helps clarify where growth policies are sufficient, and where more targeted, place-based strategies are needed.
 
-## Literature Review - Kristoffer
+## Literature Review
 
 ### Previous Work
 
@@ -159,7 +162,7 @@ Finally, there were limitations related to the time coverage of the datasets.
 Allthought the assignments aimed to examine data from 2000 to 2023, the population density dataset for NUTS 2 regions only covers 2012-2023, and the unemployment rate dataset covers 2013-2023.
 Consequently, when including these variables, we were restricted to using data from 2013 to 2023 to maintain consistency across datasets.
 
-### Methodological approach - Kristoffer
+### Methodological approach
 
 #### Cross-Sectional Estimation
 
@@ -204,7 +207,7 @@ These were removed to keep the panel consistent, but a side effect of this is th
 We also ran Breusch–Pagan tests to check for heteroskedasticity across all models and found no statistically significant signs of heteroskedasticity.\
 Where alternative functional forms were required, we introduced quadratic and logarithmic transformations of the key variables and evaluated their residual behavior the same way.
 
-## Empirical Findings - Harald
+## Empirical Findings
 
 ### Cross- sectional Estimates
 
@@ -417,7 +420,7 @@ Finally, the panel results show that once we control for each region’s structu
 The implication is: regional GDP inequality is mainly driven by long-term spatial and economic structures, not by short-term GDP growth.
 Effective policies therefore need to focus on durable place-based strategies—strengthening urban centres, improving connectivity, and reducing structural disadvantages—rather than relying on general growth policies to equalise development inside regions.
 
-## Limitations and Future Research - Harald
+## Limitations and Future Research
 
 Through the analyse of the datasets from the three assignments, several limitations emerged.
 These must be acknowledged when one shall interpreting the results.
@@ -469,5 +472,10 @@ The language models used were ChatGPT 3.5 and ChatGPT 5.1.
 Our prompt strategy revolved around describing the assignment to chatGPT, and asking it for feedback underways.
 For model interpretation, we uploaded our rendered html-documents, which included the results from our models, and asked for assistance in interpretation.
 It was important for us to actually learn, and not just outsource the thinking to an AI, so where ChatGPT presented us with new concepts or R-functions, we asked it to educate us and explain, step by step, what each new concept/function was and how it could be used.
+
+
+## Package Citations
+
+We used R v. 4.5.1 [@base] and the following R packages: dineq v. 0.1.0 [@dineq], flextable v. 0.9.10 [@flextable], lmtest v. 0.9.40 [@lmtest], modelsummary v. 2.5.0 [@modelsummary], officer v. 0.7.0 [@officer], plm v. 2.6.7 [@plm2008; @plm2017; @plm2018], psych v. 2.5.6 [@psych], PxWebApiData v. 1.1.0 [@PxWebApiData], rmarkdown v. 2.29 [@rmarkdown2018; @rmarkdown2020; @rmarkdown2024], tidyverse v. 2.0.0 [@tidyverse].
 
 ## References
